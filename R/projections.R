@@ -38,13 +38,13 @@ project <- function(x, R, si, n_sim = 100, n_days = 7) {
     stop(msg)
   }
   
-  if (names(si_dist)=='shape' != 1) {
+  if ( (names(si_dist)=='shape') != 1) {
     msg <- sprintf("si_dist does not contain a shape)",
                    si_dist)
     stop(msg)
   }
   
-  if (names(si_dist)=='scale' != 1) {
+  if ( (names(si_dist)=='scale') != 1) {
     msg <- sprintf("si_dist does not contain a scale)",
                    si_dist)
     stop(msg)
