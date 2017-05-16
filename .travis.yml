@@ -1,0 +1,29 @@
+language: r
+cache: packages
+
+matrix:
+  include:
+    - os: linux
+      env:
+        - R_CODECOV=true
+        - R_VERSION=stable
+    - os: linux
+      env: R_VERSION=devel
+    - os: linux
+      env: R_VERSION=oldrel
+    - os: osx
+      osx_image: xcode8.3
+
+
+r_github_packages:
+  - jimhester/covr
+
+warnings_are_errors: true
+
+notifications:
+  email:
+    on_success: change
+    on_failure: change
+
+after_success:
+  - if [[ "${R_CODECOV}" ]]; then R -e 'covr::codecov()'; fi
