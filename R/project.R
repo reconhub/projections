@@ -6,6 +6,8 @@
 #'
 #' @export
 #'
+#' @author Pierre Nouvellet and Thibaut Jombart
+#' 
 #' @param x An \code{incidence} object containing daily incidence; other time
 #' intervals will trigger an error.
 #'
@@ -28,8 +30,8 @@
 #'
 #' ## simulate basic epicurve
 #' dat <- c(0, 2, 2, 3, 3, 5, 5, 5, 6, 6, 6, 6)
-#' x <- incidence(dat)
-#' plot(x)
+#' i <- incidence(dat)
+#' plot(i)
 #'
 #' 
 #' ## example with a function for SI
@@ -40,17 +42,17 @@
 #' barplot(si$d(0:100), main = "Serial Interval")
 #'
 #'
-#' pred_1 <- project(x, 1.2, si, n_days = 20)
+#' pred_1 <- project(i, 1.2, si, n_days = 20)
 #' pred_1
 #' my_col <- rgb(.1, .1, .8, .4)
-#' matplot(pred1, type = "l", lty = 1, col = my_col)
+#' matplot(pred_1, type = "l", lty = 1, col = my_col)
 #'
 #'
 #' ## example with empirical serial interval
 #' si <- c(0, 1, 2, 1, 0.5)
-#' pred_2 <- project(x, 1.2, si, n_days = 30)
+#' pred_2 <- project(i, 1.2, si, n_days = 30)
 #' pred_2
-#' matplot(pred2, type = "l", lty = 1, col = my_col)
+#' matplot(pred_2, type = "l", lty = 1, col = my_col)
 #' 
 #' 
 #' }
@@ -123,10 +125,21 @@ project <- function(x, R, si, n_sim = 100, n_days = 7) {
         out[i,] <- rpois(n_sim, R*lambda)
     }
     
-    ## store simulations
-    out <- out[(n_dates_x+1):(n_dates_x + n_days),]
+
+    ## shape output: 'projections' objects are basically matrices of predicted
+    ## incidence, with dates in rows and simulations in columns. Dates are
+    ## stored as attributes of the object, in a format similar to that of the
+    ## original dates in the 'incidence' object. We also store the original
+    ## 'incidence' object in the attributes.
     
-    class(out) <- "projections"
+    out <- out[(n_dates_x+1):(n_dates_x + n_days),]
+
+    dates <- tail(x$dates, 1) + 1:nrow(out)
+    rownames(out) <- dates
+    
+    class(out) <- c("projections", "matrix")
+    attr(out, "dates") <-  dates
+    attr(out, "incidence") <- x
     return(out)
 }
 
