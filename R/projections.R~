@@ -1,0 +1,22 @@
+#' Project future incidence
+#'
+#' This function simulates future incidence based on past incidence data, a
+#' selection of plausible reproduction numbers (R), and the distribution of the
+#' serial interval (time from primary onset to secondary onset).
+#'
+#' @export
+#'
+#' @param x An \code{incidence} object containing daily incidence; other time
+#' intervals will trigger an error.
+#'
+#' @param R A vector of numbers representing plausible reproduction numbers; for
+#' instance, these can be samples from a posterior distribution using the
+#' \code{EpiEstim} package.
+#'
+#' @param si A function computing the serial interval. We strongly recommend
+#' using the RECON package \code{distcrete} to obtain such distribution (see
+#' example).
+#'
+#' @param n_sim The number of epicurves to simulate. Defaults to 100.
+#'
+#' @param n_days The number of days to run simulations for. Defaults to 7.

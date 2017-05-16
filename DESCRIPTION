@@ -1,0 +1,16 @@
+Package: projections
+Title: An expressive Title in Titlecase
+Version: 0.0.1.9000
+Authors@R: person("Your", "Name", email = "your.name@localhost", role = c("aut", "cre"))
+Description: Please add a description.
+Depends: R (>= 3.4.0)
+License: MIT + file LICENSE
+Encoding: UTF-8
+LazyData: true
+Suggests: testthat, roxygen2,
+    knitr,
+    rmarkdown
+RoxygenNote: 6.0.1
+URL: https://localhost/projections
+BugReports: https://localhost/bugtracker/projections
+VignetteBuilder: knitr
