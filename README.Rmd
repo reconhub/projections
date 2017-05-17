@@ -17,7 +17,7 @@ install.packages("projections")
 
 To benefit from the latest features and bug fixes, install the development, *github* version of the package using:
 ```{r install2, eval = FALSE}
-devtools::install_github("<github_username>/projections")
+devtools::install_github("reconhub/projections")
 ```
 
 Note that this requires the package *devtools* installed.
