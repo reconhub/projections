@@ -4,7 +4,7 @@
 \alias{print.projections}
 \title{Print method for projections objects}
 \usage{
-\method{print}{projections}(x, short = TRUE, ...)
+\method{print}{projections}(x, ...)
 }
 \arguments{
 \item{x}{A \code{projections} object.}

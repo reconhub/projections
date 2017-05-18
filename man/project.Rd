@@ -41,8 +41,8 @@ plot(i)
 ## example with a function for SI
 
 si <- distcrete("gamma", interval = 1L,
-                 shape = 5,
-                 scale = 5, w = 0)
+                 shape = 1.5,
+                 scale = 2, w = 0)
 barplot(si$d(0:100), main = "Serial Interval")
 
 

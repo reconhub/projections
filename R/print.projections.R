@@ -11,7 +11,7 @@
 #' @param ... further parameters to be passed to other methods (currently not
 #' used)
 #'
-print.projections <- function(x, short = TRUE, ...){
+print.projections <- function(x, ...){
     cat("\n/// Incidence projections //\n")
     cat("\n  // class:", paste(class(x), collapse=", "))
     cat("\n  //", format(nrow(x), big.mark=","),

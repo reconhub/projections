@@ -7,7 +7,7 @@
 #' @export
 #'
 #' @author Pierre Nouvellet and Thibaut Jombart
-#' 
+#'
 #' @param x An \code{incidence} object containing daily incidence; other time
 #' intervals will trigger an error.
 #'
@@ -33,12 +33,12 @@
 #' i <- incidence(dat)
 #' plot(i)
 #'
-#' 
+#'
 #' ## example with a function for SI
-#' 
+#'
 #' si <- distcrete("gamma", interval = 1L,
-#'                  shape = 5,
-#'                  scale = 5, w = 0)
+#'                  shape = 1.5,
+#'                  scale = 2, w = 0)
 #' barplot(si$d(0:100), main = "Serial Interval")
 #'
 #'
@@ -53,27 +53,27 @@
 #' pred_2 <- project(i, 1.2, si, n_days = 30)
 #' pred_2
 #' matplot(pred_2, type = "l", lty = 1, col = my_col)
-#' 
-#' 
+#'
+#'
 #' }
-#' 
+#'
 
 project <- function(x, R, si, n_sim = 100, n_days = 7) {
 
     ## Various checks on inputs
-    
+
     if (!inherits(x, "incidence")) {
         msg <- "x is not an incidence object"
         stop(msg)
     }
-    
+
     if (as.integer(x$interval) != 1L) {
         msg <- sprintf("daily incidence needed, but %d days",
                        x$interval)
         stop(msg)
     }
 
-    
+
     if (ncol(x$counts) > 1L) {
         msg <- sprintf("cannot use multiple groups in incidence object",
                        si$interval)
@@ -84,7 +84,7 @@ project <- function(x, R, si, n_sim = 100, n_days = 7) {
     ## useful variables
     n_dates_x <- nrow(x$counts)
     t_max <- n_days + n_dates_x - 1
-  
+
     if (inherits(si, "distcrete")) {
         if (as.integer(si$interval) != 1L) {
             msg <- sprintf("interval used in si is not one day, but %d days)",
@@ -98,17 +98,17 @@ project <- function(x, R, si, n_sim = 100, n_days = 7) {
         si <- c(si, rep(0, t_max ))
         ws <- rev(si)
     }
-    
 
 
-    
+
+
     ## Computation of projections: this is how we do bla bla
     ## TODO: complete plain explanation of how this works
-    
-    
+
+
     ## initial conditions
     I0 <- matrix(x$counts, nrow = n_dates_x, ncol = n_sim)
-    
+
     ## projection
     out <- rbind(I0, matrix(0, n_days, n_sim))
     t_start <- n_dates_x + 1
@@ -119,24 +119,24 @@ project <- function(x, R, si, n_sim = 100, n_days = 7) {
 
     ## we get one value of R per simulation
     R <- sample(R, n_sim, replace = TRUE)
-    
+
     for (i in t_sim){
         lambda <- utils::tail(ws, i) %*% out[1:i, ]
-        out[i,] <- rpois(n_sim, R*lambda)
+        out[i,] <- stats::rpois(n_sim, R*lambda)
     }
-    
+
 
     ## shape output: 'projections' objects are basically matrices of predicted
     ## incidence, with dates in rows and simulations in columns. Dates are
     ## stored as attributes of the object, in a format similar to that of the
     ## original dates in the 'incidence' object. We also store the original
     ## 'incidence' object in the attributes.
-    
+
     out <- out[(n_dates_x+1):(n_dates_x + n_days),]
 
-    dates <- tail(x$dates, 1) + 1:nrow(out)
+    dates <- utils::tail(x$dates, 1) + 1:nrow(out)
     rownames(out) <- dates
-    
+
     class(out) <- c("projections", "matrix")
     attr(out, "dates") <-  dates
     attr(out, "incidence") <- x

@@ -7,9 +7,8 @@ Depends: R (>= 3.4.0)
 License: MIT + file LICENSE
 Encoding: UTF-8
 LazyData: true
-Suggests: testthat, roxygen2,
-    knitr,
-    rmarkdown
+Suggests: testthat, roxygen2, knitr, rmarkdown, outbreaks
+Imports: stats, utils, incidence, distcrete, ggplot2
 RoxygenNote: 6.0.1
 URL: https://localhost/projections
 BugReports: https://localhost/bugtracker/projections

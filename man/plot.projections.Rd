@@ -4,14 +4,42 @@
 \alias{plot.projections}
 \title{Plot projections objects}
 \usage{
-\method{plot}{projections}(x, y = NULL, ...)
+\method{plot}{projections}(x, y = c(0.05, 0.95), col = "red", ...)
 }
 \arguments{
 \item{x}{A \code{projections} object.}
+
+\item{y}{A vector of 2 quantiles to plot}
+
+\item{col}{A vector (recycled if needed) of up to 3 colors for the mean,
+lower and upper quantiles.}
+
+\item{...}{Further arguments to be passed to other methods (not used).}
 }
 \description{
 This method is designed for plotting \code{projections} objects, output by
-the function \code{\link{project}}.
+the function \code{\link{project}}. It plots the mean projected incidence, as
+well as lower and upper bounds defined by quantiles.
+}
+\examples{
+
+if (require(outbreaks) &&
+    require(distcrete) &&
+    require(incidence)) {
+
+si <- distcrete("gamma", interval = 1L,
+                 shape = 0.37,
+                 scale = 41.4, w = 0)
+
+i <- incidence(ebola_sim$linelist$date_of_onset)
+plot(i)
+
+## add projections after the first 100 days, over 60 days
+proj <- project(x = i[1:100], R = 2.1, si = si, n_days = 60)
+plot(i[1:160], proj = proj)
+
+}
+
 }
 \author{
 Thibaut Jombart \email{thibautjombart@gmail.com}
