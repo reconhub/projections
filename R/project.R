@@ -24,6 +24,23 @@
 #'
 #' @param n_days The number of days to run simulations for. Defaults to 14.
 #'
+#' @param R_fix_within A logical indicating if R should be fixed within
+#'   simulations (but still varying across simulations). If \code{FALSE}, R is
+#'   drawn for every simulation and every time step. Fixing values within
+#'   simulations favours more extreme predictions (see details)
+#'
+#'
+#' @details The decision to fix R values within simulations
+#'   (\code{R_fix_within}) reflects two alternative views of the uncertainty
+#'   associated with R. When drawing R values at random from the provided
+#'   sample, (\code{R_fix_within} set to \code{FALSE}), it is assumed that R
+#'   varies naturally, and can be treated as a random variable with a given
+#'   distribution. When fixing values within simulations (\code{R_fix_within}
+#'   set to \code{TRUE}), R is treated as a fixed parameter, and the uncertainty
+#'   is merely a consequence of the estimation of R. In other words, the first
+#'   view is rather Bayesian, while the second is more frequentist.
+#'
+#'
 #' @examples
 #'
 #' if (require(distcrete) && require(incidence)) {
@@ -39,10 +56,10 @@
 #' si <- distcrete("gamma", interval = 1L,
 #'                  shape = 1.5,
 #'                  scale = 2, w = 0)
-#' barplot(si$d(0:100), main = "Serial Interval")
+#' barplot(si$d(0:30), main = "Serial Interval")
 #'
-#'
-#' pred_1 <- project(i, 1.2, si, n_days = 20)
+#' set.seed(1)
+#' pred_1 <- project(i, 1.2, si, n_days = 30)
 #' pred_1
 #' my_col <- rgb(.1, .1, .8, .4)
 #' matplot(pred_1, type = "l", lty = 1, col = my_col)
@@ -50,15 +67,63 @@
 #'
 #' ## example with empirical serial interval
 #' si <- c(0, 1, 2, 1, 0.5)
+#'
+#' set.seed(1)
 #' pred_2 <- project(i, 1.2, si, n_days = 30)
 #' pred_2
 #' matplot(pred_2, type = "l", lty = 1, col = my_col)
 #'
+#' }
+#'
+#'
+#'
+#' ## example using simulated Ebola outbreak
+#' if (require(outbreaks) &&
+#'     require(distcrete) &&
+#'     require(incidence)) {
+#'
+#' si <- distcrete("gamma", interval = 1L,
+#'                  shape = 0.37,
+#'                  scale = 41.4, w = 0)
+#'
+#' i <- incidence(ebola_sim$linelist$date_of_onset)
+#' plot(i)
+#'
+#'
+#' ## projections after the first 100 days, over 60 days, fixed R to 2.1
+#'
+#' set.seed(1)
+#' proj_1 <- project(x = i[1:100], R = 2.1, si = si, n_days = 60)
+#'
+#' ## adding them to incidence plot
+#' plot(i[1:160], proj = proj_1)
+#'
+#'
+#' ## projections after the first 100 days, over 60 days, varying R
+#'
+#' set.seed(1)
+#' R <- rnorm(100, 1.8, 0.2)
+#' hist(R, col = "grey", border = "white", main = "Distribution of R")
+#' proj_2 <- project(x = i[1:100], R = R, si = si, n_days = 60)
+#'
+#' ## adding them to incidence plot
+#' plot(i[1:160], proj = proj_2)
+#'
+#'
+#' ## same, but R is constant per simulation
+#'
+#' set.seed(1)
+#' proj_3 <- project(x = i[1:100], R = R, si = si, n_days = 60,
+#'                   R_fix_within = TRUE)
+#'
+#' ## adding them to incidence plot
+#' plot(i[1:160], proj = proj_3)
 #'
 #' }
 #'
 
-project <- function(x, R, si, n_sim = 100, n_days = 7) {
+project <- function(x, R, si, n_sim = 100, n_days = 7,
+                    R_fix_within = FALSE) {
 
     ## Various checks on inputs
 
@@ -117,12 +182,21 @@ project <- function(x, R, si, n_sim = 100, n_days = 7) {
                  to = t_stop,
                  by = 1L)
 
-    ## we get one value of R per simulation
+
+  ## Drawing R values: either these are constant within simulations, so drawn
+  ## once for all simulations, or they need drawing at every time step for every
+  ## simulations.
+
+  if (R_fix_within) {
     R <- sample(R, n_sim, replace = TRUE)
+  }
 
     for (i in t_sim){
-        lambda <- utils::tail(ws, i) %*% out[1:i, ]
-        out[i,] <- stats::rpois(n_sim, R*lambda)
+      if (!R_fix_within) {
+        R <- sample(R, n_sim, replace = TRUE)
+      }
+      lambda <- utils::tail(ws, i) %*% out[1:i, ]
+      out[i,] <- stats::rpois(n_sim, R*lambda)
     }
 
 

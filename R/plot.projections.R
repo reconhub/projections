@@ -31,11 +31,21 @@
 #' plot(i)
 #'
 #' ## add projections after the first 100 days, over 60 days
+#' set.seed(1)
 #' proj <- project(x = i[1:100], R = 2.1, si = si, n_days = 60)
+#'
+#' ## plotting projections
+#' plot(proj)
+#'
+#' ## adding them to incidence plot
 #' plot(i[1:160], proj = proj)
+#'
+#' ## same, with customised colors
+#' plot(i[1:160], proj = plot(proj, col = c("red", "gold", "gold")))
 #'
 #' }
 #'
+
 plot.projections <- function(x, y = c(0.05, 0.95), col = "red", ...) {
   if (length(y) != 2L) {
     msg <- "y should have two quantile values"

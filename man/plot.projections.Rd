@@ -35,8 +35,17 @@ i <- incidence(ebola_sim$linelist$date_of_onset)
 plot(i)
 
 ## add projections after the first 100 days, over 60 days
+set.seed(1)
 proj <- project(x = i[1:100], R = 2.1, si = si, n_days = 60)
+
+## plotting projections
+plot(proj)
+
+## adding them to incidence plot
 plot(i[1:160], proj = proj)
+
+## same, with customised colors
+plot(i[1:160], proj = plot(proj, col = c("red", "gold", "gold")))
 
 }
 
