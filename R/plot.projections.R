@@ -72,7 +72,8 @@ plot.projections <- function(x, y = c(0.05, 0.95), col = "red", ...) {
     ggplot2::geom_line(ggplot2::aes_string(y = "lwr"),
                        linetype = 2, color = col[2]) +
     ggplot2::geom_line(ggplot2::aes_string(y = "upr"),
-                       linetype = 2, color = col[3])
+                       linetype = 2, color = col[3]) +
+    ggplot2::labs(y = "Predicted incidence")
 
   out
 }

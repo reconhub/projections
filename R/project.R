@@ -92,12 +92,12 @@
 #'
 #' ## projections after the first 100 days, over 60 days, fixed R to 2.1
 #'
+#' ## lower R, but accounting for under-reporting
 #' set.seed(1)
-#' proj_1 <- project(x = i[1:100], R = 2.1, si = si, n_days = 60)
+#' proj_1 <- project(x = i[1:100], R = 1.4, si = si, n_days = 60)
 #'
 #' ## adding them to incidence plot
 #' plot(i[1:160], proj = proj_1)
-#'
 #'
 #' ## projections after the first 100 days, over 60 days, varying R
 #'
@@ -125,95 +125,105 @@
 project <- function(x, R, si, n_sim = 100, n_days = 7,
                     R_fix_within = FALSE) {
 
-    ## Various checks on inputs
+  ## Various checks on inputs
 
-    if (!inherits(x, "incidence")) {
-        msg <- "x is not an incidence object"
-        stop(msg)
+  if (!inherits(x, "incidence")) {
+    msg <- "x is not an incidence object"
+    stop(msg)
+  }
+
+  if (as.integer(x$interval) != 1L) {
+    msg <- sprintf("daily incidence needed, but %d days",
+                   x$interval)
+    stop(msg)
+  }
+
+
+  if (ncol(x$counts) > 1L) {
+    msg <- sprintf("cannot use multiple groups in incidence object",
+                   si$interval)
+    stop(msg)
+  }
+
+
+  ## useful variables
+  n_dates_x <- nrow(x$counts)
+  t_max <- n_days + n_dates_x - 1
+
+  if (inherits(si, "distcrete")) {
+    if (as.integer(si$interval) != 1L) {
+      msg <- sprintf("interval used in si is not one day, but %d days)",
+                     si$interval)
+      stop(msg)
     }
 
-    if (as.integer(x$interval) != 1L) {
-        msg <- sprintf("daily incidence needed, but %d days",
-                       x$interval)
-        stop(msg)
-    }
-
-
-    if (ncol(x$counts) > 1L) {
-        msg <- sprintf("cannot use multiple groups in incidence object",
-                       si$interval)
-        stop(msg)
-    }
-
-
-    ## useful variables
-    n_dates_x <- nrow(x$counts)
-    t_max <- n_days + n_dates_x - 1
-
-    if (inherits(si, "distcrete")) {
-        if (as.integer(si$interval) != 1L) {
-            msg <- sprintf("interval used in si is not one day, but %d days)",
-                           si$interval)
-            stop(msg)
-        }
-
-        ws <- rev(si$d(0:t_max))
-    } else {
-        si <- si / sum(si)
-        si <- c(si, rep(0, t_max ))
-        ws <- rev(si)
-    }
+    ws <- rev(si$d(0:t_max))
+  } else {
+    si <- si / sum(si)
+    si <- c(si, rep(0, t_max ))
+    ws <- rev(si)
+  }
 
 
 
 
-    ## Computation of projections: this is how we do bla bla
-    ## TODO: complete plain explanation of how this works
+  ## Computation of projections: this is how we do bla bla
+  ## TODO: complete plain explanation of how this works
 
 
-    ## initial conditions
-    I0 <- matrix(x$counts, nrow = n_dates_x, ncol = n_sim)
+  ## initial conditions
+  I0 <- matrix(x$counts, nrow = n_dates_x, ncol = n_sim)
 
-    ## projection
-    out <- rbind(I0, matrix(0, n_days, n_sim))
-    t_start <- n_dates_x + 1
-    t_stop <- t_max + 1
-    t_sim <- seq(from = t_start,
-                 to = t_stop,
-                 by = 1L)
+  ## projection
+  out <- rbind(I0, matrix(0, n_days, n_sim))
+  t_start <- n_dates_x + 1
+  t_stop <- t_max + 1
+  t_sim <- seq(from = t_start,
+               to = t_stop,
+               by = 1L)
 
 
-  ## Drawing R values: either these are constant within simulations, so drawn
-  ## once for all simulations, or they need drawing at every time step for every
-  ## simulations.
+  ## On the drawing of R values: either these are constant within simulations,
+  ## so drawn once for all simulations, or they need drawing at every time step
+  ## for every simulations.
+
+
+  ## On the handling of reporting: reporting first affects the force of
+  ## infection lambda, with the underlying assumption that the true epicurve
+  ## multiplied by the (constant) reporting results in the observed one. Then,
+  ## the true incidence (true_I) is determined using this lambda (Poisson
+  ## process) and we apply effects sampling to this true incidence to get the
+  ## projected one, using a Binomial sampling.
 
   if (R_fix_within) {
     R <- sample(R, n_sim, replace = TRUE)
   }
 
-    for (i in t_sim){
-      if (!R_fix_within) {
-        R <- sample(R, n_sim, replace = TRUE)
-      }
-      lambda <- utils::tail(ws, i) %*% out[1:i, ]
-      out[i,] <- stats::rpois(n_sim, R*lambda)
+  for (i in t_sim){
+    if (!R_fix_within) {
+      R <- sample(R, n_sim, replace = TRUE)
     }
+    lambda <- utils::tail(ws, i) %*% out[1:i, ]
+    ## lambda <- lambda / reporting
+    out[i, ] <- stats::rpois(n_sim, R*lambda)
+    ## out[i,] <- stats::rbinom(ncol(out), true_I, prob = reporting)
+  }
 
 
-    ## shape output: 'projections' objects are basically matrices of predicted
-    ## incidence, with dates in rows and simulations in columns. Dates are
-    ## stored as attributes of the object, in a format similar to that of the
-    ## original dates in the 'incidence' object. We also store the original
-    ## 'incidence' object in the attributes.
+  ## shape output: 'projections' objects are basically matrices of predicted
+  ## incidence, with dates in rows and simulations in columns. Dates are
+  ## stored as attributes of the object, in a format similar to that of the
+  ## original dates in the 'incidence' object. We also store the original
+  ## 'incidence' object in the attributes.
 
-    out <- out[(n_dates_x+1):(n_dates_x + n_days),]
+  out <- out[(n_dates_x+1):(n_dates_x + n_days),]
 
-    dates <- utils::tail(x$dates, 1) + 1:nrow(out)
-    rownames(out) <- dates
+  dates <- utils::tail(x$dates, 1) + 1:nrow(out)
+  rownames(out) <- dates
 
-    class(out) <- c("projections", "matrix")
-    attr(out, "dates") <-  dates
-    attr(out, "incidence") <- x
-    return(out)
+  class(out) <- c("projections", "matrix")
+  attr(out, "dates") <-  dates
+  attr(out, "incidence") <- x
+  return(out)
 }
 

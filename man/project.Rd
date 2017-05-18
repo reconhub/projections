@@ -95,12 +95,12 @@ plot(i)
 
 ## projections after the first 100 days, over 60 days, fixed R to 2.1
 
+## lower R, but accounting for under-reporting
 set.seed(1)
-proj_1 <- project(x = i[1:100], R = 2.1, si = si, n_days = 60)
+proj_1 <- project(x = i[1:100], R = 1.4, si = si, n_days = 60)
 
 ## adding them to incidence plot
 plot(i[1:160], proj = proj_1)
-
 
 ## projections after the first 100 days, over 60 days, varying R
 
