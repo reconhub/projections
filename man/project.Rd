@@ -42,7 +42,7 @@ plot(i)
 
 si <- distcrete("gamma", interval = 1L,
                  shape = 5,
-                 scale = 5)
+                 scale = 5, w = 0)
 barplot(si$d(0:100), main = "Serial Interval")
 
 

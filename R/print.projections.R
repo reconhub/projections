@@ -19,6 +19,11 @@ print.projections <- function(x, short = TRUE, ...){
         format(ncol(x), big.mark=","),
         "simulations\n")
 
+    cat("\n // first rows/columns:\n")
+    p <- min(6, ncol(x))
+    n <- min(4, nrow(x))
+    print(x[1:n, 1:p])
+
     cat("\n // dates:\n")
     print(attr(x, "dates"))
     cat("\n")
