@@ -12,7 +12,7 @@
 #'
 #' @param y A vector of 2 quantiles to plot
 #'
-#' @param col A vector (recycled if needed) of up to 3 colors for the mean,
+#' @param col A vector (recycled if needed) of up to 3 colors for the median,
 #'   lower and upper quantiles.
 #'
 #' @param ... Further arguments to be passed to other methods (not used).
@@ -56,18 +56,18 @@ plot.projections <- function(x, y = c(0.05, 0.95), col = "red", ...) {
   col <- rep(col, length = 3)
 
   get_stats <- function(v) {
-    c(mean = mean(v),
+    c(median = median(v),
       stats::quantile(v, y))
   }
 
   dates <- attr(x, "dates")
   stats <- t(apply(x, 1, get_stats))
-  colnames(stats) <- c("mean", "lwr", "upr")
+  colnames(stats) <- c("median", "lwr", "upr")
   df <- cbind.data.frame(dates, stats)
 
 
   out <- ggplot2::ggplot(df, ggplot2::aes_string(x = "dates")) +
-    ggplot2::geom_line(ggplot2::aes_string(y = "mean"),
+    ggplot2::geom_line(ggplot2::aes_string(y = "median"),
                        linetype = 1, color = col[1]) +
     ggplot2::geom_line(ggplot2::aes_string(y = "lwr"),
                        linetype = 2, color = col[2]) +
