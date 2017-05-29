@@ -11,7 +11,7 @@
 
 \item{y}{A vector of 2 quantiles to plot}
 
-\item{col}{A vector (recycled if needed) of up to 3 colors for the mean,
+\item{col}{A vector (recycled if needed) of up to 3 colors for the median,
 lower and upper quantiles.}
 
 \item{...}{Further arguments to be passed to other methods (not used).}
