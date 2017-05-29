@@ -7,7 +7,10 @@
 
 # Welcome to the *projections* package!
 
-This is just a template. Please remove, add or edit parts as you see fit.
+This package uses data on *daily incidence*, the *serial interval* and the
+*reproduction number* to simulate plausible epidemic trajectories and project
+future incidence.
+
 
 ## Installing the package
 
@@ -30,19 +33,25 @@ The main features of the package include:
 
 
 
+
 # Resources
+
+## Worked example
+
 
 ## Vignettes
 
-An overview and examples of *projections* are provided in the vignettes:
+Vignettes are still in development.
 
-...
 
 ## Websites
 
-The following websites are available:
+A dedicated website is still in development.
 
-...
+
+
+
+
 
 ## Getting help online
 

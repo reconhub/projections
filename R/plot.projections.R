@@ -56,7 +56,7 @@ plot.projections <- function(x, y = c(0.05, 0.95), col = "red", ...) {
   col <- rep(col, length = 3)
 
   get_stats <- function(v) {
-    c(median = median(v),
+    c(median = stats::median(v),
       stats::quantile(v, y))
   }
 
