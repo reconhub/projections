@@ -4,6 +4,7 @@
 \alias{get_dates}
 \alias{get_dates.default}
 \alias{get_dates.projections}
+\alias{get_incidence}
 \alias{get_incidence.default}
 \alias{get_incidence.projections}
 \title{Access content projections objects}
@@ -14,9 +15,11 @@ get_dates(x, ...)
 
 \method{get_dates}{projections}(x, ...)
 
-get_incidence.default(x, ...)
+get_incidence(x, ...)
 
-get_incidence.projections(x, ...)
+\method{get_incidence}{default}(x, ...)
+
+\method{get_incidence}{projections}(x, ...)
 }
 \arguments{
 \item{x}{A \code{projections} object.}
