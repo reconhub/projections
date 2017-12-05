@@ -19,3 +19,13 @@ test_that("Accessors return the right thing", {
 
 })
 
+
+test_that("Expected errors", {
+    skip_on_cran()
+
+    expect_error(get_dates("toto"),
+                 "Not implemented for class character")
+    expect_error(get_incidence("toto"),
+                 "Not implemented for class character")
+    
+})

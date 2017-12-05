@@ -16,7 +16,7 @@ test_that("Test against reference results", {
     set.seed(1)
     pred_1 <- project(i, runif(100, 0.8, 1.9), si, n_days = 30)
     plot_1 <- plot(pred_1)
-    expect_doppelganger("basic example plot", plot_1)
+    vdiffr::expect_doppelganger("basic example plot", plot_1)
 
 })
 

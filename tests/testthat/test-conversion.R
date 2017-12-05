@@ -15,9 +15,16 @@ test_that("Test against reference results", {
 
     set.seed(1)
     pred_1 <- project(i, runif(100, 0.8, 1.9), si, n_days = 30)
+
+    ## basic export
     df_1 <- as.data.frame(pred_1)
     expect_equal_to_reference(df_1, file = "rds/df_1.rds")
     expect_equal(as.vector(unlist(df_1[, -1])), as.vector(pred_1))
+
+    ## long format
+    df_2 <- as.data.frame(pred_1, long = TRUE)
+    expect_equal_to_reference(df_2, file = "rds/df_2.rds")
+   
     
 })
 
