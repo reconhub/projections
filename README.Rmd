@@ -103,6 +103,7 @@ We can now predict future incidence based on these data:
 
 ```{r predictions}
 library(projections)
+set.seed(1)
 pred <- project(i, R = R_samp, si = si, n_days = 14)
 pred
 plot(pred) # median and 95% prediction
@@ -115,7 +116,8 @@ An alternative representation of the outcomes:
 library(ggplot2)
 df <- as.data.frame(pred, long = TRUE)
 head(df)
-ggplot(df, aes(x = date, y = incidence)) + geom_jitter(alpha = .3) + geom_smooth()
+p <- ggplot(df, aes(x = date, y = incidence)) + geom_jitter(alpha = .3) + geom_smooth()
+p
 ```
 
 
