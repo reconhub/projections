@@ -134,15 +134,14 @@ project <- function(x, R, si, n_sim = 100, n_days = 7,
   }
 
   if (as.integer(x$interval) != 1L) {
-    msg <- sprintf("daily incidence needed, but %d days",
+    msg <- sprintf("daily incidence needed, but interval is %d days",
                    x$interval)
     stop(msg)
   }
 
 
   if (ncol(x$counts) > 1L) {
-    msg <- sprintf("cannot use multiple groups in incidence object",
-                   si$interval)
+    msg <- sprintf("cannot use multiple groups in incidence object")
     stop(msg)
   }
 
@@ -153,7 +152,7 @@ project <- function(x, R, si, n_sim = 100, n_days = 7,
 
   if (inherits(si, "distcrete")) {
     if (as.integer(si$interval) != 1L) {
-      msg <- sprintf("interval used in si is not one day, but %d days)",
+      msg <- sprintf("interval used in si is not 1 day, but %d)",
                      si$interval)
       stop(msg)
     }

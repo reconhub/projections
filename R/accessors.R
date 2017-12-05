@@ -75,6 +75,15 @@ get_dates.projections <- function(x, ...) {
 
 #' @rdname projections_accessors
 #' @export
+#' @aliases get_incidence
+
+get_incidence <- function(x, ...) {
+    UseMethod("get_incidence", x)
+}
+
+
+#' @rdname projections_accessors
+#' @export
 #' @aliases get_incidence.default
 
 get_incidence.default <- function(x, ...) {
