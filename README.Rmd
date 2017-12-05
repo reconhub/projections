@@ -8,6 +8,7 @@
 opts_chunk$set(fig.width = 6, fig.height = 4)
 ```
 
+
 # Welcome to the *projections* package!
 
 This package uses data on *daily incidence*, the *serial interval* (time between
