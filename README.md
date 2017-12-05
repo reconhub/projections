@@ -139,18 +139,7 @@ from the `earlyR` package:
 ```r
 library(earlyR)
 R <- get_R(i, si = si) # ML estimation
-```
-
-```
-## Error in distcrete_d(d, x, log, strict): object 'MAX_T' not found
-```
-
-```r
 R_samp <- sample_R(R, 100) # 100 plausible values of R
-```
-
-```
-## Error in inherits(x, "earlyR"): object 'R' not found
 ```
 
 
@@ -161,34 +150,47 @@ We can now predict future incidence based on these data:
 ```r
 library(projections)
 pred <- project(i, R = R_samp, si = si, n_days = 14)
-```
-
-```
-## Error in sample(R, n_sim, replace = TRUE): object 'R_samp' not found
-```
-
-```r
 pred
 ```
 
 ```
-## Error in eval(expr, envir, enclos): object 'pred' not found
+## 
+## /// Incidence projections //
+## 
+##   // class: projections, matrix
+##   // 14 dates (rows); 100 simulations (columns)
+## 
+##  // first rows/columns:
+##       [,1] [,2] [,3] [,4] [,5] [,6]
+## 17509    1    1    1    0    0    1
+## 17510    1    0    2    3    0    0
+## 17511    1    0    1    2    0    2
+## 17512    2    0    1    2    0    1
+##  .
+##  .
+##  .
+## 
+##  // dates:
+##  [1] "2017-12-09" "2017-12-10" "2017-12-11" "2017-12-12" "2017-12-13"
+##  [6] "2017-12-14" "2017-12-15" "2017-12-16" "2017-12-17" "2017-12-18"
+## [11] "2017-12-19" "2017-12-20" "2017-12-21" "2017-12-22"
 ```
 
 ```r
 plot(pred) # median and 95% prediction
 ```
 
-```
-## Error in plot(pred): object 'pred' not found
-```
+![plot of chunk predictions](figure/predictions-1.png)
 
 ```r
 apply(pred, 1, mean) # average prediction per day
 ```
 
 ```
-## Error in apply(pred, 1, mean): object 'pred' not found
+## 17509 17510 17511 17512 17513 17514 17515 17516 17517 17518 17519 17520 
+##  0.81  0.92  1.07  0.96  1.00  0.92  1.09  0.87  1.06  0.88  0.98  0.99 
+## 17521 17522 
+##  1.04  0.90
 ```
 
 ```r
@@ -196,7 +198,12 @@ apply(pred, 1, range) # range across simulations
 ```
 
 ```
-## Error in apply(pred, 1, range): object 'pred' not found
+##      17509 17510 17511 17512 17513 17514 17515 17516 17517 17518 17519
+## [1,]     0     0     0     0     0     0     0     0     0     0     0
+## [2,]     5     4     4     5     6     5    11     8    12    13    14
+##      17520 17521 17522
+## [1,]     0     0     0
+## [2,]    10    12    10
 ```
 
 An alternative representation of the outcomes:
@@ -204,24 +211,17 @@ An alternative representation of the outcomes:
 ```r
 library(ggplot2)
 df <- as.data.frame(pred, long = TRUE)
-```
-
-```
-## Error in as.data.frame(pred, long = TRUE): object 'pred' not found
-```
-
-```r
 head(df)
 ```
 
 ```
-##                                               
-## 1 function (x, df1, df2, ncp, log = FALSE)    
-## 2 {                                           
-## 3     if (missing(ncp))                       
-## 4         .Call(C_df, x, df1, df2, log)       
-## 5     else .Call(C_dnf, x, df1, df2, ncp, log)
-## 6 }
+##         date incidence sim
+## 1 2017-12-09         1   1
+## 2 2017-12-10         1   1
+## 3 2017-12-11         1   1
+## 4 2017-12-12         2   1
+## 5 2017-12-13         5   1
+## 6 2017-12-14         2   1
 ```
 
 ```r
@@ -229,7 +229,7 @@ ggplot(df, aes(x = date, y = incidence)) + geom_jitter(alpha = .3) + geom_smooth
 ```
 
 ```
-## Error in if (is.waive(data) || empty(data)) return(cbind(data, PANEL = integer(0))): missing value where TRUE/FALSE needed
+## `geom_smooth()` using method = 'gam'
 ```
 
 ![plot of chunk plots](figure/plots-1.png)
