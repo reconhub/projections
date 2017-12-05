@@ -7,9 +7,18 @@
 
 # Welcome to the *projections* package!
 
-This package uses data on *daily incidence*, the *serial interval* and the
-*reproduction number* to simulate plausible epidemic trajectories and project
-future incidence.
+This package uses data on *daily incidence*, the *serial interval* (time between
+onsets of infectors and infectees) and the *reproduction number* to simulate
+plausible epidemic trajectories and project future incidence. It relies on a
+branching process where daily incidence follows a Poisson process determined by
+a daily infectiousness, computed as:
+
+$$
+\lambda_t = \sum_{s = 1}^{t - 1} y_s w(t - s)
+$$
+
+where $w()$ is the probability mass function (PMF) of the serial interval, and
+$y_s$ is the incidence at time $s$.
 
 
 ## Installing the package
@@ -31,22 +40,95 @@ Note that this requires the package *devtools* installed.
 
 The main features of the package include:
 
+- **`project`**: a function generating projections from an existing *incidence*
+  object, a serial interval distribution, and a set of plausible reproduction
+  numbers ($R$); returns a `projections` object.
+  
+- **`plot`/`print`**: plotting and printing methods for `projections` objects.
 
+- **`get_dates`/`get_incidence`**: accessors for `projections` objects.
+
+- **`as.data.frame`**: conversion from `projections` objects to `data.frame`.
 
 
 # Resources
 
 ## Worked example
 
+In the following, we simulate a small outbreak with the following dates of
+onset:
+```{r onset}
+onset <- as.Date(c("2017-12-01", "2017-12-04", "2017-12-05", "2017-12-05",
+                 "2017-12-05", "2017-12-06", "2017-12-08"))
+                
+```
+
+The package incidence is used to generate an epicurve:
+
+```{r epicurve}
+library(incidence)
+i <- incidence(onset)
+i
+plot(i)
+```
+
+Let us assume the following serial interval distribution with a mean of 2.8 days
+and a CV of +/- 0.4 days (in practice, these values would likely come from the literature):
+
+```{r interval}
+library(distcrete)
+library(epitrix)
+mu <- 2.8
+cv <- 0.4
+params <- gamma_mucv2shapescale(mu, cv)
+params
+si <- distcrete("gamma", shape = params$shape, scale = params$scale, interval = 1, w = 0)
+si
+plot(si$d, xlim = c(0,10), type = "h", lwd = 3, col = "navy",
+     main = "Serial interval", xlab = "Days after onset", ylab = "Relative infectiousness")
+```
+
+We also need to estimate transmissibility. For this, we use the function `get_R`
+from the `earlyR` package:
+
+```{r reproduction-number}
+library(earlyR)
+R <- get_R(i, si = si) # ML estimation
+R_samp <- sample_R(R, 100) # 100 plausible values of R
+```
+
+
+
+We can now predict future incidence based on these data:
+
+```{r predictions}
+library(projections)
+pred <- project(i, R = R_samp, si = si, n_days = 14)
+pred
+plot(pred) # median and 95% prediction
+apply(pred, 1, mean) # average prediction per day
+apply(pred, 1, range) # range across simulations
+```
+
+An alternative representation of the outcomes:
+```{r plots}
+library(ggplot2)
+df <- as.data.frame(pred, long = TRUE)
+head(df)
+ggplot(df, aes(x = date, y = incidence)) + geom_jitter(alpha = .3) + geom_smooth()
+```
+
+
 
 ## Vignettes
 
-Vignettes are still in development.
+*projections* does not currently have a dedicated vignette; instead, it is illustrated in conjunction with `earlyR` on [this vignette](http://www.repidemicsconsortium.org/earlyR/articles/earlyR.html).
 
 
 ## Websites
 
-A dedicated website is still in development.
+A dedicated website can be found at:
+[http://www.repidemicsconsortium.org/projections](http://www.repidemicsconsortium.org/projections).
 
 
 
@@ -58,7 +140,7 @@ A dedicated website is still in development.
 Bug reports and feature requests should be posted on *github* using the [*issue*](http://github.com/reconhub/projections/issues) system. All other questions should be posted on the **RECON forum**: <br>
 [http://www.repidemicsconsortium.org/forum/](http://www.repidemicsconsortium.org/forum/)
 
-Contributions are welcome via **pull requests**.
+Contributions are welcome via [pull requests](https://github.com/reconhub/projections/pulls).
 
 Please note that this project is released with a [Contributor Code of Conduct](CONDUCT.md). By participating in this project you agree to abide by its terms.
 
