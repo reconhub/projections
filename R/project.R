@@ -25,20 +25,21 @@
 #' @param n_days The number of days to run simulations for. Defaults to 14.
 #'
 #' @param R_fix_within A logical indicating if R should be fixed within
-#'   simulations (but still varying across simulations). If \code{FALSE}, R is
-#'   drawn for every simulation and every time step. Fixing values within
-#'   simulations favours more extreme predictions (see details)
+#'     simulations (but still varying across simulations). If \code{FALSE}, R is
+#'     drawn for every simulation and every time step. Fixing values within
+#'     simulations favours more extreme predictions (see details)
 #'
 #'
 #' @details The decision to fix R values within simulations
-#'   (\code{R_fix_within}) reflects two alternative views of the uncertainty
-#'   associated with R. When drawing R values at random from the provided
-#'   sample, (\code{R_fix_within} set to \code{FALSE}), it is assumed that R
-#'   varies naturally, and can be treated as a random variable with a given
-#'   distribution. When fixing values within simulations (\code{R_fix_within}
-#'   set to \code{TRUE}), R is treated as a fixed parameter, and the uncertainty
-#'   is merely a consequence of the estimation of R. In other words, the first
-#'   view is rather Bayesian, while the second is more frequentist.
+#'     (\code{R_fix_within}) reflects two alternative views of the uncertainty
+#'     associated with R. When drawing R values at random from the provided
+#'     sample, (\code{R_fix_within} set to \code{FALSE}), it is assumed that R
+#'     varies naturally, and can be treated as a random variable with a given
+#'     distribution. When fixing values within simulations (\code{R_fix_within}
+#'     set to \code{TRUE}), R is treated as a fixed parameter, and the
+#'     uncertainty is merely a consequence of the estimation of R. In other
+#'     words, the first view is rather Bayesian, while the second is more
+#'     frequentist.
 #'
 #'
 #' @examples
@@ -167,8 +168,16 @@ project <- function(x, R, si, n_sim = 100, n_days = 7,
 
 
 
-  ## Computation of projections: this is how we do bla bla
-  ## TODO: complete plain explanation of how this works
+  ## Computation of projections: we use the basic branching process with a
+  ## Poisson likelihood, identical to the one used for estimating R0 in EpiEstim
+  ## and earlyR. The force of infection on a given day is the sum of individual
+  ## forces of infection. The invididual force of infection is computed as the
+  ## R0 multiplied by the pmf of the serial interval for the corresponding day:
+
+  ## lambda_{i,t} = R0 w(t - t_i)
+
+  ## where 'w' is the PMF of the serial interval and 't_i' is the date of
+  ## onset of case 'i'.
 
 
   ## initial conditions

@@ -35,14 +35,15 @@ serial interval (time from primary onset to secondary onset).
 }
 \details{
 The decision to fix R values within simulations
-  (\code{R_fix_within}) reflects two alternative views of the uncertainty
-  associated with R. When drawing R values at random from the provided
-  sample, (\code{R_fix_within} set to \code{FALSE}), it is assumed that R
-  varies naturally, and can be treated as a random variable with a given
-  distribution. When fixing values within simulations (\code{R_fix_within}
-  set to \code{TRUE}), R is treated as a fixed parameter, and the uncertainty
-  is merely a consequence of the estimation of R. In other words, the first
-  view is rather Bayesian, while the second is more frequentist.
+    (\code{R_fix_within}) reflects two alternative views of the uncertainty
+    associated with R. When drawing R values at random from the provided
+    sample, (\code{R_fix_within} set to \code{FALSE}), it is assumed that R
+    varies naturally, and can be treated as a random variable with a given
+    distribution. When fixing values within simulations (\code{R_fix_within}
+    set to \code{TRUE}), R is treated as a fixed parameter, and the
+    uncertainty is merely a consequence of the estimation of R. In other
+    words, the first view is rather Bayesian, while the second is more
+    frequentist.
 }
 \examples{
 
