@@ -5,7 +5,7 @@
 
 
 ```{r options, echo = FALSE}
-opts_chunk$set(fig.width = 6, fig.height = 4))
+opts_chunk$set(fig.width = 6, fig.height = 4)
 ```
 
 # Welcome to the *projections* package!
