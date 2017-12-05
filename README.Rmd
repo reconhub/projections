@@ -4,6 +4,9 @@
 [![CRAN_Status_Badge](http://www.r-pkg.org/badges/version/projections)](https://cran.r-project.org/package=projections)
 
 
+```{r options, echo = FALSE}
+opts_chunk$set(fig.width = 6, fig.height = 4))
+```
 
 # Welcome to the *projections* package!
 
