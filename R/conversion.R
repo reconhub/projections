@@ -4,7 +4,7 @@
 #'
 #' @rdname conversions
 #'
-#' @author Thibaut Jombart \email{thibautjombart@@gmail.com}, Rich Fitzjohn
+#' @author Thibaut Jombart \email{thibautjombart@@gmail.com}
 #'
 #' @importFrom stats as.ts
 #'

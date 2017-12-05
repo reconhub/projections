@@ -23,5 +23,5 @@ These functions convert \code{projections} objects into other classes.
 the \code{\link{project}} function to generate the 'projections' objects.
 }
 \author{
-Thibaut Jombart \email{thibautjombart@gmail.com}, Rich Fitzjohn
+Thibaut Jombart \email{thibautjombart@gmail.com}
 }
