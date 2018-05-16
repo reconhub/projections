@@ -29,6 +29,11 @@
 #'     drawn for every simulation and every time step. Fixing values within
 #'     simulations favours more extreme predictions (see details)
 #'
+#' @param distr Distribution to be used for projections. Must be one of
+#' "poisson" or "negbin" (negative binomial process). Defaults to poisson
+#'
+#' @param size size parameter of negative binomial distribition. Ignored if
+#' distr is poisson
 #'
 #' @details The decision to fix R values within simulations
 #'     (\code{R_fix_within}) reflects two alternative views of the uncertainty
@@ -124,7 +129,9 @@
 #'
 
 project <- function(x, R, si, n_sim = 100, n_days = 7,
-                    R_fix_within = FALSE) {
+                    R_fix_within = FALSE,
+                    distr = "poisson",
+                    size = 0.03) {
 
   ## Various checks on inputs
 
@@ -134,8 +141,10 @@ project <- function(x, R, si, n_sim = 100, n_days = 7,
   }
 
   if (as.integer(x$interval) != 1L) {
-    msg <- sprintf("daily incidence needed, but interval is %d days",
-                   x$interval)
+    msg <- sprintf(
+      "daily incidence needed, but interval is %d days",
+      x$interval
+    )
     stop(msg)
   }
 
@@ -145,22 +154,27 @@ project <- function(x, R, si, n_sim = 100, n_days = 7,
     stop(msg)
   }
 
-
+  if (!distr %in% c("poisson", "negbin")) {
+    msg <- "distr must be poisson or negbin"
+    stop(msg)
+  }
   ## useful variables
   n_dates_x <- nrow(x$counts)
   t_max <- n_days + n_dates_x - 1
 
   if (inherits(si, "distcrete")) {
     if (as.integer(si$interval) != 1L) {
-      msg <- sprintf("interval used in si is not 1 day, but %d)",
-                     si$interval)
+      msg <- sprintf(
+        "interval used in si is not 1 day, but %d)",
+        si$interval
+      )
       stop(msg)
     }
 
     ws <- rev(si$d(0:t_max))
   } else {
     si <- si / sum(si)
-    si <- c(si, rep(0, t_max ))
+    si <- c(si, rep(0, t_max))
     ws <- rev(si)
   }
 
@@ -186,9 +200,11 @@ project <- function(x, R, si, n_sim = 100, n_days = 7,
   out <- rbind(I0, matrix(0, n_days, n_sim))
   t_start <- n_dates_x + 1
   t_stop <- t_max + 1
-  t_sim <- seq(from = t_start,
-               to = t_stop,
-               by = 1L)
+  t_sim <- seq(
+    from = t_start,
+    to = t_stop,
+    by = 1L
+  )
 
 
   ## On the drawing of R values: either these are constant within simulations,
@@ -207,13 +223,17 @@ project <- function(x, R, si, n_sim = 100, n_days = 7,
     R <- sample(R, n_sim, replace = TRUE)
   }
 
-  for (i in t_sim){
+  for (i in t_sim) {
     if (!R_fix_within) {
       R <- sample(R, n_sim, replace = TRUE)
     }
     lambda <- utils::tail(ws, i) %*% out[1:i, ]
     ## lambda <- lambda / reporting
-    out[i, ] <- stats::rpois(n_sim, R*lambda)
+    if (distr == "poisson") {
+      out[i, ] <- stats::rpois(n_sim, R * lambda)
+    } else {
+      out[i, ] <- stats::rnbinom(n_sim, size = size, mu = R * lambda)
+    }
     ## out[i,] <- stats::rbinom(ncol(out), true_I, prob = reporting)
   }
 
@@ -224,14 +244,13 @@ project <- function(x, R, si, n_sim = 100, n_days = 7,
   ## original dates in the 'incidence' object. We also store the original
   ## 'incidence' object in the attributes.
 
-  out <- out[(n_dates_x+1):(n_dates_x + n_days),]
+  out <- out[(n_dates_x + 1):(n_dates_x + n_days), ]
 
   dates <- utils::tail(x$dates, 1) + 1:nrow(out)
   rownames(out) <- as.character(dates)
 
   class(out) <- c("projections", "matrix")
-  attr(out, "dates") <-  dates
+  attr(out, "dates") <- dates
   attr(out, "incidence") <- x
   return(out)
 }
-
