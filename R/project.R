@@ -232,7 +232,15 @@ project <- function(x, R, si, n_sim = 100, n_days = 7,
     if (distr == "poisson") {
       out[i, ] <- stats::rpois(n_sim, R * lambda)
     } else {
-      out[i, ] <- stats::rnbinom(n_sim, size = size, mu = R * lambda)
+        ## If mu = 0, then it doesn't matter what the size value is,
+        ## rnbinom will output 0s (mu = 0 => p =1).
+        ## mu will be 0 if lambda is 0. But that will make size 0 which
+        ## will make rnbinom spit NAs. Workaround is: if lambda is 0
+        ## set size to a non-trivial value.
+        size_adj <- lambda * size
+        idx <- which(lambda == 0)
+        size_adj[idx] <- 1
+      out[i, ] <- stats::rnbinom(n_sim, size = size_adj, mu = R * lambda)
     }
     ## out[i,] <- stats::rbinom(ncol(out), true_I, prob = reporting)
   }
