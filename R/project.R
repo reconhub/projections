@@ -29,11 +29,11 @@
 #'     drawn for every simulation and every time step. Fixing values within
 #'     simulations favours more extreme predictions (see details)
 #'
-#' @param distr Distribution to be used for projections. Must be one of
+#' @param model Distribution to be used for projections. Must be one of
 #' "poisson" or "negbin" (negative binomial process). Defaults to poisson
 #'
 #' @param size size parameter of negative binomial distribition. Ignored if
-#' distr is poisson
+#' model is poisson
 #'
 #' @details The decision to fix R values within simulations
 #'     (\code{R_fix_within}) reflects two alternative views of the uncertainty
@@ -130,10 +130,12 @@
 
 project <- function(x, R, si, n_sim = 100, n_days = 7,
                     R_fix_within = FALSE,
-                    distr = "poisson",
+                    model = c("poisson", "negbin"),
                     size = 0.03) {
 
   ## Various checks on inputs
+
+  model <- match.arg(model)
 
   if (!inherits(x, "incidence")) {
     msg <- "x is not an incidence object"
@@ -154,10 +156,7 @@ project <- function(x, R, si, n_sim = 100, n_days = 7,
     stop(msg)
   }
 
-  if (!distr %in% c("poisson", "negbin")) {
-    msg <- "distr must be poisson or negbin"
-    stop(msg)
-  }
+
   ## useful variables
   n_dates_x <- nrow(x$counts)
   t_max <- n_days + n_dates_x - 1
@@ -229,17 +228,17 @@ project <- function(x, R, si, n_sim = 100, n_days = 7,
     }
     lambda <- utils::tail(ws, i) %*% out[1:i, ]
     ## lambda <- lambda / reporting
-    if (distr == "poisson") {
+    if (model == "poisson") {
       out[i, ] <- stats::rpois(n_sim, R * lambda)
     } else {
-        ## If mu = 0, then it doesn't matter what the size value is,
-        ## rnbinom will output 0s (mu = 0 => p =1).
-        ## mu will be 0 if lambda is 0. But that will make size 0 which
-        ## will make rnbinom spit NAs. Workaround is: if lambda is 0
-        ## set size to a non-trivial value.
-        size_adj <- lambda * size
-        idx <- which(lambda == 0)
-        size_adj[idx] <- 1
+      ## If mu = 0, then it doesn't matter what the size value is,
+      ## rnbinom will output 0s (mu = 0 => p =1).
+      ## mu will be 0 if lambda is 0. But that will make size 0 which
+      ##  will make rnbinom spit NAs. Workaround is: if lambda is 0
+      ## set size to a non-trivial value.
+      size_adj <- lambda * size
+      idx <- which(lambda == 0)
+      size_adj[idx] <- 1
       out[i, ] <- stats::rnbinom(n_sim, size = size_adj, mu = R * lambda)
     }
     ## out[i,] <- stats::rbinom(ncol(out), true_I, prob = reporting)
