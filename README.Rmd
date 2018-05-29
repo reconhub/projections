@@ -5,6 +5,7 @@
 
 
 ```{r options, echo = FALSE}
+library(knitr)
 opts_chunk$set(fig.width = 6, fig.height = 4)
 ```
 
@@ -59,58 +60,48 @@ The main features of the package include:
 
 ## Worked example
 
-In the following, we simulate a small outbreak with the following dates of
-onset:
+In the following, we project future incidence using a simulate Ebola outbreak
+distributed in the package `outbreaks`:
 ```{r onset}
-onset <- as.Date(c("2017-12-01", "2017-12-04", "2017-12-05", "2017-12-05",
-                 "2017-12-05", "2017-12-06", "2017-12-08"))
-                
-```
-
-The package incidence is used to generate an epicurve:
-
-```{r epicurve}
+library(outbreaks)
 library(incidence)
+
+onset <- ebola_sim$linelist$date_of_onset
 i <- incidence(onset)
-i
-plot(i)
+plot(i) # full outbreak
+plot(i[1:160]) # first 160 days
 ```
 
-Let us assume the following serial interval distribution with a mean of 2.8 days
-and a CV of +/- 0.4 days (in practice, these values would likely come from the literature):
-
-```{r interval}
+We create a serial interval distribution using `distcrete`:
+```{r si}
 library(distcrete)
 library(epitrix)
-mu <- 2.8
-cv <- 0.4
+mu <- 15.3
+sigma <- 9.3
+cv <- sigma / mu
 params <- gamma_mucv2shapescale(mu, cv)
 params
-si <- distcrete("gamma", shape = params$shape, scale = params$scale, interval = 1, w = 0)
+
+si <- distcrete("gamma", shape = params$shape,
+                scale = params$scale,
+                interval = 1, w = 0)
 si
-plot(si$d, xlim = c(0,10), type = "h", lwd = 3, col = "navy",
-     main = "Serial interval", xlab = "Days after onset", ylab = "Relative infectiousness")
-```
 
-We also need to estimate transmissibility. For this, we use the function `get_R`
-from the `earlyR` package:
-
-```{r reproduction-number}
-library(earlyR)
-R <- get_R(i, si = si) # ML estimation
-R_samp <- sample_R(R, 100) # 100 plausible values of R
+plot(1:50, si$d(1:50), type = "h", lwd = 3, col = "navy",
+     main = "Serial interval", xlab = "Days after onset",
+     ylab = "Relative infectiousness")
 ```
 
 
-
-We can now predict future incidence based on these data:
+We predict future incidence based on these data, assuming a reproduction number
+of 1.5, from day 100 and for 60 days:
 
 ```{r predictions}
 library(projections)
 set.seed(1)
-pred <- project(i, R = R_samp, si = si, n_days = 14)
+pred <- project(i[1:100], R = 1.5, si = si, n_days = 60)
 pred
-plot(pred) # median and 95% prediction
+plot(pred) # default plot of quantiles
 apply(pred, 1, mean) # average prediction per day
 apply(pred, 1, range) # range across simulations
 ```
@@ -120,15 +111,28 @@ An alternative representation of the outcomes:
 library(ggplot2)
 df <- as.data.frame(pred, long = TRUE)
 head(df)
-p <- ggplot(df, aes(x = date, y = incidence)) + geom_jitter(alpha = .3) + geom_smooth()
+p <- ggplot(df, aes(x = date, y = incidence)) +
+  geom_jitter(alpha = .3) + geom_smooth()
 p
 ```
+
+
+Predictions can also be added to the epicurve:
+```{r plot_with_incidence}
+library(magrittr)
+
+plot(i[20:160]) %>% add_projections(pred)
+ 
+```
+
 
 
 
 ## Vignettes
 
-*projections* does not currently have a dedicated vignette; instead, it is illustrated in conjunction with `earlyR` on [this vignette](http://www.repidemicsconsortium.org/earlyR/articles/earlyR.html).
+*projections* does not currently have a dedicated vignette; instead, it is
+illustrated in conjunction with `earlyR` on [this
+vignette](http://www.repidemicsconsortium.org/earlyR/articles/earlyR.html).
 
 
 ## Websites
@@ -143,10 +147,15 @@ A dedicated website can be found at:
 
 ## Getting help online
 
-Bug reports and feature requests should be posted on *github* using the [*issue*](http://github.com/reconhub/projections/issues) system. All other questions should be posted on the **RECON forum**: <br>
+Bug reports and feature requests should be posted on *github* using the
+[*issue*](http://github.com/reconhub/projections/issues) system. All other
+questions should be posted on the **RECON forum**: <br>
 [http://www.repidemicsconsortium.org/forum/](http://www.repidemicsconsortium.org/forum/)
 
-Contributions are welcome via [pull requests](https://github.com/reconhub/projections/pulls).
+Contributions are welcome via [pull
+requests](https://github.com/reconhub/projections/pulls).
 
-Please note that this project is released with a [Contributor Code of Conduct](CONDUCT.md). By participating in this project you agree to abide by its terms.
+Please note that this project is released with a [Contributor Code of
+Conduct](CONDUCT.md). By participating in this project you agree to abide by its
+terms.
 
