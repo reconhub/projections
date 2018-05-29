@@ -4,7 +4,8 @@
 \alias{project}
 \title{Project future incidence}
 \usage{
-project(x, R, si, n_sim = 100, n_days = 7, R_fix_within = FALSE)
+project(x, R, si, n_sim = 100, n_days = 7, R_fix_within = FALSE,
+  model = c("poisson", "negbin"), size = 0.03)
 }
 \arguments{
 \item{x}{An \code{incidence} object containing daily incidence; other time
@@ -27,6 +28,12 @@ example).}
 simulations (but still varying across simulations). If \code{FALSE}, R is
 drawn for every simulation and every time step. Fixing values within
 simulations favours more extreme predictions (see details)}
+
+\item{model}{Distribution to be used for projections. Must be one of
+"poisson" or "negbin" (negative binomial process). Defaults to poisson}
+
+\item{size}{size parameter of negative binomial distribition. Ignored if
+model is poisson}
 }
 \description{
 This function simulates future incidence based on past incidence data, a

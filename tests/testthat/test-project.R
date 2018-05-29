@@ -79,7 +79,7 @@ test_that("Errors are thrown when they should", {
     i <- incidence(1:10, 3)
     expect_error(project(i),
                  "daily incidence needed, but interval is 3 days")
-    
+
     i <- incidence(1:10, 1, group = letters[1:10])
     expect_error(project(i),
                  "cannot use multiple groups in incidence object")
@@ -92,4 +92,3 @@ test_that("Errors are thrown when they should", {
                  "interval used in si is not 1 day, but 5")
 
 })
-

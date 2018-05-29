@@ -15,9 +15,5 @@ assert_reporting <- function(x) {
 ## length 1.
 
 sample_ <- function(x, ...) {
-  if (length(x) <= 1L) {
-    x <- c(x, x)
-  }
-
-  sample(x, ...)
+  x[sample.int(length(x), ...)]
 }
