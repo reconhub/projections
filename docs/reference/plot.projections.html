@@ -18,19 +18,35 @@
 <!-- Font Awesome icons -->
 <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-T8Gy5hrqNKT+hzMclPo118YTQO6cYprQmhrYwIiQ/3axmI1hQomh7Ud2hPOy8SP1" crossorigin="anonymous">
 
+<!-- clipboard.js -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/1.7.1/clipboard.min.js" integrity="sha384-cV+rhyOuRHc9Ub/91rihWcGmMmCXDeksTtCihMupQHSsi8GIIRDG0ThDc3HGQFJ3" crossorigin="anonymous"></script>
 
 <!-- pkgdown -->
 <link href="../pkgdown.css" rel="stylesheet">
 <script src="../jquery.sticky-kit.min.js"></script>
 <script src="../pkgdown.js"></script>
 
+
+
+<meta property="og:title" content="Plot projections objects — plot.projections" />
+
+<meta property="og:description" content="The plot method of projections objects (output by the function
+project) shows quantiles of predicted incidence over time. The
+function add_projections can be used to add a similar plot to an
+existing incidence plot. This latter function is piping friendly (see
+examples)." />
+<meta name="twitter:card" content="summary" />
+
+
 <!-- mathjax -->
-<script src='https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML'></script>
+<script src='https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML'></script>
 
 <!--[if lt IE 9]>
 <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
 <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
 <![endif]-->
+
+
   </head>
 
   <body>
@@ -44,21 +60,32 @@
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>
       </button>
-      <a class="navbar-brand" href="../index.html">projections</a>
+      <span class="navbar-brand">
+        <a class="navbar-link" href="../index.html">projections</a>
+        <span class="label label-default" data-toggle="tooltip" data-placement="bottom" title="Released package">0.2.1</span>
+      </span>
     </div>
+
     <div id="navbar" class="navbar-collapse collapse">
       <ul class="nav navbar-nav">
         <li>
+  <a href="../index.html">
+    <span class="fa fa-home fa-lg"></span>
+     
+  </a>
+</li>
+<li>
   <a href="../reference/index.html">Reference</a>
 </li>
 <li>
-  <a href="../news/index.html">News</a>
+  <a href="../news/index.html">Changelog</a>
 </li>
       </ul>
       
       <ul class="nav navbar-nav navbar-right">
         
       </ul>
+      
     </div><!--/.nav-collapse -->
   </div><!--/.container -->
 </div><!--/.navbar -->
@@ -66,46 +93,74 @@
       
       </header>
 
-      <div class="row">
+<div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
     <h1>Plot projections objects</h1>
+    
+    <div class="hidden name"><code>plot.projections.Rd</code></div>
     </div>
 
+    <div class="ref-description">
     
-    <p>This method is designed for plotting <code>projections</code> objects, output by
-the function <code><a href='project.html'>project</a></code>. It plots the mean projected incidence, as
-well as lower and upper bounds defined by quantiles.</p>
+    <p>The <code>plot</code> method of <code>projections</code> objects (output by the function
+<code><a href='project.html'>project</a></code>) shows quantiles of predicted incidence over time. The
+function <code>add_projections</code> can be used to add a similar plot to an
+existing <code>incidence</code> plot. This latter function is piping friendly (see
+examples).</p>
     
+    </div>
 
-    <pre><span class='co'># S3 method for projections</span>
-<span class='fu'>plot</span>(<span class='no'>x</span>, <span class='kw'>y</span> <span class='kw'>=</span> <span class='fu'>c</span>(<span class='fl'>0.05</span>, <span class='fl'>0.95</span>), <span class='kw'>col</span> <span class='kw'>=</span> <span class='st'>"red"</span>, <span class='no'>...</span>)</pre>
+    <pre class="usage"><span class='co'># S3 method for projections</span>
+<span class='fu'>plot</span>(<span class='no'>x</span>, <span class='kw'>y</span> <span class='kw'>=</span> <span class='fu'>c</span>(<span class='fl'>0.01</span>, <span class='fl'>0.05</span>, <span class='fl'>0.1</span>, <span class='fl'>0.5</span>),
+  <span class='kw'>palette</span> <span class='kw'>=</span> <span class='no'>quantile_pal</span>, <span class='no'>...</span>)
+
+<span class='fu'>add_projections</span>(<span class='no'>p</span>, <span class='no'>x</span>, <span class='kw'>y</span> <span class='kw'>=</span> <span class='fu'>c</span>(<span class='fl'>0.01</span>, <span class='fl'>0.05</span>, <span class='fl'>0.1</span>, <span class='fl'>0.5</span>), <span class='kw'>palette</span> <span class='kw'>=</span> <span class='no'>quantile_pal</span>)</pre>
     
-    <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a> Arguments</h2>
-    <dl class="dl-horizontal">
-      <dt>x</dt>
-      <dd>A <code>projections</code> object.</dd>
-      <dt>y</dt>
-      <dd>A vector of 2 quantiles to plot</dd>
-      <dt>col</dt>
-      <dd>A vector (recycled if needed) of up to 3 colors for the median,
-lower and upper quantiles.</dd>
-      <dt>...</dt>
-      <dd>Further arguments to be passed to other methods (not used).</dd>
-    </dl>
+    <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
+    <table class="ref-arguments">
+    <colgroup><col class="name" /><col class="desc" /></colgroup>
+    <tr>
+      <th>x</th>
+      <td><p>A <code>projections</code> object.</p></td>
+    </tr>
+    <tr>
+      <th>y</th>
+      <td><p>A vector of quantiles to plot, automatically completed to be
+symmetric around the median.</p></td>
+    </tr>
+    <tr>
+      <th>palette</th>
+      <td><p>A color palette to be used for plotting the quantile lines;
+defaults to <code>quantile_pal</code>.</p></td>
+    </tr>
+    <tr>
+      <th>...</th>
+      <td><p>Further arguments to be passed to other methods (not used).</p></td>
+    </tr>
+    <tr>
+      <th>p</th>
+      <td><p>A previous incidence plot to which projections should be added.</p></td>
+    </tr>
+    </table>
+    
+    <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
+
+    <div class='dont-index'><p><code><a href='project.html'>project</a></code> to generate projections</p></div>
     
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'>
 <span class='kw'>if</span> (<span class='fu'>require</span>(<span class='no'>outbreaks</span>) <span class='kw'>&amp;&amp;</span>
     <span class='fu'>require</span>(<span class='no'>distcrete</span>) <span class='kw'>&amp;&amp;</span>
-    <span class='fu'>require</span>(<span class='no'>incidence</span>)) {
+    <span class='fu'>require</span>(<span class='no'>incidence</span>) <span class='kw'>&amp;&amp;</span>
+    <span class='fu'>require</span>(<span class='no'>magrittr</span>)) {
 
-<span class='no'>si</span> <span class='kw'>&lt;-</span> <span class='fu'>distcrete</span>(<span class='st'>"gamma"</span>, <span class='kw'>interval</span> <span class='kw'>=</span> <span class='fl'>1L</span>,
+<span class='no'>si</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='http://www.rdocumentation.org/packages/distcrete/topics/distcrete'>distcrete</a></span>(<span class='st'>"gamma"</span>, <span class='kw'>interval</span> <span class='kw'>=</span> <span class='fl'>1L</span>,
                  <span class='kw'>shape</span> <span class='kw'>=</span> <span class='fl'>0.37</span>,
                  <span class='kw'>scale</span> <span class='kw'>=</span> <span class='fl'>41.4</span>, <span class='kw'>w</span> <span class='kw'>=</span> <span class='fl'>0</span>)
 
-<span class='no'>i</span> <span class='kw'>&lt;-</span> <span class='fu'>incidence</span>(<span class='no'>ebola_sim</span>$<span class='no'>linelist</span>$<span class='no'>date_of_onset</span>)
+<span class='no'>i</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='http://www.rdocumentation.org/packages/incidence/topics/incidence'>incidence</a></span>(<span class='no'>ebola_sim</span>$<span class='no'>linelist</span>$<span class='no'>date_of_onset</span>)
 <span class='fu'>plot</span>(<span class='no'>i</span>)
 
 <span class='co'>## add projections after the first 100 days, over 60 days</span>
@@ -116,19 +171,25 @@ lower and upper quantiles.</dd>
 <span class='fu'>plot</span>(<span class='no'>proj</span>)
 
 <span class='co'>## adding them to incidence plot</span>
-<span class='fu'>plot</span>(<span class='no'>i</span>[<span class='fl'>1</span>:<span class='fl'>160</span>], <span class='kw'>proj</span> <span class='kw'>=</span> <span class='no'>proj</span>)
+<span class='fu'>plot</span>(<span class='no'>i</span>) <span class='kw'>%&gt;%</span> <span class='fu'>add_projections</span>(<span class='no'>proj</span>)
+<span class='fu'>plot</span>(<span class='no'>i</span>[<span class='fl'>1</span>:<span class='fl'>160</span>]) <span class='kw'>%&gt;%</span> <span class='fu'>add_projections</span>(<span class='no'>proj</span>)
 
-<span class='co'>## same, with customised colors</span>
-<span class='fu'>plot</span>(<span class='no'>i</span>[<span class='fl'>1</span>:<span class='fl'>160</span>], <span class='kw'>proj</span> <span class='kw'>=</span> <span class='fu'>plot</span>(<span class='no'>proj</span>, <span class='kw'>col</span> <span class='kw'>=</span> <span class='fu'>c</span>(<span class='st'>"red"</span>, <span class='st'>"gold"</span>, <span class='st'>"gold"</span>)))
+<span class='co'>## same, with customised quantiles and colors</span>
+<span class='no'>quantiles</span> <span class='kw'>&lt;-</span> <span class='fu'>c</span>(<span class='fl'>.001</span>, <span class='fl'>.01</span>, <span class='fl'>0.05</span>, <span class='fl'>.1</span>, <span class='fl'>.2</span>, <span class='fl'>.3</span>, <span class='fl'>.4</span>, <span class='fl'>.5</span>)
+<span class='no'>pal</span> <span class='kw'>&lt;-</span> <span class='fu'>colorRampPalette</span>(<span class='fu'>c</span>(<span class='st'>"#b3c6ff"</span>, <span class='st'>"#00e64d"</span>, <span class='st'>"#cc0066"</span>))
+<span class='fu'>plot</span>(<span class='no'>i</span>[<span class='fl'>1</span>:<span class='fl'>200</span>]) <span class='kw'>%&gt;%</span>
+  <span class='fu'>add_projections</span>(<span class='no'>proj</span>, <span class='no'>quantiles</span>, <span class='kw'>palette</span> <span class='kw'>=</span> <span class='no'>pal</span>)
 
-}</div><div class='output co'>#&gt; <span class='message'>Loading required package: outbreaks</span></div><img src='plot.projections-3.png' alt='' width='540' height='400' /><div class='input'>
+}</div><div class='img'><img src='plot.projections-1.png' alt='' width='700' height='433' /></div><div class='input'>
 </div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>
     <ul class="nav nav-pills nav-stacked">
       <li><a href="#arguments">Arguments</a></li>
-            
+      
+      <li><a href="#see-also">See also</a></li>
+      
       <li><a href="#examples">Examples</a></li>
     </ul>
 
@@ -145,11 +206,14 @@ Thibaut Jombart <a href='mailto:thibautjombart@gmail.com'>thibautjombart@gmail.c
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="http://hadley.github.io/pkgdown/">pkgdown</a>.</p>
+  <p>Site built with <a href="http://pkgdown.r-lib.org/">pkgdown</a>.</p>
 </div>
 
       </footer>
    </div>
 
+  
+
   </body>
 </html>
+

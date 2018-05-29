@@ -18,19 +18,33 @@
 <!-- Font Awesome icons -->
 <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-T8Gy5hrqNKT+hzMclPo118YTQO6cYprQmhrYwIiQ/3axmI1hQomh7Ud2hPOy8SP1" crossorigin="anonymous">
 
+<!-- clipboard.js -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/1.7.1/clipboard.min.js" integrity="sha384-cV+rhyOuRHc9Ub/91rihWcGmMmCXDeksTtCihMupQHSsi8GIIRDG0ThDc3HGQFJ3" crossorigin="anonymous"></script>
 
 <!-- pkgdown -->
 <link href="../pkgdown.css" rel="stylesheet">
 <script src="../jquery.sticky-kit.min.js"></script>
 <script src="../pkgdown.js"></script>
 
+
+
+<meta property="og:title" content="Project future incidence — project" />
+
+<meta property="og:description" content="This function simulates future incidence based on past incidence data, a
+selection of plausible reproduction numbers (R), and the distribution of the
+serial interval (time from primary onset to secondary onset)." />
+<meta name="twitter:card" content="summary" />
+
+
 <!-- mathjax -->
-<script src='https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML'></script>
+<script src='https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML'></script>
 
 <!--[if lt IE 9]>
 <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
 <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
 <![endif]-->
+
+
   </head>
 
   <body>
@@ -44,21 +58,32 @@
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>
       </button>
-      <a class="navbar-brand" href="../index.html">projections</a>
+      <span class="navbar-brand">
+        <a class="navbar-link" href="../index.html">projections</a>
+        <span class="label label-default" data-toggle="tooltip" data-placement="bottom" title="Released package">0.2.1</span>
+      </span>
     </div>
+
     <div id="navbar" class="navbar-collapse collapse">
       <ul class="nav navbar-nav">
         <li>
+  <a href="../index.html">
+    <span class="fa fa-home fa-lg"></span>
+     
+  </a>
+</li>
+<li>
   <a href="../reference/index.html">Reference</a>
 </li>
 <li>
-  <a href="../news/index.html">News</a>
+  <a href="../news/index.html">Changelog</a>
 </li>
       </ul>
       
       <ul class="nav navbar-nav navbar-right">
         
       </ul>
+      
     </div><!--/.nav-collapse -->
   </div><!--/.container -->
 </div><!--/.navbar -->
@@ -66,44 +91,72 @@
       
       </header>
 
-      <div class="row">
+<div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
     <h1>Project future incidence</h1>
+    
+    <div class="hidden name"><code>project.Rd</code></div>
     </div>
 
+    <div class="ref-description">
     
     <p>This function simulates future incidence based on past incidence data, a
 selection of plausible reproduction numbers (R), and the distribution of the
 serial interval (time from primary onset to secondary onset).</p>
     
+    </div>
 
-    <pre><span class='fu'>project</span>(<span class='no'>x</span>, <span class='no'>R</span>, <span class='no'>si</span>, <span class='kw'>n_sim</span> <span class='kw'>=</span> <span class='fl'>100</span>, <span class='kw'>n_days</span> <span class='kw'>=</span> <span class='fl'>7</span>, <span class='kw'>R_fix_within</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)</pre>
+    <pre class="usage"><span class='fu'>project</span>(<span class='no'>x</span>, <span class='no'>R</span>, <span class='no'>si</span>, <span class='kw'>n_sim</span> <span class='kw'>=</span> <span class='fl'>100</span>, <span class='kw'>n_days</span> <span class='kw'>=</span> <span class='fl'>7</span>, <span class='kw'>R_fix_within</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
+  <span class='kw'>model</span> <span class='kw'>=</span> <span class='fu'>c</span>(<span class='st'>"poisson"</span>, <span class='st'>"negbin"</span>), <span class='kw'>size</span> <span class='kw'>=</span> <span class='fl'>0.03</span>)</pre>
     
-    <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a> Arguments</h2>
-    <dl class="dl-horizontal">
-      <dt>x</dt>
-      <dd>An <code>incidence</code> object containing daily incidence; other time
-intervals will trigger an error.</dd>
-      <dt>R</dt>
-      <dd>A vector of numbers representing plausible reproduction numbers; for
+    <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
+    <table class="ref-arguments">
+    <colgroup><col class="name" /><col class="desc" /></colgroup>
+    <tr>
+      <th>x</th>
+      <td><p>An <code>incidence</code> object containing daily incidence; other time
+intervals will trigger an error.</p></td>
+    </tr>
+    <tr>
+      <th>R</th>
+      <td><p>A vector of numbers representing plausible reproduction numbers; for
 instance, these can be samples from a posterior distribution using the
-<code>EpiEstim</code> package.</dd>
-      <dt>si</dt>
-      <dd>A function computing the serial interval, or a <code>numeric</code>
+<code>EpiEstim</code> package.</p></td>
+    </tr>
+    <tr>
+      <th>si</th>
+      <td><p>A function computing the serial interval, or a <code>numeric</code>
 vector providing its mass function. For functions, we strongly recommend
 using the RECON package <code>distcrete</code> to obtain such distribution (see
-example).</dd>
-      <dt>n_sim</dt>
-      <dd>The number of epicurves to simulate. Defaults to 100.</dd>
-      <dt>n_days</dt>
-      <dd>The number of days to run simulations for. Defaults to 14.</dd>
-      <dt>R_fix_within</dt>
-      <dd>A logical indicating if R should be fixed within
+example).</p></td>
+    </tr>
+    <tr>
+      <th>n_sim</th>
+      <td><p>The number of epicurves to simulate. Defaults to 100.</p></td>
+    </tr>
+    <tr>
+      <th>n_days</th>
+      <td><p>The number of days to run simulations for. Defaults to 14.</p></td>
+    </tr>
+    <tr>
+      <th>R_fix_within</th>
+      <td><p>A logical indicating if R should be fixed within
 simulations (but still varying across simulations). If <code>FALSE</code>, R is
 drawn for every simulation and every time step. Fixing values within
-simulations favours more extreme predictions (see details)</dd>
-    </dl>
+simulations favours more extreme predictions (see details)</p></td>
+    </tr>
+    <tr>
+      <th>model</th>
+      <td><p>Distribution to be used for projections. Must be one of
+"poisson" or "negbin" (negative binomial process). Defaults to poisson</p></td>
+    </tr>
+    <tr>
+      <th>size</th>
+      <td><p>size parameter of negative binomial distribition. Ignored if
+model is poisson</p></td>
+    </tr>
+    </table>
     
     <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
@@ -121,60 +174,29 @@ simulations favours more extreme predictions (see details)</dd>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'>
-<span class='kw'>if</span> (<span class='fu'>require</span>(<span class='no'>distcrete</span>) <span class='kw'>&amp;&amp;</span> <span class='fu'>require</span>(<span class='no'>incidence</span>)) {
-
-<span class='co'>## simulate basic epicurve</span>
-<span class='no'>dat</span> <span class='kw'>&lt;-</span> <span class='fu'>c</span>(<span class='fl'>0</span>, <span class='fl'>2</span>, <span class='fl'>2</span>, <span class='fl'>3</span>, <span class='fl'>3</span>, <span class='fl'>5</span>, <span class='fl'>5</span>, <span class='fl'>5</span>, <span class='fl'>6</span>, <span class='fl'>6</span>, <span class='fl'>6</span>, <span class='fl'>6</span>)
-<span class='no'>i</span> <span class='kw'>&lt;-</span> <span class='fu'>incidence</span>(<span class='no'>dat</span>)
-<span class='fu'>plot</span>(<span class='no'>i</span>)
-
-
-<span class='co'>## example with a function for SI</span>
-
-<span class='no'>si</span> <span class='kw'>&lt;-</span> <span class='fu'>distcrete</span>(<span class='st'>"gamma"</span>, <span class='kw'>interval</span> <span class='kw'>=</span> <span class='fl'>1L</span>,
-                 <span class='kw'>shape</span> <span class='kw'>=</span> <span class='fl'>1.5</span>,
-                 <span class='kw'>scale</span> <span class='kw'>=</span> <span class='fl'>2</span>, <span class='kw'>w</span> <span class='kw'>=</span> <span class='fl'>0</span>)
-<span class='fu'>barplot</span>(<span class='no'>si</span>$<span class='fu'>d</span>(<span class='fl'>0</span>:<span class='fl'>30</span>), <span class='kw'>main</span> <span class='kw'>=</span> <span class='st'>"Serial Interval"</span>)
-
-<span class='fu'>set.seed</span>(<span class='fl'>1</span>)
-<span class='no'>pred_1</span> <span class='kw'>&lt;-</span> <span class='fu'>project</span>(<span class='no'>i</span>, <span class='fl'>1.2</span>, <span class='no'>si</span>, <span class='kw'>n_days</span> <span class='kw'>=</span> <span class='fl'>30</span>)
-<span class='no'>pred_1</span>
-<span class='no'>my_col</span> <span class='kw'>&lt;-</span> <span class='fu'>rgb</span>(<span class='fl'>.1</span>, <span class='fl'>.1</span>, <span class='fl'>.8</span>, <span class='fl'>.4</span>)
-<span class='fu'>matplot</span>(<span class='no'>pred_1</span>, <span class='kw'>type</span> <span class='kw'>=</span> <span class='st'>"l"</span>, <span class='kw'>lty</span> <span class='kw'>=</span> <span class='fl'>1</span>, <span class='kw'>col</span> <span class='kw'>=</span> <span class='no'>my_col</span>)
-
-
-<span class='co'>## example with empirical serial interval</span>
-<span class='no'>si</span> <span class='kw'>&lt;-</span> <span class='fu'>c</span>(<span class='fl'>0</span>, <span class='fl'>1</span>, <span class='fl'>2</span>, <span class='fl'>1</span>, <span class='fl'>0.5</span>)
-
-<span class='fu'>set.seed</span>(<span class='fl'>1</span>)
-<span class='no'>pred_2</span> <span class='kw'>&lt;-</span> <span class='fu'>project</span>(<span class='no'>i</span>, <span class='fl'>1.2</span>, <span class='no'>si</span>, <span class='kw'>n_days</span> <span class='kw'>=</span> <span class='fl'>30</span>)
-<span class='no'>pred_2</span>
-<span class='fu'>matplot</span>(<span class='no'>pred_2</span>, <span class='kw'>type</span> <span class='kw'>=</span> <span class='st'>"l"</span>, <span class='kw'>lty</span> <span class='kw'>=</span> <span class='fl'>1</span>, <span class='kw'>col</span> <span class='kw'>=</span> <span class='no'>my_col</span>)
-
-}</div><img src='project-2.png' alt='' width='540' height='400' /><img src='project-3.png' alt='' width='540' height='400' /><img src='project-4.png' alt='' width='540' height='400' /><div class='input'>
-
-
 <span class='co'>## example using simulated Ebola outbreak</span>
 <span class='kw'>if</span> (<span class='fu'>require</span>(<span class='no'>outbreaks</span>) <span class='kw'>&amp;&amp;</span>
     <span class='fu'>require</span>(<span class='no'>distcrete</span>) <span class='kw'>&amp;&amp;</span>
-    <span class='fu'>require</span>(<span class='no'>incidence</span>)) {
+    <span class='fu'>require</span>(<span class='no'>incidence</span>) <span class='kw'>&amp;&amp;</span>
+    <span class='fu'>require</span>(<span class='no'>magrittr</span>)) {
 
-<span class='no'>si</span> <span class='kw'>&lt;-</span> <span class='fu'>distcrete</span>(<span class='st'>"gamma"</span>, <span class='kw'>interval</span> <span class='kw'>=</span> <span class='fl'>1L</span>,
+<span class='no'>si</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='http://www.rdocumentation.org/packages/distcrete/topics/distcrete'>distcrete</a></span>(<span class='st'>"gamma"</span>, <span class='kw'>interval</span> <span class='kw'>=</span> <span class='fl'>1L</span>,
                  <span class='kw'>shape</span> <span class='kw'>=</span> <span class='fl'>0.37</span>,
                  <span class='kw'>scale</span> <span class='kw'>=</span> <span class='fl'>41.4</span>, <span class='kw'>w</span> <span class='kw'>=</span> <span class='fl'>0</span>)
 
-<span class='no'>i</span> <span class='kw'>&lt;-</span> <span class='fu'>incidence</span>(<span class='no'>ebola_sim</span>$<span class='no'>linelist</span>$<span class='no'>date_of_onset</span>)
+<span class='no'>i</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='http://www.rdocumentation.org/packages/incidence/topics/incidence'>incidence</a></span>(<span class='no'>ebola_sim</span>$<span class='no'>linelist</span>$<span class='no'>date_of_onset</span>)
 <span class='fu'>plot</span>(<span class='no'>i</span>)
 
 
 <span class='co'>## projections after the first 100 days, over 60 days, fixed R to 2.1</span>
 
-<span class='co'>## lower R, but accounting for under-reporting</span>
 <span class='fu'>set.seed</span>(<span class='fl'>1</span>)
-<span class='no'>proj_1</span> <span class='kw'>&lt;-</span> <span class='fu'>project</span>(<span class='kw'>x</span> <span class='kw'>=</span> <span class='no'>i</span>[<span class='fl'>1</span>:<span class='fl'>100</span>], <span class='kw'>R</span> <span class='kw'>=</span> <span class='fl'>1.4</span>, <span class='kw'>si</span> <span class='kw'>=</span> <span class='no'>si</span>, <span class='kw'>n_days</span> <span class='kw'>=</span> <span class='fl'>60</span>)
+<span class='no'>proj_1</span> <span class='kw'>&lt;-</span> <span class='fu'>project</span>(<span class='kw'>x</span> <span class='kw'>=</span> <span class='no'>i</span>[<span class='fl'>1</span>:<span class='fl'>100</span>], <span class='kw'>R</span> <span class='kw'>=</span> <span class='fl'>2.1</span>, <span class='kw'>si</span> <span class='kw'>=</span> <span class='no'>si</span>, <span class='kw'>n_days</span> <span class='kw'>=</span> <span class='fl'>60</span>)
+<span class='fu'>plot</span>(<span class='no'>proj_1</span>)
 
-<span class='co'>## adding them to incidence plot</span>
-<span class='fu'>plot</span>(<span class='no'>i</span>[<span class='fl'>1</span>:<span class='fl'>160</span>], <span class='kw'>proj</span> <span class='kw'>=</span> <span class='no'>proj_1</span>)
+<span class='co'>## add projections to incidence plot</span>
+<span class='fu'>plot</span>(<span class='no'>i</span>[<span class='fl'>1</span>:<span class='fl'>160</span>]) <span class='kw'>%&gt;%</span> <span class='fu'><a href='plot.projections.html'>add_projections</a></span>(<span class='no'>proj_1</span>)
+
 
 <span class='co'>## projections after the first 100 days, over 60 days, varying R</span>
 
@@ -183,20 +205,20 @@ simulations favours more extreme predictions (see details)</dd>
 <span class='fu'>hist</span>(<span class='no'>R</span>, <span class='kw'>col</span> <span class='kw'>=</span> <span class='st'>"grey"</span>, <span class='kw'>border</span> <span class='kw'>=</span> <span class='st'>"white"</span>, <span class='kw'>main</span> <span class='kw'>=</span> <span class='st'>"Distribution of R"</span>)
 <span class='no'>proj_2</span> <span class='kw'>&lt;-</span> <span class='fu'>project</span>(<span class='kw'>x</span> <span class='kw'>=</span> <span class='no'>i</span>[<span class='fl'>1</span>:<span class='fl'>100</span>], <span class='kw'>R</span> <span class='kw'>=</span> <span class='no'>R</span>, <span class='kw'>si</span> <span class='kw'>=</span> <span class='no'>si</span>, <span class='kw'>n_days</span> <span class='kw'>=</span> <span class='fl'>60</span>)
 
-<span class='co'>## adding them to incidence plot</span>
-<span class='fu'>plot</span>(<span class='no'>i</span>[<span class='fl'>1</span>:<span class='fl'>160</span>], <span class='kw'>proj</span> <span class='kw'>=</span> <span class='no'>proj_2</span>)
+<span class='co'>## add projections to incidence plot</span>
+<span class='fu'>plot</span>(<span class='no'>i</span>[<span class='fl'>1</span>:<span class='fl'>160</span>]) <span class='kw'>%&gt;%</span> <span class='fu'><a href='plot.projections.html'>add_projections</a></span>(<span class='no'>proj_2</span>)
 
 
-<span class='co'>## same, but R is constant per simulation</span>
+<span class='co'>## same with R constant per simulation (more variability)</span>
 
 <span class='fu'>set.seed</span>(<span class='fl'>1</span>)
 <span class='no'>proj_3</span> <span class='kw'>&lt;-</span> <span class='fu'>project</span>(<span class='kw'>x</span> <span class='kw'>=</span> <span class='no'>i</span>[<span class='fl'>1</span>:<span class='fl'>100</span>], <span class='kw'>R</span> <span class='kw'>=</span> <span class='no'>R</span>, <span class='kw'>si</span> <span class='kw'>=</span> <span class='no'>si</span>, <span class='kw'>n_days</span> <span class='kw'>=</span> <span class='fl'>60</span>,
                   <span class='kw'>R_fix_within</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)
 
-<span class='co'>## adding them to incidence plot</span>
-<span class='fu'>plot</span>(<span class='no'>i</span>[<span class='fl'>1</span>:<span class='fl'>160</span>], <span class='kw'>proj</span> <span class='kw'>=</span> <span class='no'>proj_3</span>)
+<span class='co'>## add projections to incidence plot</span>
+<span class='fu'>plot</span>(<span class='no'>i</span>[<span class='fl'>1</span>:<span class='fl'>160</span>]) <span class='kw'>%&gt;%</span> <span class='fu'><a href='plot.projections.html'>add_projections</a></span>(<span class='no'>proj_3</span>)
 
-}</div><img src='project-6.png' alt='' width='540' height='400' /><img src='project-7.png' alt='' width='540' height='400' /><div class='input'>
+}</div><div class='img'><img src='project-1.png' alt='' width='700' height='433' /></div><div class='img'><img src='project-2.png' alt='' width='700' height='433' /></div><div class='input'>
 </div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
@@ -222,11 +244,14 @@ Pierre Nouvellet and Thibaut Jombart
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="http://hadley.github.io/pkgdown/">pkgdown</a>.</p>
+  <p>Site built with <a href="http://pkgdown.r-lib.org/">pkgdown</a>.</p>
 </div>
 
       </footer>
    </div>
 
+  
+
   </body>
 </html>
+

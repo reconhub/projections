@@ -71,13 +71,13 @@ i <- incidence(onset)
 plot(i) # full outbreak
 ```
 
-![plot of chunk onset](figure/onset-1.png)
+<img src="figure/onset-1.png" title="plot of chunk onset" alt="plot of chunk onset" width="80%" />
 
 ```r
 plot(i[1:160]) # first 160 days
 ```
 
-![plot of chunk onset](figure/onset-2.png)
+<img src="figure/onset-2.png" title="plot of chunk onset" alt="plot of chunk onset" width="80%" />
 
 We create a serial interval distribution using `distcrete`:
 
@@ -120,7 +120,7 @@ plot(1:50, si$d(1:50), type = "h", lwd = 3, col = "navy",
      ylab = "Relative infectiousness")
 ```
 
-![plot of chunk si](figure/si-1.png)
+<img src="figure/si-1.png" title="plot of chunk si" alt="plot of chunk si" width="80%" />
 
 
 We predict future incidence based on these data, assuming a reproduction number
@@ -170,7 +170,7 @@ pred
 plot(pred) # default plot of quantiles
 ```
 
-![plot of chunk predictions](figure/predictions-1.png)
+<img src="figure/predictions-1.png" title="plot of chunk predictions" alt="plot of chunk predictions" width="80%" />
 
 ```r
 apply(pred, 1, mean) # average prediction per day
@@ -264,7 +264,7 @@ p
 ## `geom_smooth()` using method = 'gam'
 ```
 
-![plot of chunk plots](figure/plots-1.png)
+<img src="figure/plots-1.png" title="plot of chunk plots" alt="plot of chunk plots" width="80%" />
 
 
 Predictions can also be added to the epicurve:
@@ -275,7 +275,7 @@ library(magrittr)
 plot(i[20:160]) %>% add_projections(pred)
 ```
 
-![plot of chunk plot_with_incidence](figure/plot_with_incidence-1.png)
+<img src="figure/plot_with_incidence-1.png" title="plot of chunk plot_with_incidence" alt="plot of chunk plot_with_incidence" width="80%" />
 
 
 
