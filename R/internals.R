@@ -7,3 +7,17 @@ assert_reporting <- function(x) {
   if (x <= 0) stop("reporting <= 0")
   if (x > 1) stop("reporting > 1")
 }
+
+
+
+
+## A fix for the nonesensical behaviour of `sample` when first argument is of
+## length 1.
+
+sample_ <- function(x, ...) {
+  if (length(x) <= 1L) {
+    x <- c(x, x)
+  }
+
+  sample(x, ...)
+}

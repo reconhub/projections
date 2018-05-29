@@ -219,12 +219,12 @@ project <- function(x, R, si, n_sim = 100, n_days = 7,
   ## projected one, using a Binomial sampling.
 
   if (R_fix_within) {
-    R <- sample(R, n_sim, replace = TRUE)
+    R <- sample_(R, n_sim, replace = TRUE)
   }
 
   for (i in t_sim) {
     if (!R_fix_within) {
-      R <- sample(R, n_sim, replace = TRUE)
+      R <- sample_(R, n_sim, replace = TRUE)
     }
     lambda <- utils::tail(ws, i) %*% out[1:i, ]
     ## lambda <- lambda / reporting
