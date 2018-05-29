@@ -54,44 +54,11 @@ The decision to fix R values within simulations
 }
 \examples{
 
-if (require(distcrete) && require(incidence)) {
-
-## simulate basic epicurve
-dat <- c(0, 2, 2, 3, 3, 5, 5, 5, 6, 6, 6, 6)
-i <- incidence(dat)
-plot(i)
-
-
-## example with a function for SI
-
-si <- distcrete("gamma", interval = 1L,
-                 shape = 1.5,
-                 scale = 2, w = 0)
-barplot(si$d(0:30), main = "Serial Interval")
-
-set.seed(1)
-pred_1 <- project(i, 1.2, si, n_days = 30)
-pred_1
-my_col <- rgb(.1, .1, .8, .4)
-matplot(pred_1, type = "l", lty = 1, col = my_col)
-
-
-## example with empirical serial interval
-si <- c(0, 1, 2, 1, 0.5)
-
-set.seed(1)
-pred_2 <- project(i, 1.2, si, n_days = 30)
-pred_2
-matplot(pred_2, type = "l", lty = 1, col = my_col)
-
-}
-
-
-
 ## example using simulated Ebola outbreak
 if (require(outbreaks) &&
     require(distcrete) &&
-    require(incidence)) {
+    require(incidence) &&)
+    require(magrittr)) {
 
 si <- distcrete("gamma", interval = 1L,
                  shape = 0.37,
@@ -103,12 +70,13 @@ plot(i)
 
 ## projections after the first 100 days, over 60 days, fixed R to 2.1
 
-## lower R, but accounting for under-reporting
 set.seed(1)
-proj_1 <- project(x = i[1:100], R = 1.4, si = si, n_days = 60)
+proj_1 <- project(x = i[1:100], R = 2.1, si = si, n_days = 60)
+plot(proj_1)
 
-## adding them to incidence plot
-plot(i[1:160], proj = proj_1)
+## add projections to incidence plot
+plot(i[1:160]) \%>\% add_projections(proj_1)
+
 
 ## projections after the first 100 days, over 60 days, varying R
 
@@ -117,18 +85,18 @@ R <- rnorm(100, 1.8, 0.2)
 hist(R, col = "grey", border = "white", main = "Distribution of R")
 proj_2 <- project(x = i[1:100], R = R, si = si, n_days = 60)
 
-## adding them to incidence plot
-plot(i[1:160], proj = proj_2)
+## add projections to incidence plot
+plot(i[1:160]) \%>\% add_projections(proj_2)
 
 
-## same, but R is constant per simulation
+## same with R constant per simulation (more variability)
 
 set.seed(1)
 proj_3 <- project(x = i[1:100], R = R, si = si, n_days = 60,
                   R_fix_within = TRUE)
 
-## adding them to incidence plot
-plot(i[1:160], proj = proj_3)
+## add projections to incidence plot
+plot(i[1:160]) \%>\% add_projections(proj_3)
 
 }
 

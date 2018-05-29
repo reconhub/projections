@@ -2,19 +2,23 @@
 % Please edit documentation in R/plot.projections.R
 \name{plot.projections}
 \alias{plot.projections}
+\alias{add_projections}
 \title{Plot projections objects}
 \usage{
-\method{plot}{projections}(x, y = c(0.05, 0.95), col = "red", ...)
+plot.projections(x, y = c(0.01, 0.05, 0.1, 0.5), palette = quantile_pal,
+  ...)
+
+add_projections(p, x, y = c(0.01, 0.05, 0.1, 0.5), palette = quantile_pal)
 }
 \arguments{
 \item{x}{A \code{projections} object.}
 
 \item{y}{A vector of 2 quantiles to plot}
 
+\item{...}{Further arguments to be passed to other methods (not used).}
+
 \item{col}{A vector (recycled if needed) of up to 3 colors for the median,
 lower and upper quantiles.}
-
-\item{...}{Further arguments to be passed to other methods (not used).}
 }
 \description{
 This method is designed for plotting \code{projections} objects, output by
@@ -25,7 +29,8 @@ well as lower and upper bounds defined by quantiles.
 
 if (require(outbreaks) &&
     require(distcrete) &&
-    require(incidence)) {
+    require(incidence) &&
+    require(magrittr)) {
 
 si <- distcrete("gamma", interval = 1L,
                  shape = 0.37,
@@ -42,10 +47,14 @@ proj <- project(x = i[1:100], R = 2.1, si = si, n_days = 60)
 plot(proj)
 
 ## adding them to incidence plot
-plot(i[1:160], proj = proj)
+plot(i) \%>\% add_projections(proj)
+plot(i[1:160]) \%>\% add_projections(proj)
 
-## same, with customised colors
-plot(i[1:160], proj = plot(proj, col = c("red", "gold", "gold")))
+## same, with customised quantiles and colors
+quantiles <- c(.001, .01, 0.05, .1, .2, .3, .4, .5)
+pal <- colorRampPalette(c("#b3c6ff", "#00e64d", "#cc0066"))
+plot(i[1:200]) \%>\%
+  add_projections(proj, quantiles, palette = pal)
 
 }
 

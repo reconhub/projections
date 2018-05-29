@@ -21,7 +21,8 @@
 #'
 #' if (require(outbreaks) &&
 #'     require(distcrete) &&
-#'     require(incidence)) {
+#'     require(incidence) &&
+#'     require(magrittr)) {
 #'
 #' si <- distcrete("gamma", interval = 1L,
 #'                  shape = 0.37,
@@ -38,10 +39,14 @@
 #' plot(proj)
 #'
 #' ## adding them to incidence plot
-#' plot(i[1:160], proj = proj)
+#' plot(i) %>% add_projections(proj)
+#' plot(i[1:160]) %>% add_projections(proj)
 #'
-#' ## same, with customised colors
-#' plot(i[1:160], proj = plot(proj, col = c("red", "gold", "gold")))
+#' ## same, with customised quantiles and colors
+#' quantiles <- c(.001, .01, 0.05, .1, .2, .3, .4, .5)
+#' pal <- colorRampPalette(c("#b3c6ff", "#00e64d", "#cc0066"))
+#' plot(i[1:200]) %>%
+#'   add_projections(proj, quantiles, palette = pal)
 #'
 #' }
 #'
