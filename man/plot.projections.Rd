@@ -5,8 +5,8 @@
 \alias{add_projections}
 \title{Plot projections objects}
 \usage{
-plot.projections(x, y = c(0.01, 0.05, 0.1, 0.5), palette = quantile_pal,
-  ...)
+\method{plot}{projections}(x, y = c(0.01, 0.05, 0.1, 0.5),
+  palette = quantile_pal, ...)
 
 add_projections(p, x, y = c(0.01, 0.05, 0.1, 0.5), palette = quantile_pal)
 }
