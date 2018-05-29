@@ -6,7 +6,7 @@
 
 ```{r options, echo = FALSE}
 library(knitr)
-opts_chunk$set(fig.width = 7, fig.height = 4, out.width = "80%")
+opts_chunk$set(fig.width = 10, fig.height = 6, out.width = "80%")
 ```
 
 
