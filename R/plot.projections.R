@@ -69,3 +69,45 @@ plot.projections <- function(x, y = c(0.01, 0.05, 0.1, 0.5),
 
   out
 }
+
+
+
+
+
+## This function will take an existing 'incidence' plot object ('p') and add
+## lines from an 'projections' object ('x'), as returned by projections::project
+
+#' @export
+#' @rdname plot.projections
+add_projections <- function(p, x, y = c(0.01, 0.05, 0.1, 0.5),
+                            palette = quantile_pal) {
+
+  if (!inherits(x, "projections")) {
+    stop("x must be a 'projections' object;",
+         "\nsee ?projections::project")
+  }
+  y <- sort(unique(c(y, 1-y)))
+  y <- y[y > 0 & y < 1]
+
+  stats <- t(apply(x, 1, stats::quantile, y))
+  dates <- attr(x, "dates")
+  quantiles <- rep(colnames(stats), each = nrow(stats))
+  quantiles <- factor(quantiles, levels = unique(quantiles))
+  df <- cbind.data.frame(dates = rep(dates, ncol(stats)),
+                         quantile = quantiles,
+                         value = as.vector(stats),
+                         stringsAsFactors = FALSE)
+
+  colors <- color_quantiles(df$quantile, palette)
+
+  p <- suppressMessages(
+    p +
+      ggplot2::geom_line(
+        data = df,
+        aes_string(x = "dates", y = "value", color = "quantile")) +
+      ggplot2::scale_color_manual(values = colors)
+  )
+
+  p
+}
+
