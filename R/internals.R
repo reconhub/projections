@@ -11,9 +11,26 @@ assert_reporting <- function(x) {
 
 
 
+
 ## A fix for the nonesensical behaviour of `sample` when first argument is of
 ## length 1.
 
 sample_ <- function(x, ...) {
   x[sample.int(length(x), ...)]
+}
+
+
+
+
+
+## Define colors for quantiles
+quantile_pal <- grDevices::colorRampPalette(
+  c("#e6b3ff", "#ff3333", "#000000"), bias = 4)
+
+color_quantiles <- function(x, palette = quantile_pal) {
+  labels <- as.character(unique(x))
+  dist_from_median <- 50 - abs(50-as.numeric(sub("%", "", labels)))
+  out <- palette(51)[dist_from_median + 1]
+  names(out) <- labels
+  out
 }

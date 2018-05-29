@@ -46,34 +46,22 @@
 #' }
 #'
 
-plot.projections <- function(x, y = c(0.05, 0.95), col = "red", ...) {
-  if (length(y) != 2L) {
-    msg <- "y should have two quantile values"
-    stop(msg)
-  }
-
+plot.projections <- function(x, y = c(0.01, 0.05, 0.5, 0.95, 0.99),
+                             palette = quantile_pal, ...) {
   y <- sort(y)
-  col <- rep(col, length = 3)
 
-  get_stats <- function(v) {
-    c(median = stats::median(v),
-      stats::quantile(v, y))
-  }
-
+  stats <- t(apply(x, 1, stats::quantile, y))
   dates <- attr(x, "dates")
-  stats <- t(apply(x, 1, get_stats))
-  colnames(stats) <- c("median", "lwr", "upr")
-  df <- cbind.data.frame(dates, stats)
+  df <- cbind.data.frame(dates = rep(dates, ncol(stats)),
+                         quantile = rep(colnames(stats), each = nrow(stats)),
+                         value = as.vector(stats))
 
+  colors <- color_quantiles(df$quantile, palette)
 
   out <- ggplot2::ggplot(df, ggplot2::aes_string(x = "dates")) +
-    ggplot2::geom_line(ggplot2::aes_string(y = "median"),
-                       linetype = 1, color = col[1]) +
-    ggplot2::geom_line(ggplot2::aes_string(y = "lwr"),
-                       linetype = 2, color = col[2]) +
-    ggplot2::geom_line(ggplot2::aes_string(y = "upr"),
-                       linetype = 2, color = col[3]) +
-    ggplot2::labs(y = "Predicted incidence")
+    ggplot2::geom_line(aes_string(y = "value", color = "quantile")) +
+    ggplot2::scale_color_manual(values = colors) +
+    ggplot2::labs(x = "", y = "Predicted incidence")
 
   out
 }
