@@ -25,7 +25,7 @@ sample_ <- function(x, ...) {
 
 ## Define colors for quantiles
 quantile_pal <- grDevices::colorRampPalette(
-  c("#e6b3ff", "#ff3333", "#000000"), bias = 4)
+  c("#b3c6ff", "#d147a3", "#993366"), bias = 2)
 
 color_quantiles <- function(x, palette = quantile_pal) {
   labels <- as.character(unique(x))

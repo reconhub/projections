@@ -46,15 +46,19 @@
 #' }
 #'
 
-plot.projections <- function(x, y = c(0.01, 0.05, 0.5, 0.95, 0.99),
+plot.projections <- function(x, y = c(0.01, 0.05, 0.1, 0.5),
                              palette = quantile_pal, ...) {
-  y <- sort(y)
+  y <- sort(unique(c(y, 1-y)))
+  y <- y[y > 0 & y < 1]
 
   stats <- t(apply(x, 1, stats::quantile, y))
   dates <- attr(x, "dates")
+  quantiles <- rep(colnames(stats), each = nrow(stats))
+  quantiles <- factor(quantiles, levels = unique(quantiles))
   df <- cbind.data.frame(dates = rep(dates, ncol(stats)),
-                         quantile = rep(colnames(stats), each = nrow(stats)),
-                         value = as.vector(stats))
+                         quantile = quantiles,
+                         value = as.vector(stats),
+                         stringsAsFactors = FALSE)
 
   colors <- color_quantiles(df$quantile, palette)
 
