@@ -1,19 +1,27 @@
 #' Plot projections objects
 #'
-#' This method is designed for plotting \code{projections} objects, output by
-#' the function \code{\link{project}}. It plots the mean projected incidence, as
-#' well as lower and upper bounds defined by quantiles.
+#' The \code{plot} method of \code{projections} objects (output by the function
+#' \code{\link{project}}) shows quantiles of predicted incidence over time. The
+#' function \code{add_projections} can be used to add a similar plot to an
+#' existing \code{incidence} plot. This latter function is piping friendly (see
+#' examples).
+#'
+#' @seealso \code{\link{project}} to generate projections
 #'
 #' @author Thibaut Jombart \email{thibautjombart@@gmail.com}
 #'
 #' @export
+#' @importFrom graphics plot
+#'
+#' @aliases plot.projections
 #'
 #' @param x A \code{projections} object.
 #'
-#' @param y A vector of 2 quantiles to plot
+#' @param y A vector of quantiles to plot, automatically completed to be
+#'   symmetric around the median.
 #'
-#' @param col A vector (recycled if needed) of up to 3 colors for the median,
-#'   lower and upper quantiles.
+#' @param palette A color palette to be used for plotting the quantile lines;
+#'   defaults to \code{quantile_pal}.
 #'
 #' @param ... Further arguments to be passed to other methods (not used).
 #'
@@ -68,7 +76,7 @@ plot.projections <- function(x, y = c(0.01, 0.05, 0.1, 0.5),
   colors <- color_quantiles(df$quantile, palette)
 
   out <- ggplot2::ggplot(df, ggplot2::aes_string(x = "dates")) +
-    ggplot2::geom_line(aes_string(y = "value", color = "quantile")) +
+    ggplot2::geom_line(ggplot2::aes_string(y = "value", color = "quantile")) +
     ggplot2::scale_color_manual(values = colors) +
     ggplot2::labs(x = "", y = "Predicted incidence")
 
@@ -84,6 +92,7 @@ plot.projections <- function(x, y = c(0.01, 0.05, 0.1, 0.5),
 
 #' @export
 #' @rdname plot.projections
+#' @param p A previous incidence plot to which projections should be added.
 add_projections <- function(p, x, y = c(0.01, 0.05, 0.1, 0.5),
                             palette = quantile_pal) {
 
@@ -109,7 +118,7 @@ add_projections <- function(p, x, y = c(0.01, 0.05, 0.1, 0.5),
     p +
       ggplot2::geom_line(
         data = df,
-        aes_string(x = "dates", y = "value", color = "quantile")) +
+        ggplot2::aes_string(x = "dates", y = "value", color = "quantile")) +
       ggplot2::scale_color_manual(values = colors)
   )
 

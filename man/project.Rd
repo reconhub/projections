@@ -57,7 +57,7 @@ The decision to fix R values within simulations
 ## example using simulated Ebola outbreak
 if (require(outbreaks) &&
     require(distcrete) &&
-    require(incidence) &&)
+    require(incidence) &&
     require(magrittr)) {
 
 si <- distcrete("gamma", interval = 1L,

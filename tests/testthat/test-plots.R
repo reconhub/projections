@@ -20,37 +20,33 @@ test_that("Test against reference results", {
 
 
   ## using simulated ebola data
-  if (require(outbreaks) &&
-        require(distcrete) &&
-        require(incidence) &&
-        require(magrittr)) {
 
-    si <- distcrete("gamma", interval = 1L,
-                    shape = 0.37,
-                    scale = 41.4, w = 0)
+  si <- distcrete("gamma", interval = 1L,
+                  shape = 0.37,
+                  scale = 41.4, w = 0)
 
-    i <- incidence(ebola_sim$linelist$date_of_onset)
-    plot(i)
+  i <- incidence(ebola_sim$linelist$date_of_onset)
+  plot(i)
 
-    ## add projections after the first 100 days, over 60 days
-    set.seed(1)
-    proj <- project(x = i[1:100], R = 2.1, si = si, n_days = 60)
+  ## add projections after the first 100 days, over 60 days
+  set.seed(1)
+  proj <- project(x = i[1:100], R = 2.1, si = si, n_days = 60)
 
-    ## plotting projections
-    vdiffr::expect_doppelganger("projections using EVD", plot(proj))
+  ## plotting projections
+  vdiffr::expect_doppelganger("projections using EVD", plot(proj))
 
-    ## adding projections to incidence plot
-    p <- plot(i) %>% add_projections(proj)
-    vdiffr::expect_doppelganger("projections using EVD with incidence", p)
+  ## adding projections to incidence plot
+  p <- plot(i) %>% add_projections(proj)
+  vdiffr::expect_doppelganger("projections using EVD with incidence", p)
 
-    ## same, custom colors and quantiles
-    quantiles <- c(.001, .01, 0.05, .1, .2, .3, .4, .5)
-    pal <- colorRampPalette(c("#b3c6ff", "#00e64d", "#cc0066"))
-    p <- plot(i[1:200]) %>%
-      add_projections(proj, quantiles, palette = pal)
+  ## same, custom colors and quantiles
+  quantiles <- c(.001, .01, 0.05, .1, .2, .3, .4, .5)
+  pal <- colorRampPalette(c("#b3c6ff", "#00e64d", "#cc0066"))
+  p <- plot(i[1:200]) %>%
+    add_projections(proj, quantiles, palette = pal)
 
-    vdiffr::expect_doppelganger("projections using EVD with incidence and custom", p)
-  }
+  vdiffr::expect_doppelganger("projections using EVD with incidence and custom", p)
+
 })
 
 

@@ -13,17 +13,22 @@ add_projections(p, x, y = c(0.01, 0.05, 0.1, 0.5), palette = quantile_pal)
 \arguments{
 \item{x}{A \code{projections} object.}
 
-\item{y}{A vector of 2 quantiles to plot}
+\item{y}{A vector of quantiles to plot, automatically completed to be
+symmetric around the median.}
+
+\item{palette}{A color palette to be used for plotting the quantile lines;
+defaults to \code{quantile_pal}.}
 
 \item{...}{Further arguments to be passed to other methods (not used).}
 
-\item{col}{A vector (recycled if needed) of up to 3 colors for the median,
-lower and upper quantiles.}
+\item{p}{A previous incidence plot to which projections should be added.}
 }
 \description{
-This method is designed for plotting \code{projections} objects, output by
-the function \code{\link{project}}. It plots the mean projected incidence, as
-well as lower and upper bounds defined by quantiles.
+The \code{plot} method of \code{projections} objects (output by the function
+\code{\link{project}}) shows quantiles of predicted incidence over time. The
+function \code{add_projections} can be used to add a similar plot to an
+existing \code{incidence} plot. This latter function is piping friendly (see
+examples).
 }
 \examples{
 
@@ -58,6 +63,9 @@ plot(i[1:200]) \%>\%
 
 }
 
+}
+\seealso{
+\code{\link{project}} to generate projections
 }
 \author{
 Thibaut Jombart \email{thibautjombart@gmail.com}
