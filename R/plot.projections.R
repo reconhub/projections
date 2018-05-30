@@ -63,12 +63,19 @@
 #' set.seed(1)
 #' proj <- project(x = i[1:100], R = 2.1, si = si, n_days = 60)
 #'
-#' ## plotting projections
+#' ## plotting projections: different options
 #' plot(proj)
+#' plot(proj, boxplots = FALSE)
+#' plot(proj, boxplots = TRUE, quantiles = FALSE)
+#' plot(proj, boxplots = TRUE, quantiles = FALSE, outliers = FALSE)
+#' plot(proj, boxplots = FALSE, linetype = 3)
 #'
 #' ## adding them to incidence plot
 #' plot(i) %>% add_projections(proj)
 #' plot(i[1:160]) %>% add_projections(proj)
+#' plot(i[1:160]) %>% add_projections(proj, boxplots = FALSE)
+#' plot(i[1:160]) %>%
+#'   add_projections(proj, boxplots_alpha = .3, boxplots_color = "red")
 #'
 #' ## same, with customised quantiles and colors
 #' quantiles <- c(.001, .01, 0.05, .1, .2, .3, .4, .5)
