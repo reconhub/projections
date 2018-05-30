@@ -7,7 +7,7 @@
 \usage{
 \method{plot}{projections}(x, ...)
 
-add_projections(p, x, quantiles = c(0.01, 0.05, 0.1, 0.5),
+add_projections(p, x, quantiles = c(0.01, 0.05, 0.1, 0.5), boxplots = TRUE,
   palette = quantile_pal)
 }
 \arguments{
@@ -19,6 +19,8 @@ add_projections(p, x, quantiles = c(0.01, 0.05, 0.1, 0.5),
 
 \item{quantiles}{A vector of quantiles to plot, automatically completed to be
 symmetric around the median.}
+
+\item{boxplots}{A logical indicating if boxplots should be drawn.}
 
 \item{palette}{A color palette to be used for plotting the quantile lines;
 defaults to \code{quantile_pal}.}

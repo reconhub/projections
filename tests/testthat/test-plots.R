@@ -34,10 +34,18 @@ test_that("Test against reference results", {
 
   ## plotting projections
   vdiffr::expect_doppelganger("projections using EVD", plot(proj))
+  vdiffr::expect_doppelganger("projections using EVD no box",
+                              plot(proj, boxplots = FALSE))
+  vdiffr::expect_doppelganger("projections using EVD box only",
+                              plot(proj, quantiles = FALSE))
 
   ## adding projections to incidence plot
   p <- plot(i) %>% add_projections(proj)
-  vdiffr::expect_doppelganger("projections using EVD with incidence", p)
+  vdiffr::expect_doppelganger("projections EVD with incidence", p)
+  p <- plot(i) %>% add_projections(proj, boxplots = FALSE)
+  vdiffr::expect_doppelganger("projections EVD with incidence no box", p)
+  p <- plot(i) %>% add_projections(proj, quantiles = FALSE)
+  vdiffr::expect_doppelganger("projections EVD with incidence box only", p)
 
   ## same, custom colors and quantiles
   quantiles <- c(.001, .01, 0.05, .1, .2, .3, .4, .5)
@@ -45,7 +53,7 @@ test_that("Test against reference results", {
   p <- plot(i[1:200]) %>%
     add_projections(proj, quantiles, palette = pal)
 
-  vdiffr::expect_doppelganger("projections using EVD with incidence and custom", p)
+  vdiffr::expect_doppelganger("projections EVD with incidence and custom", p)
 
 })
 

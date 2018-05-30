@@ -23,6 +23,8 @@
 #' @param palette A color palette to be used for plotting the quantile lines;
 #'   defaults to \code{quantile_pal}.
 #'
+#' @param boxplots A logical indicating if boxplots should be drawn.
+#'
 #' @param ... Further arguments to be passed to other methods (not used).
 #'
 #' @examples
@@ -77,7 +79,7 @@ plot.projections <- function(x, ...) {
 #' @rdname plot.projections
 #' @param p A previous incidence plot to which projections should be added.
 add_projections <- function(p, x, quantiles = c(0.01, 0.05, 0.1, 0.5),
-                            boxplot = TRUE, palette = quantile_pal) {
+                            boxplots = TRUE, palette = quantile_pal) {
 
   if (!inherits(x, "projections")) {
     stop("x must be a 'projections' object;",
@@ -93,17 +95,25 @@ add_projections <- function(p, x, quantiles = c(0.01, 0.05, 0.1, 0.5),
 
   out <- p
 
-  if (boxplot) {
+
+  ## This is the part handling the boxplots
+
+  if (isTRUE(boxplots)) {
     df <- as.data.frame(x, long = TRUE)
     out <- suppressMessages(
       out +
         ggplot2::geom_boxplot(
           data = df,
-          aes_string(x = "date", y = "incidence", group = "date")
+          ggplot2::aes_string(x = "date", y = "incidence", group = "date")
         )
       )
-    }
+  }
 
+
+  ## This is the part handling the quantile lines
+  if (isFALSE(quantiles)) {
+    quantiles <- NULL
+  }
   if (!is.null(quantiles)) {
     quantiles <- sort(unique(c(quantiles, 1 - quantiles)))
     quantiles <- quantiles[quantiles > 0 & quantiles < 1]
