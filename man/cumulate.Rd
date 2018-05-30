@@ -33,7 +33,7 @@ if (require(distcrete) &&
   plot_1 <- plot(pred_1)
 
   ## cumulative predictions
-  pred_1_cum <- cumulate(pred_1_cum)
+  pred_1_cum <- cumulate(pred_1)
   pred_1_cum
   plot(pred_1_cum)
 }

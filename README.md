@@ -50,7 +50,9 @@ The main features of the package include:
   
 - **`plot`/`print`**: plotting and printing methods for `projections` objects.
 
-- **`get_dates`/`get_incidence`**: accessors for `projections` objects.
+- **`get_dates`**: accessors for `projections` objects.
+
+- **`cumulate`**: cumulate predicted incidence over time.
 
 - **`as.data.frame`**: conversion from `projections` objects to `data.frame`.
 
@@ -167,10 +169,23 @@ pred
 ```
 
 ```r
-plot(pred) # default plot of quantiles
+plot(pred) # default plot
 ```
 
 <img src="figure/predictions-1.png" title="plot of chunk predictions" alt="plot of chunk predictions" width="80%" />
+
+```r
+pred_cum <- cumulate(pred) # cumulative predictions
+plot(pred) # default plot
+```
+
+<img src="figure/predictions-2.png" title="plot of chunk predictions" alt="plot of chunk predictions" width="80%" />
+
+```r
+plot(pred_cum) # plot cumulative predictions
+```
+
+<img src="figure/predictions-3.png" title="plot of chunk predictions" alt="plot of chunk predictions" width="80%" />
 
 ```r
 apply(pred, 1, mean) # average prediction per day
