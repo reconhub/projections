@@ -226,5 +226,6 @@ project <- function(x, R, si, n_sim = 100, n_days = 7,
 
   class(out) <- c("projections", "matrix")
   attr(out, "dates") <- dates
+  attr(out, "cumulative") <- FALSE
   return(out)
 }

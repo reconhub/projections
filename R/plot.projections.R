@@ -89,7 +89,10 @@
 plot.projections <- function(x, ...) {
   empty <- ggplot2::ggplot()
   out <- add_projections(empty, x, ...)
-  out <- out + ggplot2::labs(x = "", y = "Predicted incidence")
+  ylab <- ifelse(isTRUE(attr(x, "cumulative")),
+                 "Predicted cumulative incidence",
+                 "Predicted incidence")
+  out <- out + ggplot2::labs(x = "", y = ylab)
   out
 }
 

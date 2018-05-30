@@ -12,20 +12,23 @@
 #' used)
 #'
 print.projections <- function(x, ...){
-    cat("\n/// Incidence projections //\n")
-    cat("\n  // class:", paste(class(x), collapse=", "))
-    cat("\n  //", format(nrow(x), big.mark=","),
-        "dates (rows);",
-        format(ncol(x), big.mark=","),
-        "simulations (columns)\n")
+  cat("\n/// Incidence projections //\n")
+  cat("\n  // class:", paste(class(x), collapse=", "))
+  cat("\n  //", format(nrow(x), big.mark=","),
+      "dates (rows);",
+      format(ncol(x), big.mark=","),
+      "simulations (columns)\n")
 
-    cat("\n // first rows/columns:\n")
-    p <- min(6, ncol(x))
-    n <- min(4, nrow(x))
-    print(x[1:n, 1:p])
-    if (n < nrow(x)) replicate(3, cat(" .\n"))
+  cat("\n // first rows/columns:\n")
+  p <- min(6, ncol(x))
+  n <- min(4, nrow(x))
+  print(x[1:n, 1:p])
+  if (n < nrow(x)) replicate(3, cat(" .\n"))
 
-    cat("\n // dates:\n")
-    print(attr(x, "dates"))
-    cat("\n")
+  cat("\n // dates:\n")
+  print(attr(x, "dates"))
+  if (!is.null(attr(x, "cumulative"))) {
+    cat("\n // cumulative projections")
+  }
+  cat("\n")
 }
