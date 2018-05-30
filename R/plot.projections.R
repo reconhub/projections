@@ -25,7 +25,25 @@
 #'
 #' @param boxplots A logical indicating if boxplots should be drawn.
 #'
-#' @param ... Further arguments to be passed to other methods (not used).
+#' @param linetype An integer indicating the type of line used for plotting the
+#'   quantiles; defaults to 1 for a plain line.
+#'
+#' @param linesize An integer indicating the size of line used for plotting the
+#'   quantiles; defaults to 0.5.
+#'
+#' @param boxplots_color Any valid color, used for the boxplot.
+#'
+#' @param boxplots_alpha A number used to control the transparency of the
+#'   boxplots, from 0 (full transparency) to 1 (full opacity); defaults to 0.8.
+#'
+#' @param quantiles_alpha A number used to control the transparency of the
+#'   quantile lines, from 0 (full transparency) to 1 (full opacity); defaults to
+#'   1.
+#'
+#' @param outliers A logical indicating if outliers should be displayed
+#'   alongside the boxplots; defaults to \code{TRUE}.
+#'
+#' @param ... Further arguments to be passed to \code{add_projections}.
 #'
 #' @examples
 #'
@@ -79,7 +97,12 @@ plot.projections <- function(x, ...) {
 #' @rdname plot.projections
 #' @param p A previous incidence plot to which projections should be added.
 add_projections <- function(p, x, quantiles = c(0.01, 0.05, 0.1, 0.5),
-                            boxplots = TRUE, palette = quantile_pal) {
+                            boxplots = TRUE, palette = quantile_pal,
+                            quantiles_alpha = 1,
+                            linetype = 1, linesize = 0.5,
+                            boxplots_color = "#47476b",
+                            boxplots_alpha = 0.8,
+                            outliers = TRUE) {
 
   if (!inherits(x, "projections")) {
     stop("x must be a 'projections' object;",
@@ -104,7 +127,10 @@ add_projections <- function(p, x, quantiles = c(0.01, 0.05, 0.1, 0.5),
       out +
         ggplot2::geom_boxplot(
           data = df,
-          ggplot2::aes_string(x = "date", y = "incidence", group = "date")
+          ggplot2::aes_string(x = "date", y = "incidence", group = "date"),
+          color = transp(boxplots_color, boxplots_alpha),
+          outlier.size = 0.5,
+          outlier.color = ifelse(outliers, boxplots_color, "transparent")
         )
       )
   }
@@ -128,12 +154,16 @@ add_projections <- function(p, x, quantiles = c(0.01, 0.05, 0.1, 0.5),
                            stringsAsFactors = FALSE)
 
     colors <- color_quantiles(df$quantile, palette)
+    colors <- transp(colors, quantiles_alpha)
 
     out <- suppressMessages(
       out +
         ggplot2::geom_line(
           data = df,
-          ggplot2::aes_string(x = "dates", y = "value", color = "quantile")) +
+          ggplot2::aes_string(x = "dates", y = "value", color = "quantile"),
+          linetype = linetype,
+          size = linesize
+        ) +
         ggplot2::scale_color_manual(values = colors)
     )
   }

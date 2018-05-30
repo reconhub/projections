@@ -34,3 +34,15 @@ color_quantiles <- function(x, palette = quantile_pal) {
   names(out) <- labels
   out
 }
+
+
+
+
+## Function making colors transparent
+
+transp <- function(col, alpha = .5){
+    res <- apply(grDevices::col2rgb(col), 2,
+                 function(c)
+                 grDevices::rgb(c[1]/255, c[2]/255, c[3]/255, alpha))
+    return(res)
+}

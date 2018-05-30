@@ -34,8 +34,15 @@ test_that("Test against reference results", {
 
   ## plotting projections
   vdiffr::expect_doppelganger("projections using EVD", plot(proj))
+  vdiffr::expect_doppelganger("projections using EVD no outliers",
+                              plot(proj, outliers = FALSE))
   vdiffr::expect_doppelganger("projections using EVD no box",
                               plot(proj, boxplots = FALSE))
+  vdiffr::expect_doppelganger("projections using EVD no box big lines",
+                              plot(proj, boxplots = FALSE,
+                                   linetype = 2, linesize = 3))
+  vdiffr::expect_doppelganger("projections using EVD red box",
+                              plot(proj, boxplots_color = "red"))
   vdiffr::expect_doppelganger("projections using EVD box only",
                               plot(proj, quantiles = FALSE))
 

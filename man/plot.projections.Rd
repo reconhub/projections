@@ -8,12 +8,14 @@
 \method{plot}{projections}(x, ...)
 
 add_projections(p, x, quantiles = c(0.01, 0.05, 0.1, 0.5), boxplots = TRUE,
-  palette = quantile_pal)
+  palette = quantile_pal, quantiles_alpha = 1, linetype = 1,
+  linesize = 0.5, boxplots_color = "#47476b", boxplots_alpha = 0.8,
+  outliers = TRUE)
 }
 \arguments{
 \item{x}{A \code{projections} object.}
 
-\item{...}{Further arguments to be passed to other methods (not used).}
+\item{...}{Further arguments to be passed to \code{add_projections}.}
 
 \item{p}{A previous incidence plot to which projections should be added.}
 
@@ -24,6 +26,24 @@ symmetric around the median.}
 
 \item{palette}{A color palette to be used for plotting the quantile lines;
 defaults to \code{quantile_pal}.}
+
+\item{quantiles_alpha}{A number used to control the transparency of the
+quantile lines, from 0 (full transparency) to 1 (full opacity); defaults to
+1.}
+
+\item{linetype}{An integer indicating the type of line used for plotting the
+quantiles; defaults to 1 for a plain line.}
+
+\item{linesize}{An integer indicating the size of line used for plotting the
+quantiles; defaults to 0.5.}
+
+\item{boxplots_color}{Any valid color, used for the boxplot.}
+
+\item{boxplots_alpha}{A number used to control the transparency of the
+boxplots, from 0 (full transparency) to 1 (full opacity); defaults to 0.8.}
+
+\item{outliers}{A logical indicating if outliers should be displayed
+alongside the boxplots; defaults to \code{TRUE}.}
 }
 \description{
 The \code{plot} method of \code{projections} objects (output by the function
