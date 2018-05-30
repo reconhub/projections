@@ -27,7 +27,7 @@ print.projections <- function(x, ...){
 
   cat("\n // dates:\n")
   print(attr(x, "dates"))
-  if (!is.null(attr(x, "cumulative"))) {
+  if (isTRUE(attr(x, "cumulative"))) {
     cat("\n // cumulative projections")
   }
   cat("\n")

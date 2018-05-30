@@ -53,6 +53,8 @@ The main features of the package include:
 
 - **`get_dates`**: accessors for `projections` objects.
 
+- **`cumulate`**: cumulate predicted incidence over time.
+
 - **`as.data.frame`**: conversion from `projections` objects to `data.frame`.
 
 
@@ -101,7 +103,11 @@ library(projections)
 set.seed(1)
 pred <- project(i[1:100], R = 1.5, si = si, n_days = 60, n_sim = 1000)
 pred
-plot(pred) # default plot of quantiles
+plot(pred) # default plot
+pred_cum <- cumulate(pred) # cumulative predictions
+plot(pred) # default plot
+plot(pred_cum) # plot cumulative predictions
+
 apply(pred, 1, mean) # average prediction per day
 apply(pred, 1, range) # range across simulations
 ```
