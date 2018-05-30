@@ -15,5 +15,10 @@ test_that("Test round trip", {
 
     set.seed(1)
     pred_1 <- project(i, runif(100, 0.8, 1.9), si, n_days = 30)
+    colnames(pred_1) <- paste("sim", 1:ncol(pred_1), sep = "_")
+
+    df <- as.data.frame(pred_1)
+    new_pred <- build_projections(df[, -1], df[, 1])
+    expect_identical(pred_1, new_pred)
 
 })
