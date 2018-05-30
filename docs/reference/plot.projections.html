@@ -112,10 +112,12 @@ examples).</p>
     </div>
 
     <pre class="usage"><span class='co'># S3 method for projections</span>
-<span class='fu'>plot</span>(<span class='no'>x</span>, <span class='kw'>y</span> <span class='kw'>=</span> <span class='fu'>c</span>(<span class='fl'>0.01</span>, <span class='fl'>0.05</span>, <span class='fl'>0.1</span>, <span class='fl'>0.5</span>),
-  <span class='kw'>palette</span> <span class='kw'>=</span> <span class='no'>quantile_pal</span>, <span class='no'>...</span>)
+<span class='fu'>plot</span>(<span class='no'>x</span>, <span class='no'>...</span>)
 
-<span class='fu'>add_projections</span>(<span class='no'>p</span>, <span class='no'>x</span>, <span class='kw'>y</span> <span class='kw'>=</span> <span class='fu'>c</span>(<span class='fl'>0.01</span>, <span class='fl'>0.05</span>, <span class='fl'>0.1</span>, <span class='fl'>0.5</span>), <span class='kw'>palette</span> <span class='kw'>=</span> <span class='no'>quantile_pal</span>)</pre>
+<span class='fu'>add_projections</span>(<span class='no'>p</span>, <span class='no'>x</span>, <span class='kw'>quantiles</span> <span class='kw'>=</span> <span class='fu'>c</span>(<span class='fl'>0.01</span>, <span class='fl'>0.05</span>, <span class='fl'>0.1</span>, <span class='fl'>0.5</span>), <span class='kw'>boxplots</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
+  <span class='kw'>palette</span> <span class='kw'>=</span> <span class='no'>quantile_pal</span>, <span class='kw'>quantiles_alpha</span> <span class='kw'>=</span> <span class='fl'>1</span>, <span class='kw'>linetype</span> <span class='kw'>=</span> <span class='fl'>1</span>,
+  <span class='kw'>linesize</span> <span class='kw'>=</span> <span class='fl'>0.5</span>, <span class='kw'>boxplots_color</span> <span class='kw'>=</span> <span class='st'>"#47476b"</span>, <span class='kw'>boxplots_alpha</span> <span class='kw'>=</span> <span class='fl'>0.8</span>,
+  <span class='kw'>outliers</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -125,9 +127,21 @@ examples).</p>
       <td><p>A <code>projections</code> object.</p></td>
     </tr>
     <tr>
-      <th>y</th>
+      <th>...</th>
+      <td><p>Further arguments to be passed to <code>add_projections</code>.</p></td>
+    </tr>
+    <tr>
+      <th>p</th>
+      <td><p>A previous incidence plot to which projections should be added.</p></td>
+    </tr>
+    <tr>
+      <th>quantiles</th>
       <td><p>A vector of quantiles to plot, automatically completed to be
 symmetric around the median.</p></td>
+    </tr>
+    <tr>
+      <th>boxplots</th>
+      <td><p>A logical indicating if boxplots should be drawn.</p></td>
     </tr>
     <tr>
       <th>palette</th>
@@ -135,12 +149,34 @@ symmetric around the median.</p></td>
 defaults to <code>quantile_pal</code>.</p></td>
     </tr>
     <tr>
-      <th>...</th>
-      <td><p>Further arguments to be passed to other methods (not used).</p></td>
+      <th>quantiles_alpha</th>
+      <td><p>A number used to control the transparency of the
+quantile lines, from 0 (full transparency) to 1 (full opacity); defaults to
+1.</p></td>
     </tr>
     <tr>
-      <th>p</th>
-      <td><p>A previous incidence plot to which projections should be added.</p></td>
+      <th>linetype</th>
+      <td><p>An integer indicating the type of line used for plotting the
+quantiles; defaults to 1 for a plain line.</p></td>
+    </tr>
+    <tr>
+      <th>linesize</th>
+      <td><p>An integer indicating the size of line used for plotting the
+quantiles; defaults to 0.5.</p></td>
+    </tr>
+    <tr>
+      <th>boxplots_color</th>
+      <td><p>Any valid color, used for the boxplot.</p></td>
+    </tr>
+    <tr>
+      <th>boxplots_alpha</th>
+      <td><p>A number used to control the transparency of the
+boxplots, from 0 (full transparency) to 1 (full opacity); defaults to 0.8.</p></td>
+    </tr>
+    <tr>
+      <th>outliers</th>
+      <td><p>A logical indicating if outliers should be displayed
+alongside the boxplots; defaults to <code>TRUE</code>.</p></td>
     </tr>
     </table>
     
@@ -167,12 +203,19 @@ defaults to <code>quantile_pal</code>.</p></td>
 <span class='fu'>set.seed</span>(<span class='fl'>1</span>)
 <span class='no'>proj</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='project.html'>project</a></span>(<span class='kw'>x</span> <span class='kw'>=</span> <span class='no'>i</span>[<span class='fl'>1</span>:<span class='fl'>100</span>], <span class='kw'>R</span> <span class='kw'>=</span> <span class='fl'>2.1</span>, <span class='kw'>si</span> <span class='kw'>=</span> <span class='no'>si</span>, <span class='kw'>n_days</span> <span class='kw'>=</span> <span class='fl'>60</span>)
 
-<span class='co'>## plotting projections</span>
+<span class='co'>## plotting projections: different options</span>
 <span class='fu'>plot</span>(<span class='no'>proj</span>)
+<span class='fu'>plot</span>(<span class='no'>proj</span>, <span class='kw'>boxplots</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)
+<span class='fu'>plot</span>(<span class='no'>proj</span>, <span class='kw'>boxplots</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>quantiles</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)
+<span class='fu'>plot</span>(<span class='no'>proj</span>, <span class='kw'>boxplots</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>quantiles</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>outliers</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)
+<span class='fu'>plot</span>(<span class='no'>proj</span>, <span class='kw'>boxplots</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>linetype</span> <span class='kw'>=</span> <span class='fl'>3</span>)
 
 <span class='co'>## adding them to incidence plot</span>
 <span class='fu'>plot</span>(<span class='no'>i</span>) <span class='kw'>%&gt;%</span> <span class='fu'>add_projections</span>(<span class='no'>proj</span>)
 <span class='fu'>plot</span>(<span class='no'>i</span>[<span class='fl'>1</span>:<span class='fl'>160</span>]) <span class='kw'>%&gt;%</span> <span class='fu'>add_projections</span>(<span class='no'>proj</span>)
+<span class='fu'>plot</span>(<span class='no'>i</span>[<span class='fl'>1</span>:<span class='fl'>160</span>]) <span class='kw'>%&gt;%</span> <span class='fu'>add_projections</span>(<span class='no'>proj</span>, <span class='kw'>boxplots</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)
+<span class='fu'>plot</span>(<span class='no'>i</span>[<span class='fl'>1</span>:<span class='fl'>160</span>]) <span class='kw'>%&gt;%</span>
+  <span class='fu'>add_projections</span>(<span class='no'>proj</span>, <span class='kw'>boxplots_alpha</span> <span class='kw'>=</span> <span class='fl'>.3</span>, <span class='kw'>boxplots_color</span> <span class='kw'>=</span> <span class='st'>"red"</span>)
 
 <span class='co'>## same, with customised quantiles and colors</span>
 <span class='no'>quantiles</span> <span class='kw'>&lt;-</span> <span class='fu'>c</span>(<span class='fl'>.001</span>, <span class='fl'>.01</span>, <span class='fl'>0.05</span>, <span class='fl'>.1</span>, <span class='fl'>.2</span>, <span class='fl'>.3</span>, <span class='fl'>.4</span>, <span class='fl'>.5</span>)

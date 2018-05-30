@@ -105,7 +105,6 @@ pred <- project(i[1:100], R = 1.5, si = si, n_days = 60, n_sim = 1000)
 pred
 plot(pred) # default plot
 pred_cum <- cumulate(pred) # cumulative predictions
-plot(pred) # default plot
 plot(pred_cum) # plot cumulative predictions
 
 apply(pred, 1, mean) # average prediction per day

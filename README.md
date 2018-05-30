@@ -176,16 +176,10 @@ plot(pred) # default plot
 
 ```r
 pred_cum <- cumulate(pred) # cumulative predictions
-plot(pred) # default plot
-```
-
-<img src="figure/predictions-2.png" title="plot of chunk predictions" alt="plot of chunk predictions" width="80%" />
-
-```r
 plot(pred_cum) # plot cumulative predictions
 ```
 
-<img src="figure/predictions-3.png" title="plot of chunk predictions" alt="plot of chunk predictions" width="80%" />
+<img src="figure/predictions-2.png" title="plot of chunk predictions" alt="plot of chunk predictions" width="80%" />
 
 ```r
 apply(pred, 1, mean) # average prediction per day
