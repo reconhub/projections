@@ -22,7 +22,7 @@ print.projections <- function(x, ...){
   cat("\n // first rows/columns:\n")
   p <- min(6, ncol(x))
   n <- min(4, nrow(x))
-  print(x[1:n, 1:p])
+  print(as.matrix(x)[1:n, 1:p, drop = FALSE])
   if (n < nrow(x)) replicate(3, cat(" .\n"))
 
   cat("\n // dates:\n")

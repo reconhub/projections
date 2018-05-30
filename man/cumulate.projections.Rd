@@ -4,7 +4,7 @@
 \alias{cumulate.projections}
 \title{Compute cumulative projections}
 \usage{
-cumulate.projections(x)
+\method{cumulate}{projections}(x)
 }
 \arguments{
 \item{x}{A \code{projections} object.}

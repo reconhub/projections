@@ -27,13 +27,25 @@
 #'
 #'
 
+
+as.matrix.projections <- function(x, ...) {
+  class(x) <- "matrix"
+  x
+}
+
+
+
+
+#' @export
+#' @rdname conversions
+
 as.data.frame.projections <- function(x, ..., long = FALSE){
     if (!long) {
         colnames(x) <- paste("sim", seq_len(ncol(x)), sep = "_")
-        out <- cbind.data.frame(dates = attr(x, "dates"), x[])
+        out <- cbind.data.frame(dates = attr(x, "dates"), as.matrix(x))
     } else {
         out <- data.frame(date = rep(attr(x, "dates"), ncol(x)),
-                          incidence = as.vector(x),                          
+                          incidence = as.vector(x),
                           sim = rep(seq_len(nrow(x)), each = ncol(x)))
     }
 
