@@ -12,8 +12,6 @@
 #'
 #' @param x A \code{projections} object.
 #'
-#' @export
-#'
 #' @examples
 #'
 #' if (require(distcrete) &&
@@ -39,9 +37,8 @@
 #' }
 #'
 #'
-#' @rdname cumulate
-#' @export
 #' @importFrom incidence cumulate
+#' @export
 #' @aliases cumulate.projections
 #'
 cumulate.projections <- function(x) {
