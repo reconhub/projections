@@ -5,23 +5,23 @@
 \alias{add_projections}
 \title{Plot projections objects}
 \usage{
-\method{plot}{projections}(x, y = c(0.01, 0.05, 0.1, 0.5),
-  palette = quantile_pal, ...)
+\method{plot}{projections}(x, ...)
 
-add_projections(p, x, y = c(0.01, 0.05, 0.1, 0.5), palette = quantile_pal)
+add_projections(p, x, quantiles = c(0.01, 0.05, 0.1, 0.5),
+  palette = quantile_pal)
 }
 \arguments{
 \item{x}{A \code{projections} object.}
 
-\item{y}{A vector of quantiles to plot, automatically completed to be
+\item{...}{Further arguments to be passed to other methods (not used).}
+
+\item{p}{A previous incidence plot to which projections should be added.}
+
+\item{quantiles}{A vector of quantiles to plot, automatically completed to be
 symmetric around the median.}
 
 \item{palette}{A color palette to be used for plotting the quantile lines;
 defaults to \code{quantile_pal}.}
-
-\item{...}{Further arguments to be passed to other methods (not used).}
-
-\item{p}{A previous incidence plot to which projections should be added.}
 }
 \description{
 The \code{plot} method of \code{projections} objects (output by the function

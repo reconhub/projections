@@ -17,7 +17,7 @@
 #'
 #' @param x A \code{projections} object.
 #'
-#' @param y A vector of quantiles to plot, automatically completed to be
+#' @param quantiles A vector of quantiles to plot, automatically completed to be
 #'   symmetric around the median.
 #'
 #' @param palette A color palette to be used for plotting the quantile lines;
@@ -59,27 +59,10 @@
 #' }
 #'
 
-plot.projections <- function(x, y = c(0.01, 0.05, 0.1, 0.5),
-                             palette = quantile_pal, ...) {
-  y <- sort(unique(c(y, 1-y)))
-  y <- y[y > 0 & y < 1]
-
-  stats <- t(apply(x, 1, stats::quantile, y))
-  dates <- attr(x, "dates")
-  quantiles <- rep(colnames(stats), each = nrow(stats))
-  quantiles <- factor(quantiles, levels = unique(quantiles))
-  df <- cbind.data.frame(dates = rep(dates, ncol(stats)),
-                         quantile = quantiles,
-                         value = as.vector(stats),
-                         stringsAsFactors = FALSE)
-
-  colors <- color_quantiles(df$quantile, palette)
-
-  out <- ggplot2::ggplot(df, ggplot2::aes_string(x = "dates")) +
-    ggplot2::geom_line(ggplot2::aes_string(y = "value", color = "quantile")) +
-    ggplot2::scale_color_manual(values = colors) +
-    ggplot2::labs(x = "", y = "Predicted incidence")
-
+plot.projections <- function(x, ...) {
+  empty <- ggplot2::ggplot()
+  out <- add_projections(empty, x, ...)
+  out <- out + ggplot2::labs(x = "", y = "Predicted incidence")
   out
 }
 
@@ -93,17 +76,17 @@ plot.projections <- function(x, y = c(0.01, 0.05, 0.1, 0.5),
 #' @export
 #' @rdname plot.projections
 #' @param p A previous incidence plot to which projections should be added.
-add_projections <- function(p, x, y = c(0.01, 0.05, 0.1, 0.5),
+add_projections <- function(p, x, quantiles = c(0.01, 0.05, 0.1, 0.5),
                             palette = quantile_pal) {
 
   if (!inherits(x, "projections")) {
     stop("x must be a 'projections' object;",
          "\nsee ?projections::project")
   }
-  y <- sort(unique(c(y, 1-y)))
-  y <- y[y > 0 & y < 1]
+  quantiles <- sort(unique(c(quantiles, 1-quantiles)))
+  quantiles <- quantiles[quantiles > 0 & quantiles < 1]
 
-  stats <- t(apply(x, 1, stats::quantile, y))
+  stats <- t(apply(x, 1, stats::quantile, quantiles))
   dates <- attr(x, "dates")
   quantiles <- rep(colnames(stats), each = nrow(stats))
   quantiles <- factor(quantiles, levels = unique(quantiles))
