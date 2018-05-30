@@ -222,10 +222,6 @@ project <- function(x, R, si, n_sim = 100, n_days = 7,
   out <- out[(n_dates_x + 1):(n_dates_x + n_days), ]
 
   dates <- utils::tail(x$dates, 1) + 1:nrow(out)
-  rownames(out) <- as.character(dates)
 
-  class(out) <- c("projections", "matrix")
-  attr(out, "dates") <- dates
-  attr(out, "cumulative") <- FALSE
-  return(out)
+  build_projections(out, dates, FALSE)
 }
