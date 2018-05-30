@@ -6,13 +6,10 @@
 #' \itemize{
 #'  \item \code{get_dates}: get dates of the predictions.
 #'
-#'  \item \code{get_incidence}: get the original incidence object used as input
-#'  for the predictions.
-#'
 #' }
 #'
 #' @rdname projections_accessors
-#' 
+#'
 #' @author Thibaut Jombart \email{thibautjombart@@gmail.com}
 #'
 #' @export
@@ -23,7 +20,7 @@
 #'
 #' @examples
 #'
-#' 
+#'
 #' if (require(distcrete) && require(incidence)) {
 #'
 #' ## prepare input: epicurve and serial interval
@@ -42,8 +39,7 @@
 #' ## retrieve content
 #' get_dates(pred_1)
 #' max(i$dates) # predictions start 1 day after last incidence
-#' get_incidence(pred_1)
-#' identical(get_incidence(pred_1), i) # check object is the same
+#'
 #' }
 #'
 
@@ -69,36 +65,5 @@ get_dates.default <- function(x, ...) {
 get_dates.projections <- function(x, ...) {
     attr(x, "dates")
 }
-
-
-
-
-#' @rdname projections_accessors
-#' @export
-#' @aliases get_incidence
-
-get_incidence <- function(x, ...) {
-    UseMethod("get_incidence", x)
-}
-
-
-#' @rdname projections_accessors
-#' @export
-#' @aliases get_incidence.default
-
-get_incidence.default <- function(x, ...) {
-    stop(sprintf("Not implemented for class %s",
-                 paste(class(x), collapse = ", ")))
-}
-
-
-#' @rdname projections_accessors
-#' @export
-#' @aliases get_incidence.projections
-
-get_incidence.projections <- function(x, ...) {
-    attr(x, "incidence")
-}
-
 
 

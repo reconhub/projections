@@ -45,33 +45,6 @@ test_that("Test that dates start when needed", {
 
 
 
-
-
-
-
-test_that("Test that incidence object is attached to output", {
-    skip_on_cran()
-
-    ## simulate basic epicurve
-    dat <- c(0, 2, 2, 3, 3, 5, 5, 5, 6, 6, 6, 6)
-    i <- incidence(dat)
-
-
-    ## example with a function for SI
-    si <- distcrete("gamma", interval = 1L,
-                    shape = 1.5,
-                    scale = 2, w = 0)
-
-    set.seed(1)
-    pred_1 <- project(i, runif(100, 0.8, 1.9), si, n_days = 30)
-    expect_equal(i, get_incidence(pred_1))
-
-})
-
-
-
-
-
 test_that("Errors are thrown when they should", {
     expect_error(project(NULL),
                  "x is not an incidence object")

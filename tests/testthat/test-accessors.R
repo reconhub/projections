@@ -12,10 +12,9 @@ test_that("Accessors return the right thing", {
                     shape = 1.5,
                     scale = 2, w = 0)
 
-  
+
     pred_1 <- project(i, runif(100, 0.8, 1.9), si, n_days = 30)
     expect_equal(attr(pred_1, "dates"), get_dates(pred_1))
-    expect_equal(i, get_incidence(pred_1))
 
 })
 
@@ -25,7 +24,4 @@ test_that("Expected errors", {
 
     expect_error(get_dates("toto"),
                  "Not implemented for class character")
-    expect_error(get_incidence("toto"),
-                 "Not implemented for class character")
-    
 })

@@ -28,7 +28,7 @@ First release of the package!
   
 - `plot`/`print`: plotting and printing methods for `projections` objects.
 
-- `get_dates`/`get_incidence`: accessors for `projections` objects.
+- `get_dates`: accessors for `projections` objects.
 
 - `as.data.frame`: conversion from `projections` objects to `data.frame`.
 

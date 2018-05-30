@@ -4,9 +4,6 @@
 \alias{get_dates}
 \alias{get_dates.default}
 \alias{get_dates.projections}
-\alias{get_incidence}
-\alias{get_incidence.default}
-\alias{get_incidence.projections}
 \title{Access content projections objects}
 \usage{
 get_dates(x, ...)
@@ -14,12 +11,6 @@ get_dates(x, ...)
 \method{get_dates}{default}(x, ...)
 
 \method{get_dates}{projections}(x, ...)
-
-get_incidence(x, ...)
-
-\method{get_incidence}{default}(x, ...)
-
-\method{get_incidence}{projections}(x, ...)
 }
 \arguments{
 \item{x}{A \code{projections} object.}
@@ -33,9 +24,6 @@ objects. They currently include:
 \details{
 \itemize{
  \item \code{get_dates}: get dates of the predictions.
-
-\item \code{get_incidence}: get the original incidence object used as input
- for the predictions.
 
 }
 }
@@ -60,8 +48,7 @@ pred_1
 ## retrieve content
 get_dates(pred_1)
 max(i$dates) # predictions start 1 day after last incidence
-get_incidence(pred_1)
-identical(get_incidence(pred_1), i) # check object is the same
+
 }
 
 }
