@@ -44,7 +44,7 @@ Note that this requires the package *devtools* installed.
 
 The main features of the package include:
 
-- **`project`**: a function generating projections from an existing *incidence*
+- **`project`**: a function generating projections from an existing `incidence`
   object, a serial interval distribution, and a set of plausible reproduction
   numbers ($R$); returns a `projections` object.
   
@@ -56,12 +56,16 @@ The main features of the package include:
 
 - **`as.data.frame`**: conversion from `projections` objects to `data.frame`.
 
-- **`[`**: subsetting operator for *projections* objects, permiting to specify
+- **`[`**: subsetting operator for `projections` objects, permiting to specify
   which dates and simulations to retain; uses a syntax similar to matrices,
-  i.e. `x[i, j]`, where `x` is the *projections* object, `i` a subset of dates,
+  i.e. `x[i, j]`, where `x` is the `projections` object, `i` a subset of dates,
   and `j` a subset of simulations.
 
-- **`subset`**: subset an *projections* object by specifying a time window.
+- **`subset`**: subset a `projections` object by specifying a time window.
+
+- **`build_projections`**: build a `projections` object from an input matrix and
+  optional dates.
+
 
 
 # Resources
@@ -287,20 +291,7 @@ Predictions can also be added to the epicurve:
 
 ```r
 library(magrittr)
-```
 
-```
-## 
-## Attaching package: 'magrittr'
-```
-
-```
-## The following objects are masked from 'package:testthat':
-## 
-##     equals, is_less_than, not
-```
-
-```r
 plot(i[20:160]) %>% add_projections(pred, boxplots = FALSE)
 ```
 
