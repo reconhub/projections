@@ -99,7 +99,7 @@ of 1.5, from day 100 and for 60 days:
 ```{r predictions}
 library(projections)
 set.seed(1)
-pred <- project(i[1:100], R = 1.5, si = si, n_days = 60)
+pred <- project(i[1:100], R = 1.5, si = si, n_days = 60, n_sim = 1000)
 pred
 plot(pred) # default plot of quantiles
 apply(pred, 1, mean) # average prediction per day
@@ -121,7 +121,7 @@ Predictions can also be added to the epicurve:
 ```{r plot_with_incidence}
 library(magrittr)
 
-plot(i[20:160]) %>% add_projections(pred)
+plot(i[20:160]) %>% add_projections(pred, boxplots = FALSE)
  
 ```
 
