@@ -77,34 +77,57 @@ plot.projections <- function(x, ...) {
 #' @rdname plot.projections
 #' @param p A previous incidence plot to which projections should be added.
 add_projections <- function(p, x, quantiles = c(0.01, 0.05, 0.1, 0.5),
-                            palette = quantile_pal) {
+                            boxplot = TRUE, palette = quantile_pal) {
 
   if (!inherits(x, "projections")) {
     stop("x must be a 'projections' object;",
          "\nsee ?projections::project")
   }
-  quantiles <- sort(unique(c(quantiles, 1-quantiles)))
-  quantiles <- quantiles[quantiles > 0 & quantiles < 1]
 
-  stats <- t(apply(x, 1, stats::quantile, quantiles))
-  dates <- attr(x, "dates")
-  quantiles <- rep(colnames(stats), each = nrow(stats))
-  quantiles <- factor(quantiles, levels = unique(quantiles))
-  df <- cbind.data.frame(dates = rep(dates, ncol(stats)),
-                         quantile = quantiles,
-                         value = as.vector(stats),
-                         stringsAsFactors = FALSE)
+  ## Strategy: we start off the provided plot, which may well be empty
+  ## (i.e. output of ggplot2::ggplot()), and add layers depending on what the
+  ## user wants. Currently available layers include:
 
-  colors <- color_quantiles(df$quantile, palette)
+  ## - quantiles
+  ## - boxplots
 
-  p <- suppressMessages(
-    p +
-      ggplot2::geom_line(
-        data = df,
-        ggplot2::aes_string(x = "dates", y = "value", color = "quantile")) +
-      ggplot2::scale_color_manual(values = colors)
-  )
+  out <- p
 
-  p
+  if (boxplot) {
+    df <- as.data.frame(x, long = TRUE)
+    out <- suppressMessages(
+      out +
+        ggplot2::geom_boxplot(
+          data = df,
+          aes_string(x = "date", y = "incidence", group = "date")
+        )
+      )
+    }
+
+  if (!is.null(quantiles)) {
+    quantiles <- sort(unique(c(quantiles, 1 - quantiles)))
+    quantiles <- quantiles[quantiles > 0 & quantiles < 1]
+
+    stats <- t(apply(x, 1, stats::quantile, quantiles))
+    dates <- attr(x, "dates")
+    quantiles <- rep(colnames(stats), each = nrow(stats))
+    quantiles <- factor(quantiles, levels = unique(quantiles))
+    df <- cbind.data.frame(dates = rep(dates, ncol(stats)),
+                           quantile = quantiles,
+                           value = as.vector(stats),
+                           stringsAsFactors = FALSE)
+
+    colors <- color_quantiles(df$quantile, palette)
+
+    out <- suppressMessages(
+      out +
+        ggplot2::geom_line(
+          data = df,
+          ggplot2::aes_string(x = "dates", y = "value", color = "quantile")) +
+        ggplot2::scale_color_manual(values = colors)
+    )
+  }
+
+  out
 }
 
