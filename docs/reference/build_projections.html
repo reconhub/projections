@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Function reference • projections</title>
+<title>Constructor for projections objects — build_projections • projections</title>
 
 <!-- jquery -->
 <script src="https://code.jquery.com/jquery-3.1.0.min.js" integrity="sha384-nrOSfDHtoPMzJHjVTdCopGqIqeYETSXhZDFyniQ8ZHcVy08QesyHcnOUpMpqnmWq" crossorigin="anonymous"></script>
@@ -28,7 +28,11 @@
 
 
 
-<meta property="og:title" content="Function reference" />
+<meta property="og:title" content="Constructor for projections objects — build_projections" />
+
+<meta property="og:description" content="This function builds a valid projections object from some input
+simulations and dates." />
+<meta name="twitter:card" content="summary" />
 
 
 <!-- mathjax -->
@@ -43,7 +47,7 @@
   </head>
 
   <body>
-    <div class="container template-reference-index">
+    <div class="container template-reference-topic">
       <header>
       <div class="navbar navbar-default navbar-fixed-top" role="navigation">
   <div class="container">
@@ -87,83 +91,63 @@
       </header>
 
 <div class="row">
-  <div class="contents col-md-9">
+  <div class="col-md-9 contents">
     <div class="page-header">
-      <h1>Reference</h1>
+    <h1>Constructor for projections objects</h1>
+    
+    <div class="hidden name"><code>build_projections.Rd</code></div>
     </div>
 
-    <table class="ref-index">
+    <div class="ref-description">
+    
+    <p>This function builds a valid <code>projections</code> object from some input
+simulations and dates.</p>
+    
+    </div>
 
-    <colgroup>
-      <col class="alias" />
-      <col class="title" />
-    </colgroup>
-
-    <tbody>
-      <tr>
-        <th colspan="2">
-          <h2 id="section-all-functions" class="hasAnchor"><a href="#section-all-functions" class="anchor"></a>All functions</h2>
-          <p class="section-desc"></p>
-        </th>
-      </tr>
-      <tr>
-        <!--  -->
-        <td>
-          <p><code><a href="build_projections.html">build_projections()</a></code> </p>
-        </td>
-        <td><p>Constructor for projections objects</p></td>
-      </tr><tr>
-        <!--  -->
-        <td>
-          <p><code><a href="conversions.html">as.matrix(<i>&lt;projections&gt;</i>)</a></code> <code><a href="conversions.html">as.data.frame(<i>&lt;projections&gt;</i>)</a></code> </p>
-        </td>
-        <td><p>Conversion of projections objects</p></td>
-      </tr><tr>
-        <!--  -->
-        <td>
-          <p><code><a href="cumulate.projections.html">cumulate(<i>&lt;projections&gt;</i>)</a></code> </p>
-        </td>
-        <td><p>Compute cumulative projections</p></td>
-      </tr><tr>
-        <!--  -->
-        <td>
-          <p><code><a href="plot.projections.html">plot(<i>&lt;projections&gt;</i>)</a></code> <code><a href="plot.projections.html">add_projections()</a></code> </p>
-        </td>
-        <td><p>Plot projections objects</p></td>
-      </tr><tr>
-        <!--  -->
-        <td>
-          <p><code><a href="print.projections.html">print(<i>&lt;projections&gt;</i>)</a></code> </p>
-        </td>
-        <td><p>Print method for projections objects</p></td>
-      </tr><tr>
-        <!--  -->
-        <td>
-          <p><code><a href="project.html">project()</a></code> </p>
-        </td>
-        <td><p>Project future incidence</p></td>
-      </tr><tr>
-        <!--  -->
-        <td>
-          <p><code><a href="projections_accessors.html">get_dates()</a></code> </p>
-        </td>
-        <td><p>Access content projections objects</p></td>
-      </tr><tr>
-        <!--  -->
-        <td>
-          <p><code><a href="subset.html">`[`(<i>&lt;projections&gt;</i>)</a></code> <code><a href="subset.html">subset(<i>&lt;projections&gt;</i>)</a></code> </p>
-        </td>
-        <td><p>Subsetting 'projections' objects</p></td>
-      </tr>
-    </tbody>
+    <pre class="usage"><span class='fu'>build_projections</span>(<span class='no'>x</span>, <span class='kw'>dates</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>cumulative</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)</pre>
+    
+    <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
+    <table class="ref-arguments">
+    <colgroup><col class="name" /><col class="desc" /></colgroup>
+    <tr>
+      <th>x</th>
+      <td><p>A <code>matrix</code> of simulated incidence stored as integers, where
+rows correspond to dates and columns to simulations.</p></td>
+    </tr>
+    <tr>
+      <th>dates</th>
+      <td><p>A vector of dates containing one value per row in <code>x</code>;
+acceptable formats are: <code>integer</code>, <code>Date</code>, and <code>POSIXct</code>; if
+NULL, the time steps will be counted, with the first dates corresponding to
+0.</p></td>
+    </tr>
+    <tr>
+      <th>cumulative</th>
+      <td><p>A logical indicating if data represent cumulative
+incidence; defaults to <code>FALSE</code>.</p></td>
+    </tr>
     </table>
-  </div>
+    
+    <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
+    <div class='dont-index'><p>the <code><a href='project.html'>project</a></code> function to generate the 'projections'
+  objects.</p></div>
+    
+
+  </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>
     <ul class="nav nav-pills nav-stacked">
-      <li><a href="#section-all-functions">All functions</a></li>
-    </ul>
+      <li><a href="#arguments">Arguments</a></li>
+      
+      <li><a href="#see-also">See also</a></li>
+          </ul>
+
+    <h2>Author</h2>
+    
+Thibaut Jombart <a href='mailto:thibautjombart@gmail.com'>thibautjombart@gmail.com</a>
+
   </div>
 </div>
 

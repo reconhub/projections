@@ -87,13 +87,14 @@
 <a href="#what-does-it-do" class="anchor"></a>What does it do?</h1>
 <p>The main features of the package include:</p>
 <ul>
-<li><p><strong><code>project</code></strong>: a function generating projections from an existing <em>incidence</em> object, a serial interval distribution, and a set of plausible reproduction numbers (<span class="math inline">\(R\)</span>); returns a <code>projections</code> object.</p></li>
+<li><p><strong><code>project</code></strong>: a function generating projections from an existing <code>incidence</code> object, a serial interval distribution, and a set of plausible reproduction numbers (<span class="math inline">\(R\)</span>); returns a <code>projections</code> object.</p></li>
 <li><p><strong><code>plot</code>/<code>print</code></strong>: plotting and printing methods for <code>projections</code> objects.</p></li>
 <li><p><strong><code>get_dates</code></strong>: accessors for <code>projections</code> objects.</p></li>
 <li><p><strong><code>cumulate</code></strong>: cumulate predicted incidence over time.</p></li>
 <li><p><strong><code>as.data.frame</code></strong>: conversion from <code>projections</code> objects to <code>data.frame</code>.</p></li>
-<li><p><strong><code>[</code></strong>: subsetting operator for <em>projections</em> objects, permiting to specify which dates and simulations to retain; uses a syntax similar to matrices, i.e. <code>x[i, j]</code>, where <code>x</code> is the <em>projections</em> object, <code>i</code> a subset of dates, and <code>j</code> a subset of simulations.</p></li>
-<li><p><strong><code>subset</code></strong>: subset an <em>projections</em> object by specifying a time window.</p></li>
+<li><p><strong><code>[</code></strong>: subsetting operator for <code>projections</code> objects, permiting to specify which dates and simulations to retain; uses a syntax similar to matrices, i.e. <code>x[i, j]</code>, where <code>x</code> is the <code>projections</code> object, <code>i</code> a subset of dates, and <code>j</code> a subset of simulations.</p></li>
+<li><p><strong><code>subset</code></strong>: subset a <code>projections</code> object by specifying a time window.</p></li>
+<li><p><strong><code>build_projections</code></strong>: build a <code>projections</code> object from an input matrix and optional dates.</p></li>
 </ul>
 </div>
 <div id="resources" class="section level1">
