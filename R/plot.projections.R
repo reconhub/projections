@@ -107,7 +107,8 @@ plot.projections <- function(x, ...) {
 #' @rdname plot.projections
 #' @param p A previous incidence plot to which projections should be added.
 add_projections <- function(p, x, quantiles = c(0.01, 0.05, 0.1, 0.5),
-                            boxplots = TRUE, palette = quantile_pal,
+                            boxplots = TRUE, ribbon = TRUE,
+                            palette = quantile_pal,
                             quantiles_alpha = 1,
                             linetype = 1, linesize = 0.5,
                             boxplots_color = "#47476b",
@@ -127,6 +128,29 @@ add_projections <- function(p, x, quantiles = c(0.01, 0.05, 0.1, 0.5),
   ## - boxplots
 
   out <- p
+  dates <- attr(x, "dates")
+
+  if (!is.null(quantiles)) {
+    quantiles <- sort(unique(c(quantiles, 1 - quantiles)))
+    quantiles <- quantiles[quantiles > 0 & quantiles < 1]
+  }
+
+
+  ## This is the part handling the ribbon
+
+  if (isTRUE(ribbon)) {
+    if (is.null(quantiles)) {
+      stats <- t(apply(x, 1, range))
+    } else {
+      stats <- t(apply(x, 1, stats::quantile, range(quantiles)))
+    }
+    df <- cbind.data.frame(dates, stats)
+    names(df) <- c("dates", "ymin", "ymax")
+
+    out <- out +
+      geom_ribbon(data = df,
+                  aes_string(x = "dates", ymin = "ymin", ymax = "ymax"))
+  }
 
 
   ## This is the part handling the boxplots
@@ -147,15 +171,12 @@ add_projections <- function(p, x, quantiles = c(0.01, 0.05, 0.1, 0.5),
 
 
   ## This is the part handling the quantile lines
+
   if (isFALSE(quantiles)) {
     quantiles <- NULL
   }
   if (!is.null(quantiles)) {
-    quantiles <- sort(unique(c(quantiles, 1 - quantiles)))
-    quantiles <- quantiles[quantiles > 0 & quantiles < 1]
-
     stats <- t(apply(x, 1, stats::quantile, quantiles))
-    dates <- attr(x, "dates")
     quantiles <- rep(colnames(stats), each = nrow(stats))
     quantiles <- factor(quantiles, levels = unique(quantiles))
     df <- cbind.data.frame(dates = rep(dates, ncol(stats)),

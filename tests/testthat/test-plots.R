@@ -26,7 +26,6 @@ test_that("Test against reference results", {
                   scale = 41.4, w = 0)
 
   i <- incidence(ebola_sim$linelist$date_of_onset)
-  plot(i)
 
   ## add projections after the first 100 days, over 60 days
   set.seed(1)
