@@ -32,26 +32,38 @@ test_that("Test against reference results", {
   proj <- project(x = i[1:100], R = 2.1, si = si, n_days = 60)
 
   ## plotting projections
-  vdiffr::expect_doppelganger("projections using EVD", plot(proj))
-  vdiffr::expect_doppelganger("projections using EVD no outliers",
-                              plot(proj, outliers = FALSE))
-  vdiffr::expect_doppelganger("projections using EVD no box",
-                              plot(proj, boxplots = FALSE))
-  vdiffr::expect_doppelganger("projections using EVD no box big lines",
+  vdiffr::expect_doppelganger("EVD proj", plot(proj))
+  vdiffr::expect_doppelganger("EVD proj box, no outliers",
+                              plot(proj, boxplots = TRUE, outliers = FALSE))
+  vdiffr::expect_doppelganger("EVD proj no ribbon",
+                              plot(proj, ribbon = FALSE))
+  vdiffr::expect_doppelganger("EVD proj no box custom lines",
                               plot(proj, boxplots = FALSE,
                                    linetype = 2, linesize = 3))
-  vdiffr::expect_doppelganger("projections using EVD red box",
-                              plot(proj, boxplots_color = "red"))
-  vdiffr::expect_doppelganger("projections using EVD box only",
+  vdiffr::expect_doppelganger("EVD proj red box",
+                              plot(proj, boxplots = TRUE, boxplots_color = "red"))
+  vdiffr::expect_doppelganger("EVD proj box only",
+                              plot(proj, quantiles = FALSE,
+                                   ribbon = FALSE, boxplots = TRUE))
+  vdiffr::expect_doppelganger("EVD proj ribbon only",
                               plot(proj, quantiles = FALSE))
+  vdiffr::expect_doppelganger("EVD proj red ribbon",
+                              plot(proj, ribbon_color = "red",
+                                   quantiles = FALSE))
+  vdiffr::expect_doppelganger("EVD proj full red ribbon narrow range",
+                              plot(proj, ribbon_color = "red",
+                                   ribbon_alpha = 1, quantiles = FALSE,
+                                   ribbon_quantiles = c(.4, .6)))
+
 
   ## adding projections to incidence plot
   p <- plot(i) %>% add_projections(proj)
-  vdiffr::expect_doppelganger("projections EVD with incidence", p)
-  p <- plot(i) %>% add_projections(proj, boxplots = FALSE)
-  vdiffr::expect_doppelganger("projections EVD with incidence no box", p)
-  p <- plot(i) %>% add_projections(proj, quantiles = FALSE)
-  vdiffr::expect_doppelganger("projections EVD with incidence box only", p)
+  vdiffr::expect_doppelganger("EVD proj with incidence", p)
+  p <- plot(i) %>% add_projections(proj, boxplots = TRUE)
+  vdiffr::expect_doppelganger("EVD proj with incidence no box", p)
+  p <- plot(i) %>% add_projections(proj, quantiles = FALSE, ribbon = FALSE,
+                                   boxplots = TRUE)
+  vdiffr::expect_doppelganger("EVD proj with incidence box only", p)
 
   ## same, custom colors and quantiles
   quantiles <- c(.001, .01, 0.05, .1, .2, .3, .4, .5)
@@ -59,7 +71,7 @@ test_that("Test against reference results", {
   p <- plot(i[1:200]) %>%
     add_projections(proj, quantiles, palette = pal)
 
-  vdiffr::expect_doppelganger("projections EVD with incidence and custom", p)
+  vdiffr::expect_doppelganger("EVD proj with incidence and custom", p)
 
 })
 

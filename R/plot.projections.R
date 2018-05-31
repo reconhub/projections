@@ -78,9 +78,9 @@
 #'
 #' ## plotting projections: different options
 #' plot(proj)
-#' plot(x, quantiles = c(.025, .5)) # 95% CI
-#' plot(x, ribbon_color = "red", quantiles = FALSE) # range
-#' plot(x, ribbon_color = "red", quantiles = FALSE,
+#' plot(proj, quantiles = c(.025, .5)) # 95% CI
+#' plot(proj, ribbon_color = "red", quantiles = FALSE) # range
+#' plot(proj, ribbon_color = "red", quantiles = FALSE,
 #'      ribbon_quantiles = c(.025, .5))
 #' plot(proj, boxplots = TRUE, quantiles = FALSE, ribbon = FALSE)
 #' plot(proj, boxplots = TRUE, quantiles = FALSE, outliers = FALSE)
@@ -144,6 +144,7 @@ add_projections <- function(p, x, quantiles = c(0.01, 0.05, 0.1, 0.5),
 
   ## - quantiles
   ## - boxplots
+  ## - ribbon
 
   out <- p
   dates <- attr(x, "dates")
