@@ -31,7 +31,7 @@
 build_projections <- function(x, dates = NULL, cumulative = FALSE) {
   out <- as.matrix(x)
   if (is.null(dates)) {
-    dates <- seq_len(nrow) - 1L
+    dates <- seq_len(nrow(x)) - 1L
   }
   if (length(dates) != nrow(out)) {
     stop("Number of dates (%d) does not match number of rows (%d)",
