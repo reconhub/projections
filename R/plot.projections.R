@@ -23,6 +23,19 @@
 #' @param palette A color palette to be used for plotting the quantile lines;
 #'   defaults to \code{quantile_pal}.
 #'
+#' @param ribbon A logical indicating if a ribbon should be drawn.
+#'
+#' @param ribbon A logical indicating if a ribbon should be drawn.
+#'
+#' @param ribbon_color Any valid color, used for the ribbon.
+#'
+#' @param ribbon_alpha A number used to control the transparency of the
+#'   ribbon, from 0 (full transparency) to 1 (full opacity); defaults to 0.3.
+#'
+#' @param ribbon_quantiles A vector of 2 quantiles to be used to determine the
+#'   limits of the ribbon; if NULL (default); uses the most extreme quantiles if
+#'   available; if quantiles are not provided, the daily range will be used.
+#'
 #' @param boxplots A logical indicating if boxplots should be drawn.
 #'
 #' @param linetype An integer indicating the type of line used for plotting the
@@ -65,10 +78,13 @@
 #'
 #' ## plotting projections: different options
 #' plot(proj)
-#' plot(proj, boxplots = FALSE)
-#' plot(proj, boxplots = TRUE, quantiles = FALSE)
+#' plot(x, quantiles = c(.025, .5)) # 95% CI
+#' plot(x, ribbon_color = "red", quantiles = FALSE) # range
+#' plot(x, ribbon_color = "red", quantiles = FALSE,
+#'      ribbon_quantiles = c(.025, .5))
+#' plot(proj, boxplots = TRUE, quantiles = FALSE, ribbon = FALSE)
 #' plot(proj, boxplots = TRUE, quantiles = FALSE, outliers = FALSE)
-#' plot(proj, boxplots = FALSE, linetype = 3)
+#' plot(proj, linetype = 3)
 #'
 #' ## adding them to incidence plot
 #' plot(i) %>% add_projections(proj)
@@ -107,10 +123,12 @@ plot.projections <- function(x, ...) {
 #' @rdname plot.projections
 #' @param p A previous incidence plot to which projections should be added.
 add_projections <- function(p, x, quantiles = c(0.01, 0.05, 0.1, 0.5),
-                            boxplots = TRUE, ribbon = TRUE,
+                            ribbon = TRUE, boxplots = FALSE,
                             palette = quantile_pal,
                             quantiles_alpha = 1,
                             linetype = 1, linesize = 0.5,
+                            ribbon_quantiles = NULL,
+                            ribbon_color = NULL, ribbon_alpha = 0.3,
                             boxplots_color = "#47476b",
                             boxplots_alpha = 0.8,
                             outliers = TRUE) {
@@ -130,26 +148,38 @@ add_projections <- function(p, x, quantiles = c(0.01, 0.05, 0.1, 0.5),
   out <- p
   dates <- attr(x, "dates")
 
-  if (!is.null(quantiles)) {
+  if (!is.null(quantiles) && !isFALSE(quantiles) && !is.na(quantiles)) {
     quantiles <- sort(unique(c(quantiles, 1 - quantiles)))
-    quantiles <- quantiles[quantiles > 0 & quantiles < 1]
+    quantiles <- quantiles[quantiles >= 0 & quantiles <= 1]
   }
 
 
   ## This is the part handling the ribbon
 
   if (isTRUE(ribbon)) {
-    if (is.null(quantiles)) {
-      stats <- t(apply(x, 1, range))
-    } else {
-      stats <- t(apply(x, 1, stats::quantile, range(quantiles)))
+    ## find the ymin and ymax for ribbon
+    if (is.null(ribbon_quantiles)) {
+      if (is.null(quantiles) || isFALSE(quantiles) || is.na(quantiles)) {
+        ribbon_quantiles <- c(0, 1)
+      } else {
+        ribbon_quantiles <- range(quantiles)
+      }
     }
+    stats <- t(apply(x, 1, stats::quantile, ribbon_quantiles))
     df <- cbind.data.frame(dates, stats)
     names(df) <- c("dates", "ymin", "ymax")
 
+    ## find colors; use the quantile's by default
+    if (is.null(ribbon_color)) {
+      ribbon_color <- color_quantiles(ribbon_quantiles, palette)[1]
+    }
+    ribbon_color <- transp(ribbon_color, ribbon_alpha)
+
     out <- out +
-      geom_ribbon(data = df,
-                  aes_string(x = "dates", ymin = "ymin", ymax = "ymax"))
+      ggplot2::geom_ribbon(
+        data = df,
+        aes_string(x = "dates", ymin = "ymin", ymax = "ymax"),
+        fill = ribbon_color)
   }
 
 

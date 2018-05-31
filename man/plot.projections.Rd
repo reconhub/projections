@@ -7,10 +7,11 @@
 \usage{
 \method{plot}{projections}(x, ...)
 
-add_projections(p, x, quantiles = c(0.01, 0.05, 0.1, 0.5), boxplots = TRUE,
-  palette = quantile_pal, quantiles_alpha = 1, linetype = 1,
-  linesize = 0.5, boxplots_color = "#47476b", boxplots_alpha = 0.8,
-  outliers = TRUE)
+add_projections(p, x, quantiles = c(0.01, 0.05, 0.1, 0.5), ribbon = TRUE,
+  boxplots = FALSE, palette = quantile_pal, quantiles_alpha = 1,
+  linetype = 1, linesize = 0.5, ribbon_quantiles = NULL,
+  ribbon_color = NULL, ribbon_alpha = 0.3, boxplots_color = "#47476b",
+  boxplots_alpha = 0.8, outliers = TRUE)
 }
 \arguments{
 \item{x}{A \code{projections} object.}
@@ -21,6 +22,8 @@ add_projections(p, x, quantiles = c(0.01, 0.05, 0.1, 0.5), boxplots = TRUE,
 
 \item{quantiles}{A vector of quantiles to plot, automatically completed to be
 symmetric around the median.}
+
+\item{ribbon}{A logical indicating if a ribbon should be drawn.}
 
 \item{boxplots}{A logical indicating if boxplots should be drawn.}
 
@@ -37,6 +40,15 @@ quantiles; defaults to 1 for a plain line.}
 \item{linesize}{An integer indicating the size of line used for plotting the
 quantiles; defaults to 0.5.}
 
+\item{ribbon_quantiles}{A vector of 2 quantiles to be used to determine the
+limits of the ribbon; if NULL (default); uses the most extreme quantiles if
+available; if quantiles are not provided, the daily range will be used.}
+
+\item{ribbon_color}{Any valid color, used for the ribbon.}
+
+\item{ribbon_alpha}{A number used to control the transparency of the
+ribbon, from 0 (full transparency) to 1 (full opacity); defaults to 0.3.}
+
 \item{boxplots_color}{Any valid color, used for the boxplot.}
 
 \item{boxplots_alpha}{A number used to control the transparency of the
@@ -44,6 +56,8 @@ boxplots, from 0 (full transparency) to 1 (full opacity); defaults to 0.8.}
 
 \item{outliers}{A logical indicating if outliers should be displayed
 alongside the boxplots; defaults to \code{TRUE}.}
+
+\item{ribbon}{A logical indicating if a ribbon should be drawn.}
 }
 \description{
 The \code{plot} method of \code{projections} objects (output by the function
@@ -72,10 +86,13 @@ proj <- project(x = i[1:100], R = 2.1, si = si, n_days = 60)
 
 ## plotting projections: different options
 plot(proj)
-plot(proj, boxplots = FALSE)
-plot(proj, boxplots = TRUE, quantiles = FALSE)
+plot(x, quantiles = c(.025, .5)) # 95\% CI
+plot(x, ribbon_color = "red", quantiles = FALSE) # range
+plot(x, ribbon_color = "red", quantiles = FALSE,
+     ribbon_quantiles = c(.025, .5))
+plot(proj, boxplots = TRUE, quantiles = FALSE, ribbon = FALSE)
 plot(proj, boxplots = TRUE, quantiles = FALSE, outliers = FALSE)
-plot(proj, boxplots = FALSE, linetype = 3)
+plot(proj, linetype = 3)
 
 ## adding them to incidence plot
 plot(i) \%>\% add_projections(proj)
