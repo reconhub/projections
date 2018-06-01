@@ -23,9 +23,8 @@
 #' @param palette A color palette to be used for plotting the quantile lines;
 #'   defaults to \code{quantile_pal}.
 #'
-#' @param ribbon A logical indicating if a ribbon should be drawn.
-#'
-#' @param ribbon A logical indicating if a ribbon should be drawn.
+#' @param ribbon A logical indicating if a ribbon should be drawn; defaults to
+#'   \code{TRUE}.
 #'
 #' @param ribbon_color Any valid color, used for the ribbon.
 #'
@@ -179,7 +178,7 @@ add_projections <- function(p, x, quantiles = c(0.01, 0.05, 0.1, 0.5),
     out <- out +
       ggplot2::geom_ribbon(
         data = df,
-        aes_string(x = "dates", ymin = "ymin", ymax = "ymax"),
+        ggplot2::aes_string(x = "dates", ymin = "ymin", ymax = "ymax"),
         fill = ribbon_color)
   }
 

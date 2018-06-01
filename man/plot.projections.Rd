@@ -23,7 +23,8 @@ add_projections(p, x, quantiles = c(0.01, 0.05, 0.1, 0.5), ribbon = TRUE,
 \item{quantiles}{A vector of quantiles to plot, automatically completed to be
 symmetric around the median.}
 
-\item{ribbon}{A logical indicating if a ribbon should be drawn.}
+\item{ribbon}{A logical indicating if a ribbon should be drawn; defaults to
+\code{TRUE}.}
 
 \item{boxplots}{A logical indicating if boxplots should be drawn.}
 
@@ -56,8 +57,6 @@ boxplots, from 0 (full transparency) to 1 (full opacity); defaults to 0.8.}
 
 \item{outliers}{A logical indicating if outliers should be displayed
 alongside the boxplots; defaults to \code{TRUE}.}
-
-\item{ribbon}{A logical indicating if a ribbon should be drawn.}
 }
 \description{
 The \code{plot} method of \code{projections} objects (output by the function
@@ -86,9 +85,9 @@ proj <- project(x = i[1:100], R = 2.1, si = si, n_days = 60)
 
 ## plotting projections: different options
 plot(proj)
-plot(x, quantiles = c(.025, .5)) # 95\% CI
-plot(x, ribbon_color = "red", quantiles = FALSE) # range
-plot(x, ribbon_color = "red", quantiles = FALSE,
+plot(proj, quantiles = c(.025, .5)) # 95\% CI
+plot(proj, ribbon_color = "red", quantiles = FALSE) # range
+plot(proj, ribbon_color = "red", quantiles = FALSE,
      ribbon_quantiles = c(.025, .5))
 plot(proj, boxplots = TRUE, quantiles = FALSE, ribbon = FALSE)
 plot(proj, boxplots = TRUE, quantiles = FALSE, outliers = FALSE)
