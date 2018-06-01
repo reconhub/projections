@@ -1,3 +1,25 @@
+# projections 0.2.0
+
+## New features
+
+This is a big release! Plenty of new features have been added, including:
+
+- `projections` can now be subsetted like matrices using `x[i,j]`, or using the
+  function `subset`
+  
+- new function `cumulate` to compute cumulative incidence for `projections`
+  objects, akin to the similar function in the `incidence` package
+  
+- much improved graphics; `plot` now call upons `add_projections`, which
+  implements many options for plotting projections, including quantiles lines,
+  ribbon, and boxplots; `add_projections` can also be used to add such plots to
+  an existing `incidence` plot
+
+- `build_projections` can be used to build a `projections` object from an input
+  matrix and optional dates
+
+
+
 # projections 0.1.1
 
 ## New features

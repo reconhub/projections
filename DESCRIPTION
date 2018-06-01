@@ -1,6 +1,6 @@
 Package: projections
 Title: Project Future Case Incidence
-Version: 0.2.1
+Version: 0.2.0
 Authors@R: c(person("Thibaut", "Jombart", email = "thibautjombart@gmail.com", role = c("aut", "cre")), person("Pierre", "Nouvellet", email = "p.nouvellet@imperial.ac.uk", role = c("aut")), person("Sangeeta", "Bhatia", role = "ctb", email = "sangeetabhatia03@gmail.com")) 
 Description: Provides functions and graphics for projecting daily incidence based on past incidence, and estimates of the serial interval and reproduction number. Projections are based on a branching process using a Poisson-distributed number of new cases per day, similar to the model used for estimating R0 in 'EpiEstim' or in 'earlyR', and described by Nouvellet et al. (2017) <doi:10.1016/j.epidem.2017.02.012>.
 Depends: R (>= 3.3.0)
