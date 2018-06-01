@@ -281,7 +281,7 @@ p
 ```
 
 ```
-## `geom_smooth()` using method = 'gam'
+## `geom_smooth()` using method = 'gam' and formula 'y ~ s(x, bs = "cs")'
 ```
 
 <img src="figure/plots-1.png" title="plot of chunk plots" alt="plot of chunk plots" width="80%" />

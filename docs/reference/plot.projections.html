@@ -114,10 +114,11 @@ examples).</p>
     <pre class="usage"><span class='co'># S3 method for projections</span>
 <span class='fu'>plot</span>(<span class='no'>x</span>, <span class='no'>...</span>)
 
-<span class='fu'>add_projections</span>(<span class='no'>p</span>, <span class='no'>x</span>, <span class='kw'>quantiles</span> <span class='kw'>=</span> <span class='fu'>c</span>(<span class='fl'>0.01</span>, <span class='fl'>0.05</span>, <span class='fl'>0.1</span>, <span class='fl'>0.5</span>), <span class='kw'>boxplots</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
-  <span class='kw'>palette</span> <span class='kw'>=</span> <span class='no'>quantile_pal</span>, <span class='kw'>quantiles_alpha</span> <span class='kw'>=</span> <span class='fl'>1</span>, <span class='kw'>linetype</span> <span class='kw'>=</span> <span class='fl'>1</span>,
-  <span class='kw'>linesize</span> <span class='kw'>=</span> <span class='fl'>0.5</span>, <span class='kw'>boxplots_color</span> <span class='kw'>=</span> <span class='st'>"#47476b"</span>, <span class='kw'>boxplots_alpha</span> <span class='kw'>=</span> <span class='fl'>0.8</span>,
-  <span class='kw'>outliers</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)</pre>
+<span class='fu'>add_projections</span>(<span class='no'>p</span>, <span class='no'>x</span>, <span class='kw'>quantiles</span> <span class='kw'>=</span> <span class='fu'>c</span>(<span class='fl'>0.01</span>, <span class='fl'>0.05</span>, <span class='fl'>0.1</span>, <span class='fl'>0.5</span>), <span class='kw'>ribbon</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
+  <span class='kw'>boxplots</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>palette</span> <span class='kw'>=</span> <span class='no'>quantile_pal</span>, <span class='kw'>quantiles_alpha</span> <span class='kw'>=</span> <span class='fl'>1</span>,
+  <span class='kw'>linetype</span> <span class='kw'>=</span> <span class='fl'>1</span>, <span class='kw'>linesize</span> <span class='kw'>=</span> <span class='fl'>0.5</span>, <span class='kw'>ribbon_quantiles</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
+  <span class='kw'>ribbon_color</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>ribbon_alpha</span> <span class='kw'>=</span> <span class='fl'>0.3</span>, <span class='kw'>boxplots_color</span> <span class='kw'>=</span> <span class='st'>"#47476b"</span>,
+  <span class='kw'>boxplots_alpha</span> <span class='kw'>=</span> <span class='fl'>0.8</span>, <span class='kw'>outliers</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -138,6 +139,11 @@ examples).</p>
       <th>quantiles</th>
       <td><p>A vector of quantiles to plot, automatically completed to be
 symmetric around the median.</p></td>
+    </tr>
+    <tr>
+      <th>ribbon</th>
+      <td><p>A logical indicating if a ribbon should be drawn; defaults to
+<code>TRUE</code>.</p></td>
     </tr>
     <tr>
       <th>boxplots</th>
@@ -163,6 +169,21 @@ quantiles; defaults to 1 for a plain line.</p></td>
       <th>linesize</th>
       <td><p>An integer indicating the size of line used for plotting the
 quantiles; defaults to 0.5.</p></td>
+    </tr>
+    <tr>
+      <th>ribbon_quantiles</th>
+      <td><p>A vector of 2 quantiles to be used to determine the
+limits of the ribbon; if NULL (default); uses the most extreme quantiles if
+available; if quantiles are not provided, the daily range will be used.</p></td>
+    </tr>
+    <tr>
+      <th>ribbon_color</th>
+      <td><p>Any valid color, used for the ribbon.</p></td>
+    </tr>
+    <tr>
+      <th>ribbon_alpha</th>
+      <td><p>A number used to control the transparency of the
+ribbon, from 0 (full transparency) to 1 (full opacity); defaults to 0.3.</p></td>
     </tr>
     <tr>
       <th>boxplots_color</th>
@@ -205,10 +226,13 @@ alongside the boxplots; defaults to <code>TRUE</code>.</p></td>
 
 <span class='co'>## plotting projections: different options</span>
 <span class='fu'>plot</span>(<span class='no'>proj</span>)
-<span class='fu'>plot</span>(<span class='no'>proj</span>, <span class='kw'>boxplots</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)
-<span class='fu'>plot</span>(<span class='no'>proj</span>, <span class='kw'>boxplots</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>quantiles</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)
+<span class='fu'>plot</span>(<span class='no'>proj</span>, <span class='kw'>quantiles</span> <span class='kw'>=</span> <span class='fu'>c</span>(<span class='fl'>.025</span>, <span class='fl'>.5</span>)) <span class='co'># 95% CI</span>
+<span class='fu'>plot</span>(<span class='no'>proj</span>, <span class='kw'>ribbon_color</span> <span class='kw'>=</span> <span class='st'>"red"</span>, <span class='kw'>quantiles</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>) <span class='co'># range</span>
+<span class='fu'>plot</span>(<span class='no'>proj</span>, <span class='kw'>ribbon_color</span> <span class='kw'>=</span> <span class='st'>"red"</span>, <span class='kw'>quantiles</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
+     <span class='kw'>ribbon_quantiles</span> <span class='kw'>=</span> <span class='fu'>c</span>(<span class='fl'>.025</span>, <span class='fl'>.5</span>))
+<span class='fu'>plot</span>(<span class='no'>proj</span>, <span class='kw'>boxplots</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>quantiles</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>ribbon</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)
 <span class='fu'>plot</span>(<span class='no'>proj</span>, <span class='kw'>boxplots</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>quantiles</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>outliers</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)
-<span class='fu'>plot</span>(<span class='no'>proj</span>, <span class='kw'>boxplots</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>linetype</span> <span class='kw'>=</span> <span class='fl'>3</span>)
+<span class='fu'>plot</span>(<span class='no'>proj</span>, <span class='kw'>linetype</span> <span class='kw'>=</span> <span class='fl'>3</span>)
 
 <span class='co'>## adding them to incidence plot</span>
 <span class='fu'>plot</span>(<span class='no'>i</span>) <span class='kw'>%&gt;%</span> <span class='fu'>add_projections</span>(<span class='no'>proj</span>)
