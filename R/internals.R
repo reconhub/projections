@@ -46,3 +46,15 @@ transp <- function(col, alpha = .5){
                  grDevices::rgb(c[1]/255, c[2]/255, c[3]/255, alpha))
     return(res)
 }
+
+
+
+## Implement isTRUE and isFALSE to avoid dep on R 3.5.0
+
+isFALSE <- function(x) {
+  is.logical(x) && length(x) == 1L && !is.na(x) && !x
+}
+
+isTRUE <- function(x) {
+  is.logical(x) && length(x) == 1L && !is.na(x) && x
+}
