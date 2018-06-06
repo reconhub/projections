@@ -53,7 +53,7 @@ test_that("Test errors", {
 
     expect_error(
       build_projections(matrix(1:10, ncol = 2), dates = 1:10),
-      "Number of dates \(10\) does not match number of rows \(5\)",
+      "Number of dates (10) does not match number of rows (5)",
       fixed = TRUE)
 
 })
