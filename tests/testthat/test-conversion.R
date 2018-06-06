@@ -4,7 +4,7 @@ test_that("Test against reference results", {
     skip_on_cran()
 
     ## simulate basic epicurve
-    dat <- c(0, 2, 2, 3, 3, 5, 5, 5, 6, 6, 6, 6)
+    dat <- as.Date("2001-01-01") + c(0, 2, 2, 3, 3, 5, 5, 5, 6, 6, 6, 6)
     i <- incidence(dat)
 
 
@@ -24,8 +24,8 @@ test_that("Test against reference results", {
     ## long format
     df_2 <- as.data.frame(pred_1, long = TRUE)
     expect_equal_to_reference(df_2, file = "rds/df_2.rds")
-   
-    
+
+
 })
 
 
