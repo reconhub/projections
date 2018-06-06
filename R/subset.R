@@ -43,7 +43,8 @@
   }
 
   out <- as.matrix(x)[i, j, drop = FALSE]
-  rownames(out) <- attr(out, "dates") <- get_dates(x)[i]
+  attr(out, "dates") <- get_dates(x)[i]
+  rownames(out) <- as.character(get_dates(x)[i])
   attr(out, "cumulative") <- attr(x, "cumulative")
   class(out) <- c("projections", "matrix")
   out
@@ -68,14 +69,6 @@ subset.projections <- function(x, ..., from = NULL, to = NULL,
 
   if (is.null(to)) {
     to  <- max(dates, na.rm = TRUE)
-  }
-
-  if (is.numeric(from) && inherits(dates, "Date")) {
-    from <- min(dates) + (from - 1L) * x$interval
-  }
-
-  if (is.numeric(to) && inherits(dates, "Date")) {
-    to <- min(dates) + (to - 1L) * x$interval
   }
 
   to.keep <- dates >= from & dates <= to
