@@ -34,8 +34,11 @@ build_projections <- function(x, dates = NULL, cumulative = FALSE) {
     dates <- seq_len(nrow(x)) - 1L
   }
   if (length(dates) != nrow(out)) {
-    stop("Number of dates (%d) does not match number of rows (%d)",
-         length(dates), nrow(out))
+    stop(
+      sprintf(
+        "Number of dates (%d) does not match number of rows (%d)",
+        length(dates), nrow(out))
+      )
   }
   attr(out, "dates") <- dates
   rownames(out) <- as.character(dates)

@@ -45,3 +45,15 @@ test_that("Test dates default", {
     new_x <- build_projections(df[, -1])
     expect_equal(seq_along(get_dates(x)) - 1L, get_dates(new_x))
 })
+
+
+
+test_that("Test errors", {
+    skip_on_cran()
+
+    expect_error(
+      build_projections(matrix(1:10, ncol = 2), dates = 1:10),
+      "Number of dates \(10\) does not match number of rows \(5\)",
+      fixed = TRUE)
+
+})
