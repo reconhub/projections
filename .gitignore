@@ -6,3 +6,5 @@
 inst/doc
 README.html
 *~
+*.tar.gz
+*.Rcheck
