@@ -11,5 +11,5 @@
 ^CONDUCT\.md$
 ^figure*
 ^docs*
-*.tar.gz$
+.*tar.gz$
 
