@@ -3,12 +3,17 @@
 
 assert_reporting <- function(x) {
   if (!is.numeric(x)) stop("reporting is not numeric")
-  if (!is.finite(x)) stop("reporting is not a finite value")
-  if (x <= 0) stop("reporting <= 0")
-  if (x > 1) stop("reporting > 1")
+  if (!all(is.finite(x))) stop("reporting is not a finite value")
+  if (any(x <= 0)) stop("reporting <= 0")
+  if (any(x > 1)) stop("reporting > 1")
 }
 
 
+assert_R <- function(x) {
+  if (!is.numeric(x)) stop("R is not numeric")
+  if (!all(is.finite(x))) stop("R is not a finite value")
+  if (any(x < 0)) stop(sprintf("R < 0 (value: %.2f)", x[x<0]))
+}
 
 
 

@@ -124,6 +124,8 @@ project <- function(x, R, si, n_sim = 100, n_days = 7,
     stop(msg)
   }
 
+  assert_R(R)
+
 
   ## useful variables
   n_dates_x <- nrow(x$counts)
