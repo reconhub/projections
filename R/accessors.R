@@ -41,27 +41,8 @@
 #' max(i$dates) # predictions start 1 day after last incidence
 #'
 #' }
-#'
-
-get_dates <- function(x, ...) {
-    UseMethod("get_dates", x)
-}
-
-
-#' @rdname projections_accessors
-#' @export
-#' @aliases get_dates.default
-
-get_dates.default <- function(x, ...) {
-    stop(sprintf("Not implemented for class %s",
-                 paste(class(x), collapse = ", ")))
-}
-
-
-#' @rdname projections_accessors
-#' @export
 #' @aliases get_dates.projections
-
+#' @importFrom incidence get_dates
 get_dates.projections <- function(x, ...) {
     attr(x, "dates")
 }
