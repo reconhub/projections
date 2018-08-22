@@ -7,7 +7,7 @@
 #'  \item \code{get_dates}: get dates of the predictions.
 #'
 #' }
-#'
+#' @name get_dates
 #' @rdname projections_accessors
 #'
 #' @author Thibaut Jombart \email{thibautjombart@@gmail.com}
@@ -21,7 +21,7 @@
 #' @examples
 #'
 #'
-#' if (require(distcrete) && require(incidence)) {
+#' if (require(distcrete) && require(incidence)) { withAutoprint({
 #'
 #' ## prepare input: epicurve and serial interval
 #' dat <- c(0, 2, 2, 3, 3, 5, 5, 5, 6, 6, 6, 6)
@@ -40,8 +40,9 @@
 #' get_dates(pred_1)
 #' max(i$dates) # predictions start 1 day after last incidence
 #'
-#' }
+#' })}
 #' @aliases get_dates.projections
+#' @aliases get_dates
 #' @importFrom incidence get_dates
 get_dates.projections <- function(x, ...) {
     attr(x, "dates")
