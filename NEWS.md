@@ -1,3 +1,7 @@
+# projections 0.3.1
+
+ - `get_dates()` now inherits the generic `get_dates()` from incidence
+
 # projections 0.3.0
 
 ## New features
