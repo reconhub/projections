@@ -12,7 +12,6 @@
 #'
 #' @author Thibaut Jombart \email{thibautjombart@@gmail.com}
 #'
-#' @export
 #'
 #' @param x A \code{projections} object.
 #'
@@ -44,6 +43,8 @@
 #' @aliases get_dates.projections
 #' @aliases get_dates
 #' @importFrom incidence get_dates
+#' @export get_dates
+#' @export
 get_dates.projections <- function(x, ...) {
     attr(x, "dates")
 }
