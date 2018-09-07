@@ -95,7 +95,6 @@
 #'
 #' }
 #'
-
 project <- function(x, R, si, n_sim = 100, n_days = 7,
                     R_fix_within = FALSE,
                     model = c("poisson", "negbin"),
@@ -110,16 +109,16 @@ project <- function(x, R, si, n_sim = 100, n_days = 7,
     stop(msg)
   }
 
-  if (as.integer(x$interval) != 1L) {
+  if (as.integer(mean(incidence::get_interval(x))) != 1L) {
     msg <- sprintf(
       "daily incidence needed, but interval is %d days",
-      x$interval
+      as.integer(mean(incidence::get_interval(x)))
     )
     stop(msg)
   }
 
 
-  if (ncol(x$counts) > 1L) {
+  if (ncol(incidence::get_counts(x)) > 1L) {
     msg <- sprintf("cannot use multiple groups in incidence object")
     stop(msg)
   }
@@ -128,7 +127,7 @@ project <- function(x, R, si, n_sim = 100, n_days = 7,
 
 
   ## useful variables
-  n_dates_x <- nrow(x$counts)
+  n_dates_x <- nrow(incidence::get_counts(x))
   t_max <- n_days + n_dates_x - 1
 
   if (inherits(si, "distcrete")) {
@@ -163,7 +162,7 @@ project <- function(x, R, si, n_sim = 100, n_days = 7,
 
 
   ## initial conditions
-  I0 <- matrix(x$counts, nrow = n_dates_x, ncol = n_sim)
+  I0 <- matrix(incidence::get_counts(x), nrow = n_dates_x, ncol = n_sim)
 
   ## projection
   out <- rbind(I0, matrix(0, n_days, n_sim))
