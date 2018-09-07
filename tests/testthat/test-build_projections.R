@@ -5,7 +5,7 @@ test_that("Test round trip", {
 
     ## simulate basic epicurve
     dat <- c(0, 2, 2, 3, 3, 5, 5, 5, 6, 6, 6, 6)
-    i <- incidence(dat)
+    i <- incidence::incidence(dat)
 
 
     ## example with a function for SI
@@ -30,7 +30,7 @@ test_that("Test dates default", {
 
     ## simulate basic epicurve
     dat <- c(0, 2, 2, 3, 3, 5, 5, 5, 6, 6, 6, 6)
-    i <- incidence(dat)
+    i <- incidence::incidence(dat)
 
 
     ## example with a function for SI

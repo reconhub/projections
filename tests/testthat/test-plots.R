@@ -5,7 +5,7 @@ test_that("Test against reference results", {
 
   ## simulate basic epicurve
   dat <- c(0, 2, 2, 3, 3, 5, 5, 5, 6, 6, 6, 6)
-  i <- incidence(dat)
+  i <- incidence::incidence(dat)
 
 
   ## example with a function for SI
@@ -25,7 +25,7 @@ test_that("Test against reference results", {
                   shape = 0.37,
                   scale = 41.4, w = 0)
 
-  i <- incidence(ebola_sim$linelist$date_of_onset)
+  i <- incidence::incidence(ebola_sim$linelist$date_of_onset)
 
   ## add projections after the first 100 days, over 60 days
   set.seed(1)
