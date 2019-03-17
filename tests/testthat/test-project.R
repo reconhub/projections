@@ -61,7 +61,14 @@ test_that("Errors are thrown when they should", {
     si <- distcrete("gamma", interval = 5L,
                     shape = 1.5,
                     scale = 2, w = 0)
-    expect_error(project(i, si = si),
+    expect_error(project(i, 1, si = si),
                  "interval used in si is not 1 day, but 5")
+    expect_error(project(i, -1, si = si),
+                 "R < 0 (value: -1.00)", fixed = TRUE)
+    expect_error(project(i, Inf, si = si),
+                 "R is not a finite value", fixed = TRUE)
+    expect_error(project(i, "tamere", si = si),
+                 "R is not numeric", fixed = TRUE)
+
 
 })

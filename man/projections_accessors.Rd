@@ -2,14 +2,9 @@
 % Please edit documentation in R/accessors.R
 \name{get_dates}
 \alias{get_dates}
-\alias{get_dates.default}
 \alias{get_dates.projections}
 \title{Access content projections objects}
 \usage{
-get_dates(x, ...)
-
-\method{get_dates}{default}(x, ...)
-
 \method{get_dates}{projections}(x, ...)
 }
 \arguments{
@@ -30,7 +25,7 @@ objects. They currently include:
 \examples{
 
 
-if (require(distcrete) && require(incidence)) {
+if (require(distcrete) && require(incidence)) { withAutoprint({
 
 ## prepare input: epicurve and serial interval
 dat <- c(0, 2, 2, 3, 3, 5, 5, 5, 6, 6, 6, 6)
@@ -49,8 +44,7 @@ pred_1
 get_dates(pred_1)
 max(i$dates) # predictions start 1 day after last incidence
 
-}
-
+})}
 }
 \author{
 Thibaut Jombart \email{thibautjombart@gmail.com}

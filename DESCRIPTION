@@ -1,14 +1,18 @@
 Package: projections
 Title: Project Future Case Incidence
-Version: 0.3.0
-Authors@R: c(person("Thibaut", "Jombart", email = "thibautjombart@gmail.com", role = c("aut", "cre")), person("Pierre", "Nouvellet", email = "p.nouvellet@imperial.ac.uk", role = c("aut")), person("Sangeeta", "Bhatia", role = "ctb", email = "sangeetabhatia03@gmail.com")) 
+Version: 0.3.1
+Authors@R: c(person("Thibaut", "Jombart", email = "thibautjombart@gmail.com", role = c("aut", "cre")), 
+    person("Pierre", "Nouvellet", email = "p.nouvellet@imperial.ac.uk", role = c("aut")), 
+    person("Sangeeta", "Bhatia", role = "ctb", email = "sangeetabhatia03@gmail.com"),
+    person("Zhian N.", "Kamvar", role = "ctb", email = "zkamvar@gmail.com")
+    ) 
 Description: Provides functions and graphics for projecting daily incidence based on past incidence, and estimates of the serial interval and reproduction number. Projections are based on a branching process using a Poisson-distributed number of new cases per day, similar to the model used for estimating R0 in 'EpiEstim' or in 'earlyR', and described by Nouvellet et al. (2017) <doi:10.1016/j.epidem.2017.02.012>.
 Depends: R (>= 3.3.0)
 License: MIT + file LICENSE
 Encoding: UTF-8
 LazyData: true
 Suggests: testthat, vdiffr, roxygen2, knitr, rmarkdown, outbreaks, magrittr
-Imports: stats, utils, incidence, distcrete, ggplot2
-RoxygenNote: 6.0.1
+Imports: stats, utils, incidence (>= 1.4.1), distcrete, ggplot2
+RoxygenNote: 6.1.0
 URL: http://www.repidemicsconsortium.org/projections
 BugReports: http://github.com/reconhub/projections/issues
