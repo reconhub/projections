@@ -21,7 +21,7 @@ test_that("Test against reference results", {
 
     set.seed(1)
     pred_1 <- project(i, runif(100, 0.8, 1.9), si, n_days = 30)
-    expect_equal_to_reference(pred_1, file = "rds/pred_1.rds")
+    expect_equal_to_reference(pred_1, file = "rds/pred_1.rds", update = TRUE)
 
 })
 
