@@ -16,12 +16,12 @@ test_that("Test against reference results", {
 
     ## example with a function for SI
     si <- distcrete::distcrete("gamma", interval = 1L,
-                    shape = 1.5,
-                    scale = 2, w = 0)
+                               shape = 1.5,
+                               scale = 2, w = 0)
 
     set.seed(1)
     pred_1 <- project(i, runif(100, 0.8, 1.9), si, n_days = 30)
-    expect_equal_to_reference(pred_1, file = "rds/pred_1.rds", update = TRUE)
+    expect_equal_to_reference(pred_1, file = "rds/pred_1.rds", update = FALSE)
 
 })
 
@@ -39,8 +39,8 @@ test_that("Test that dates start when needed", {
 
     ## example with a function for SI
     si <- distcrete::distcrete("gamma", interval = 1L,
-                    shape = 1.5,
-                    scale = 2, w = 0)
+                               shape = 1.5,
+                               scale = 2, w = 0)
 
     set.seed(1)
     pred_1 <- project(i, runif(100, 0.8, 1.9), si, n_days = 30)
@@ -65,8 +65,8 @@ test_that("Errors are thrown when they should", {
 
     i <- incidence::incidence(1)
     si <- distcrete::distcrete("gamma", interval = 5L,
-                    shape = 1.5,
-                    scale = 2, w = 0)
+                               shape = 1.5,
+                               scale = 2, w = 0)
     expect_error(project(i, 1, si = si),
                  "interval used in si is not 1 day, but 5")
     expect_error(project(i, -1, si = si),
