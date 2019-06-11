@@ -27,9 +27,9 @@ test_that("Test against reference results - numeric dates", {
     subset_3 <- subset(pred_1, to = 15, sim = c(TRUE, FALSE))
 
     expect_identical(pred_1[], pred_1)
-    expect_equal_to_reference(subset_1, file = "rds/subset_1.rds")
-    expect_equal_to_reference(subset_2, file = "rds/subset_2.rds")
-    expect_equal_to_reference(subset_3, file = "rds/subset_3.rds")
+    expect_equal_to_reference(subset_1, file = "rds/subset_1.rds", update = FALSE)
+    expect_equal_to_reference(subset_2, file = "rds/subset_2.rds", update = FALSE)
+    expect_equal_to_reference(subset_3, file = "rds/subset_3.rds", update = FALSE)
     expect_error(subset(pred_1, from = 1, to = 0), "No data retained.")
 
 })
@@ -60,9 +60,9 @@ test_that("Test against reference results - Date dates", {
     subset_3 <- subset(pred_1, to = day + 15, sim = c(TRUE, FALSE))
 
     expect_identical(pred_1[], pred_1)
-    expect_equal_to_reference(subset_1, file = "rds/subset_Date_1.rds")
-    expect_equal_to_reference(subset_2, file = "rds/subset_Date_2.rds")
-    expect_equal_to_reference(subset_3, file = "rds/subset_Date_3.rds")
+    expect_equal_to_reference(subset_1, file = "rds/subset_Date_1.rds", update = FALSE)
+    expect_equal_to_reference(subset_2, file = "rds/subset_Date_2.rds", update = FALSE)
+    expect_equal_to_reference(subset_3, file = "rds/subset_Date_3.rds", update = FALSE)
 
 })
 
