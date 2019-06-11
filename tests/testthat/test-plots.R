@@ -16,8 +16,8 @@ test_that("Test against reference results", {
 
   ## example with a function for SI
   si <- distcrete::distcrete("gamma", interval = 1L,
-                  shape = 1.5,
-                  scale = 2, w = 0)
+                             shape = 1.5,
+                             scale = 2, w = 0)
 
   set.seed(1)
   pred_1 <- project(i, runif(100, 0.8, 1.9), si, n_days = 30)
