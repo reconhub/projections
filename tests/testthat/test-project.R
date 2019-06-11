@@ -5,11 +5,11 @@ test_that("Test against reference results", {
 
     ## simulate basic epicurve
     dat <- c(0, 2, 2, 3, 3, 5, 5, 5, 6, 6, 6, 6)
-    i <- incidence(dat)
+    i <- incidence::incidence(dat)
 
 
     ## example with a function for SI
-    si <- distcrete("gamma", interval = 1L,
+    si <- distcrete::distcrete("gamma", interval = 1L,
                     shape = 1.5,
                     scale = 2, w = 0)
 
@@ -28,11 +28,11 @@ test_that("Test that dates start when needed", {
 
     ## simulate basic epicurve
     dat <- c(0, 2, 2, 3, 3, 5, 5, 5, 6, 6, 6, 6)
-    i <- incidence(dat)
+    i <- incidence::incidence(dat)
 
 
     ## example with a function for SI
-    si <- distcrete("gamma", interval = 1L,
+    si <- distcrete::distcrete("gamma", interval = 1L,
                     shape = 1.5,
                     scale = 2, w = 0)
 
@@ -49,16 +49,16 @@ test_that("Errors are thrown when they should", {
     expect_error(project(NULL),
                  "x is not an incidence object")
 
-    i <- incidence(1:10, 3)
+    i <- incidence::incidence(1:10, 3)
     expect_error(project(i),
                  "daily incidence needed, but interval is 3 days")
 
-    i <- incidence(1:10, 1, group = letters[1:10])
+    i <- incidence::incidence(1:10, 1, group = letters[1:10])
     expect_error(project(i),
                  "cannot use multiple groups in incidence object")
 
-    i <- incidence(1)
-    si <- distcrete("gamma", interval = 5L,
+    i <- incidence::incidence(1)
+    si <- distcrete::distcrete("gamma", interval = 5L,
                     shape = 1.5,
                     scale = 2, w = 0)
     expect_error(project(i, 1, si = si),

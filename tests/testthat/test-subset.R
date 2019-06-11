@@ -5,11 +5,11 @@ test_that("Test against reference results - numeric dates", {
 
     ## simulate basic epicurve
     dat <- c(0, 2, 2, 3, 3, 5, 5, 5, 6, 6, 6, 6)
-    i <- incidence(dat)
+    i <- incidence::incidence(dat)
 
 
     ## example with a function for SI
-    si <- distcrete("gamma", interval = 1L,
+    si <- distcrete::distcrete("gamma", interval = 1L,
                     shape = 1.5,
                     scale = 2, w = 0)
 
@@ -38,11 +38,11 @@ test_that("Test against reference results - Date dates", {
     ## simulate basic epicurve
     day <- as.Date("1982-01-01")
     dat <- day + c(0, 2, 2, 3, 3, 5, 5, 5, 6, 6, 6, 6)
-    i <- incidence(dat)
+    i <- incidence::incidence(dat)
 
 
     ## example with a function for SI
-    si <- distcrete("gamma", interval = 1L,
+    si <- distcrete::distcrete("gamma", interval = 1L,
                     shape = 1.5,
                     scale = 2, w = 0)
 

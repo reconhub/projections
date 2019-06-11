@@ -5,11 +5,11 @@ test_that("Printing as planned", {
 
   ## simulate basic epicurve
   dat <- c(0, 2, 2, 3, 3, 5, 5, 5, 6, 6, 6, 6)
-  i <- incidence(dat)
+  i <- incidence::incidence(dat)
 
 
   ## example with a function for SI
-  si <- distcrete("gamma", interval = 1L,
+  si <- distcrete::distcrete("gamma", interval = 1L,
                   shape = 1.5,
                   scale = 2, w = 0)
 
@@ -18,6 +18,6 @@ test_that("Printing as planned", {
   y <- cumulate(x)
 
   expect_identical(unname(apply(x, 2, cumsum)), unname(as.matrix(y)))
-  expect_error(cumulate(y), "x is already a cumulative incidence")
+  expect_error(cumulate(y), "x is already a cumulative incidence::incidence")
 
 })

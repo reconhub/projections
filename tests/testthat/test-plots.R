@@ -5,11 +5,11 @@ test_that("Test against reference results", {
 
   ## simulate basic epicurve
   dat <- c(0, 2, 2, 3, 3, 5, 5, 5, 6, 6, 6, 6)
-  i <- incidence(dat)
+  i <- incidence::incidence(dat)
 
 
   ## example with a function for SI
-  si <- distcrete("gamma", interval = 1L,
+  si <- distcrete::distcrete("gamma", interval = 1L,
                   shape = 1.5,
                   scale = 2, w = 0)
 
@@ -21,11 +21,11 @@ test_that("Test against reference results", {
 
   ## using simulated ebola data
 
-  si <- distcrete("gamma", interval = 1L,
+  si <- distcrete::distcrete("gamma", interval = 1L,
                   shape = 0.37,
                   scale = 41.4, w = 0)
 
-  i <- incidence(ebola_sim$linelist$date_of_onset)
+  i <- incidence::incidence(ebola_sim$linelist$date_of_onset)
 
   ## add projections after the first 100 days, over 60 days
   set.seed(1)
@@ -56,14 +56,14 @@ test_that("Test against reference results", {
                                    ribbon_quantiles = c(.4, .6)))
 
 
-  ## adding projections to incidence plot
+  ## adding projections to incidence::incidence plot
   p <- plot(i) %>% add_projections(proj)
-  vdiffr::expect_doppelganger("EVD proj with incidence", p)
+  vdiffr::expect_doppelganger("EVD proj with incidence::incidence", p)
   p <- plot(i) %>% add_projections(proj, boxplots = TRUE)
-  vdiffr::expect_doppelganger("EVD proj with incidence no box", p)
+  vdiffr::expect_doppelganger("EVD proj with incidence::incidence no box", p)
   p <- plot(i) %>% add_projections(proj, quantiles = FALSE, ribbon = FALSE,
                                    boxplots = TRUE)
-  vdiffr::expect_doppelganger("EVD proj with incidence box only", p)
+  vdiffr::expect_doppelganger("EVD proj with incidence::incidence box only", p)
 
   ## same, custom colors and quantiles
   quantiles <- c(.001, .01, 0.05, .1, .2, .3, .4, .5)
@@ -71,7 +71,7 @@ test_that("Test against reference results", {
   p <- plot(i[1:200]) %>%
     add_projections(proj, quantiles, palette = pal)
 
-  vdiffr::expect_doppelganger("EVD proj with incidence and custom", p)
+  vdiffr::expect_doppelganger("EVD proj with incidence::incidence and custom", p)
 
 })
 
