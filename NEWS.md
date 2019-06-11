@@ -1,3 +1,8 @@
+# projections 0.3.2
+
+- A bug in `project()` where R was being resampled recursively was fixed
+  (#11, @jarvisc1; #12, @zkamvar)
+
 # projections 0.3.1
 
  - `get_dates()` now inherits the generic `get_dates()` from incidence

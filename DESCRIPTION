@@ -1,6 +1,6 @@
 Package: projections
 Title: Project Future Case Incidence
-Version: 0.3.1
+Version: 0.3.2
 Authors@R: c(person("Thibaut", "Jombart", email = "thibautjombart@gmail.com", role = c("aut", "cre")), 
     person("Pierre", "Nouvellet", email = "p.nouvellet@imperial.ac.uk", role = c("aut")), 
     person("Sangeeta", "Bhatia", role = "ctb", email = "sangeetabhatia03@gmail.com"),
