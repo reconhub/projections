@@ -151,7 +151,7 @@ add_projections <- function(p, x, quantiles = c(0.01, 0.05, 0.1, 0.5),
   out <- p
   dates <- attr(x, "dates")
 
-  if (!is.null(quantiles) && !isFALSE(quantiles) && !is.na(quantiles)) {
+  if (!is.null(quantiles) && !isFALSE(quantiles) && !all(is.na(quantiles))) {
     quantiles <- sort(unique(c(quantiles, 1 - quantiles)))
     quantiles <- quantiles[quantiles >= 0 & quantiles <= 1]
   }
@@ -162,7 +162,7 @@ add_projections <- function(p, x, quantiles = c(0.01, 0.05, 0.1, 0.5),
   if (isTRUE(ribbon)) {
     ## find the ymin and ymax for ribbon
     if (is.null(ribbon_quantiles)) {
-      if (is.null(quantiles) || isFALSE(quantiles) || is.na(quantiles)) {
+      if (is.null(quantiles) || isFALSE(quantiles) || all(is.na(quantiles))) {
         ribbon_quantiles <- c(0, 1)
       } else {
         ribbon_quantiles <- range(quantiles)

@@ -1,15 +1,21 @@
 context("Test printing")
 
+setup(RNGversion("3.5.3"))
+teardown({
+  cur_R_version <- trimws(substr(R.version.string, 10, 16))
+  RNGversion(cur_R_version)
+})
+
 test_that("Printing as planned", {
   skip_on_cran()
 
   ## simulate basic epicurve
   dat <- c(0, 2, 2, 3, 3, 5, 5, 5, 6, 6, 6, 6)
-  i <- incidence(dat)
+  i <- incidence::incidence(dat)
 
 
   ## example with a function for SI
-  si <- distcrete("gamma", interval = 1L,
+  si <- distcrete::distcrete("gamma", interval = 1L,
                   shape = 1.5,
                   scale = 2, w = 0)
 
@@ -17,9 +23,10 @@ test_that("Printing as planned", {
   x <- project(i, runif(100, 0.8, 1.9), si, n_days = 30)
   y <- cumulate(x)
 
-  expect_equal_to_reference(capture.output(print(x)),
-                            file = "rds/print_x.rds")
-  expect_equal_to_reference(capture.output(print(y)),
-                            file = "rds/print_y.rds")
+  expect_output(print(x), "  // 30 dates \\(rows\\); 100 simulations \\(columns\\)")
+  expect_output(print(y), "  // 30 dates \\(rows\\); 100 simulations \\(columns\\)")
+
+  expect_output(print(y), " // cumulative projections")
+  expect_failure(expect_output(print(x), " // cumulative projections"))
 
 })

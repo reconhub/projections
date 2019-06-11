@@ -189,17 +189,17 @@ project <- function(x, R, si, n_sim = 100, n_days = 7,
   ## projected one, using a Binomial sampling.
 
   if (R_fix_within) {
-    R <- sample_(R, n_sim, replace = TRUE)
+    current_R <- sample_(R, n_sim, replace = TRUE)
   }
 
   for (i in t_sim) {
     if (!R_fix_within) {
-      R <- sample_(R, n_sim, replace = TRUE)
+      current_R <- sample_(R, n_sim, replace = TRUE)
     }
     lambda <- utils::tail(ws, i) %*% out[1:i, ]
     ## lambda <- lambda / reporting
     if (model == "poisson") {
-      out[i, ] <- stats::rpois(n_sim, R * lambda)
+      out[i, ] <- stats::rpois(n_sim, current_R * lambda)
     } else {
       ## If mu = 0, then it doesn't matter what the size value is,
       ## rnbinom will output 0s (mu = 0 => p =1).
@@ -209,7 +209,7 @@ project <- function(x, R, si, n_sim = 100, n_days = 7,
       size_adj <- lambda * size
       idx <- which(lambda == 0)
       size_adj[idx] <- 1
-      out[i, ] <- stats::rnbinom(n_sim, size = size_adj, mu = R * lambda)
+      out[i, ] <- stats::rnbinom(n_sim, size = size_adj, mu = current_R * lambda)
     }
     ## out[i,] <- stats::rbinom(ncol(out), true_I, prob = reporting)
   }

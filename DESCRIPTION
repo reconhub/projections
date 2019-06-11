@@ -13,6 +13,6 @@ Encoding: UTF-8
 LazyData: true
 Suggests: testthat, vdiffr, roxygen2, knitr, rmarkdown, outbreaks, magrittr
 Imports: stats, utils, incidence (>= 1.4.1), distcrete, ggplot2
-RoxygenNote: 6.1.0
+RoxygenNote: 6.1.1
 URL: http://www.repidemicsconsortium.org/projections
 BugReports: http://github.com/reconhub/projections/issues
