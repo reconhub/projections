@@ -1,5 +1,11 @@
 context("Test project function")
 
+setup(RNGversion("3.5.3"))
+teardown({
+  cur_R_version <- trimws(substr(R.version.string, 10, 16))
+  RNGversion(cur_R_version)
+})
+
 test_that("Test against reference results", {
   skip_on_cran()
 
@@ -25,7 +31,7 @@ test_that("Test against reference results", {
                   shape = 0.37,
                   scale = 41.4, w = 0)
 
-  i <- incidence::incidence(ebola_sim$linelist$date_of_onset)
+  i <- incidence::incidence(outbreaks::ebola_sim$linelist$date_of_onset)
 
   ## add projections after the first 100 days, over 60 days
   set.seed(1)

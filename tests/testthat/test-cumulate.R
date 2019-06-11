@@ -1,5 +1,11 @@
 context("Test printing")
 
+setup(RNGversion("3.5.3"))
+teardown({
+  cur_R_version <- trimws(substr(R.version.string, 10, 16))
+  RNGversion(cur_R_version)
+})
+
 test_that("Printing as planned", {
   skip_on_cran()
 
@@ -18,6 +24,6 @@ test_that("Printing as planned", {
   y <- cumulate(x)
 
   expect_identical(unname(apply(x, 2, cumsum)), unname(as.matrix(y)))
-  expect_error(cumulate(y), "x is already a cumulative incidence::incidence")
+  expect_error(cumulate(y), "x is already a cumulative incidence")
 
 })

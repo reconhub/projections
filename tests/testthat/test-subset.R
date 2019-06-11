@@ -1,5 +1,11 @@
 context("Test subset")
 
+setup(RNGversion("3.5.3"))
+teardown({
+  cur_R_version <- trimws(substr(R.version.string, 10, 16))
+  RNGversion(cur_R_version)
+})
+
 test_that("Test against reference results - numeric dates", {
     skip_on_cran()
 
@@ -59,4 +65,5 @@ test_that("Test against reference results - Date dates", {
     expect_equal_to_reference(subset_3, file = "rds/subset_Date_3.rds")
 
 })
+
 
