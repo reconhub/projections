@@ -5,7 +5,7 @@
 \title{Project future incidence}
 \usage{
 project(x, R, si, n_sim = 100, n_days = 7, R_fix_within = FALSE,
-  model = c("poisson", "negbin"), size = 0.03)
+  model = c("poisson", "negbin"), size = 0.03, time_change = NULL)
 }
 \arguments{
 \item{x}{An \code{incidence} object containing daily incidence; other time
@@ -13,7 +13,9 @@ intervals will trigger an error.}
 
 \item{R}{A vector of numbers representing plausible reproduction numbers; for
 instance, these can be samples from a posterior distribution using the
-\code{EpiEstim} package.}
+\code{EpiEstim} package. If `time_change` is provided, then it must be a
+list of such vectors, with one element more than the number of dates in
+`time_change`.}
 
 \item{si}{A function computing the serial interval, or a \code{numeric}
 vector providing its mass function. For functions, we strongly recommend
@@ -34,6 +36,11 @@ simulations favours more extreme predictions (see details)}
 
 \item{size}{size parameter of negative binomial distribition. Ignored if
 model is poisson}
+
+\item{time_change}{an optional vector of dates at which the simulations
+should use a different sample of reproduction numbers; if provided, `n`
+dates in `time_change` will produce `n+1` time windows, in which case `R`
+should be a list of vectors of `n+1` `R` values, one per each time window.}
 }
 \description{
 This function simulates future incidence based on past incidence data, a

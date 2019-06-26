@@ -23,6 +23,17 @@ test_that("Test against reference results", {
     pred_1 <- project(i, runif(100, 0.8, 1.9), si, n_days = 30)
     expect_equal_to_reference(pred_1, file = "rds/pred_1.rds", update = FALSE)
 
+
+    ## time-varying R
+    set.seed(1)
+    pred_2 <- project(i,
+                      R = list(1.5, 0.5, 2.1, .4, 1.4),
+                      si = si,
+                      n_days = 60,
+                      time_change = c(10, 15, 20, 30),
+                      n_sim = 100)
+    expect_equal_to_reference(pred_2, file = "rds/pred_2.rds", update = FALSE)
+
 })
 
 
@@ -67,6 +78,7 @@ test_that("Errors are thrown when they should", {
     si <- distcrete::distcrete("gamma", interval = 5L,
                                shape = 1.5,
                                scale = 2, w = 0)
+
     expect_error(project(i, 1, si = si),
                  "interval used in si is not 1 day, but 5")
     expect_error(project(i, -1, si = si),
@@ -75,6 +87,11 @@ test_that("Errors are thrown when they should", {
                  "R is not a finite value", fixed = TRUE)
     expect_error(project(i, "tamere", si = si),
                  "R is not numeric", fixed = TRUE)
-
-
+    expect_error(project(i, R = 1, si = si, time_change = 2),
+                 "`R` must be a `list` if `time_change` provided; it is a `numeric`",
+                 fixed = TRUE)
+    expect_error(project(i, R = list(1), si = si, time_change = 2),
+                "`R` must be a `list` of size 2 to match 1 time changes; found 1",
+                fixed = TRUE)
+    
 })
