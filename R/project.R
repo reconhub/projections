@@ -210,6 +210,10 @@ project <- function(x, R, si, n_sim = 100, n_days = 7,
     by = 1L
   )
 
+  ## time_change is provided in relative dates, i.e. date 1 is the first day of
+  ## the simulation, but really is max(x$dates) + 1
+  time_change <- t_start + time_change - 1
+
   ## handling time periods: to cover the more generic cases when `R` can change
   ## over different time periods, we treat all simulations like having time
   ## periods, with `R` being a list of vectors, one for each time period. If
@@ -256,7 +260,7 @@ project <- function(x, R, si, n_sim = 100, n_days = 7,
       ## If mu = 0, then it doesn't matter what the size value is,
       ## rnbinom will output 0s (mu = 0 => p =1).
       ## mu will be 0 if lambda is 0. But that will make size 0 which
-      ##  will make rnbinom spit NAs. Workaround is: if lambda is 0
+      ## will make rnbinom spit NAs. Workaround is: if lambda is 0
       ## set size to a non-trivial value.
       size_adj <- lambda * size
       idx <- which(lambda == 0)
