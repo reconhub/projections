@@ -10,6 +10,9 @@ assert_reporting <- function(x) {
 
 
 assert_R <- function(x) {
+  if (is.list(x)) {
+    x <- unlist(x)
+  }
   if (!is.numeric(x)) stop("R is not numeric")
   if (!all(is.finite(x))) stop("R is not a finite value")
   if (any(x < 0)) stop(sprintf("R < 0 (value: %.2f)", x[x<0]))

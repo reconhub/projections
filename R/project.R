@@ -9,16 +9,18 @@
 #' @author Pierre Nouvellet and Thibaut Jombart
 #'
 #' @param x An \code{incidence} object containing daily incidence; other time
-#' intervals will trigger an error.
+#'   intervals will trigger an error.
 #'
 #' @param R A vector of numbers representing plausible reproduction numbers; for
-#' instance, these can be samples from a posterior distribution using the
-#' \code{EpiEstim} package.
+#'   instance, these can be samples from a posterior distribution using the
+#'   \code{EpiEstim} package. If `time_change` is provided, then it must be a
+#'   list of such vectors, with one element more than the number of dates in
+#'   `time_change`.
 #'
 #' @param si A function computing the serial interval, or a \code{numeric}
-#' vector providing its mass function. For functions, we strongly recommend
-#' using the RECON package \code{distcrete} to obtain such distribution (see
-#' example).
+#'   vector providing its mass function. For functions, we strongly recommend
+#'   using the RECON package \code{distcrete} to obtain such distribution (see
+#'   example).
 #'
 #' @param n_sim The number of epicurves to simulate. Defaults to 100.
 #'
@@ -34,6 +36,11 @@
 #'
 #' @param size size parameter of negative binomial distribition. Ignored if
 #' model is poisson
+#'
+#' @param time_change an optional vector of dates at which the simulations
+#'   should use a different sample of reproduction numbers; if provided, `n`
+#'   dates in `time_change` will produce `n+1` time windows, in which case `R`
+#'   should be a list of vectors of `n+1` `R` values, one per each time window.
 #'
 #' @details The decision to fix R values within simulations
 #'     (\code{R_fix_within}) reflects two alternative views of the uncertainty
@@ -99,7 +106,8 @@
 project <- function(x, R, si, n_sim = 100, n_days = 7,
                     R_fix_within = FALSE,
                     model = c("poisson", "negbin"),
-                    size = 0.03) {
+                    size = 0.03,
+                    time_change = NULL) {
 
   ## Various checks on inputs
 
@@ -124,6 +132,30 @@ project <- function(x, R, si, n_sim = 100, n_days = 7,
     stop(msg)
   }
 
+  if (!is.null(time_change)) {
+    if (!is.numeric(time_change)) {
+      msg <- sprintf("`time_change` must be `numeric`, but is a `%s`",
+              paste(class(time_change), collapse = ", "))
+      stop(msg)
+    }
+
+    n_time_periods <- length(time_change) + 1
+
+    if (!is.list(R)) {
+      msg <- sprintf("`R` must be a `list` if `time_change` provided; it is a `%s`",
+                     paste(class(R), collapse = ", "))
+      stop(msg)
+    }
+
+    if (length(R) != n_time_periods) {
+      msg <- sprintf("`R` must be a `list` of size %d to match %d time changes; found %d",
+                     n_time_periods,
+                     n_time_periods - 1,
+                     length(R))
+      stop(msg)
+    }
+  }
+  
   assert_R(R)
 
 
@@ -148,6 +180,9 @@ project <- function(x, R, si, n_sim = 100, n_days = 7,
   }
 
 
+  if (is.null(time_change)) {
+    time_change <- Inf
+  }
 
 
   ## Computation of projections: we use the basic branching process with a
@@ -175,11 +210,21 @@ project <- function(x, R, si, n_sim = 100, n_days = 7,
     by = 1L
   )
 
+  ## handling time periods: to cover the more generic cases when `R` can change
+  ## over different time periods, we treat all simulations like having time
+  ## periods, with `R` being a list of vectors, one for each time period. If
+  ## there are no changes, we just consider this is a single time period, so put
+  ## `R` in a list of length 1.
+  
+  time_period <- 1L
+  if (!is.list(R)) {
+    R <- list(R)
+  }
+  
 
   ## On the drawing of R values: either these are constant within simulations,
   ## so drawn once for all simulations, or they need drawing at every time step
   ## for every simulations.
-
 
   ## On the handling of reporting: reporting first affects the force of
   ## infection lambda, with the underlying assumption that the true epicurve
@@ -189,12 +234,19 @@ project <- function(x, R, si, n_sim = 100, n_days = 7,
   ## projected one, using a Binomial sampling.
 
   if (R_fix_within) {
-    current_R <- sample_(R, n_sim, replace = TRUE)
+    R_time_period <- R[[time_period]]
+    current_R <- sample_(R_time_period, n_sim, replace = TRUE)
   }
 
   for (i in t_sim) {
+    ## update the time period if needed
+    if (i %in% time_change) {
+      time_period <- time_period + 1
+    }
+     
     if (!R_fix_within) {
-      current_R <- sample_(R, n_sim, replace = TRUE)
+    R_time_period <- R[[time_period]]
+      current_R <- sample_(R_time_period, n_sim, replace = TRUE)
     }
     lambda <- utils::tail(ws, i) %*% out[1:i, ]
     ## lambda <- lambda / reporting
