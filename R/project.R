@@ -139,6 +139,8 @@ project <- function(x, R, si, n_sim = 100, n_days = 7,
     stop(msg)
   }
 
+  n_time_periods <- 1 # default value, erased if `time_change` provided
+  
   if (!is.null(time_change)) {
     if (!is.numeric(time_change)) {
       msg <- sprintf("`time_change` must be `numeric`, but is a `%s`",

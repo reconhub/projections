@@ -114,9 +114,6 @@ test_that("Errors are thrown when they should", {
                  "R is not a finite value", fixed = TRUE)
     expect_error(project(i, "tamere", si = si),
                  "R is not numeric", fixed = TRUE)
-    expect_error(project(i, R = 1, si = si, time_change = 2),
-                 "`R` must be a `list` if `time_change` provided; it is a `numeric`",
-                 fixed = TRUE)
     expect_error(project(i, R = list(1), si = si, time_change = 2),
                 "`R` must be a `list` of size 2 to match 1 time changes; found 1",
                 fixed = TRUE)
