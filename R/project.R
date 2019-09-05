@@ -15,8 +15,9 @@
 #' @param R A vector of numbers representing plausible reproduction numbers; for
 #'   instance, these can be samples from a posterior distribution using the
 #'   `earlyR` or `EpiEstim` packages. If `time_change` is provided, then it must
-#'   be a list of such vectors, with one element more than the number of dates
-#'   in `time_change`.
+#'   be a `vector` (for fixed values of R per time window) or a `list` of
+#'   vectors (for separate distributions of R per time window), with one element
+#'   more than the number of dates in `time_change`.
 #'
 #' @param si A function computing the serial interval, or a `numeric`
 #'   vector providing its mass function. For functions, we strongly recommend
@@ -103,9 +104,29 @@
 #' plot(i[1:160]) %>% add_projections(proj_3)
 #'
 #'
-#' ## time-varying R
-#'
+#' ## time-varying R, 2 periods, R is 2.1 then 0.5
 #' set.seed(1)
+#' proj_4 <- project(i,
+#'                   R = c(2.1, 0.5),
+#'                   si = si,
+#'                   n_days = 60,
+#'                   time_change = 40,
+#'                   n_sim = 100)
+#' plot(proj_4)
+#'
+#' 
+#' ## time-varying R, 2 periods, separate distributions of R for each period
+#' set.seed(1)
+#' R_period_1 <- runif(100, min = 1.1, max = 3)
+#' R_period_2 <- runif(100, min = 0.6, max = .9)
+#' 
+#' proj_5 <- project(i,
+#'                   R = list(R_period_1, R_period_2),
+#'                   si = si,
+#'                   n_days = 60,
+#'                   time_change = 20,
+#'                   n_sim = 100)
+#' plot(proj_5)
 #' 
 #' }
 #'
