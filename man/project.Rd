@@ -5,7 +5,7 @@
 \title{Project future incidence}
 \usage{
 project(x, R, si, n_sim = 100, n_days = 7, R_fix_within = FALSE,
-  model = c("poisson", "negbin"), size = 0.03)
+  model = c("poisson", "negbin"), size = 0.03, time_change = NULL)
 }
 \arguments{
 \item{x}{An \code{incidence} object containing daily incidence; other time
@@ -13,9 +13,12 @@ intervals will trigger an error.}
 
 \item{R}{A vector of numbers representing plausible reproduction numbers; for
 instance, these can be samples from a posterior distribution using the
-\code{EpiEstim} package.}
+`earlyR` or `EpiEstim` packages. If `time_change` is provided, then it must
+be a `vector` (for fixed values of R per time window) or a `list` of
+vectors (for separate distributions of R per time window), with one element
+more than the number of dates in `time_change`.}
 
-\item{si}{A function computing the serial interval, or a \code{numeric}
+\item{si}{A function computing the serial interval, or a `numeric`
 vector providing its mass function. For functions, we strongly recommend
 using the RECON package \code{distcrete} to obtain such distribution (see
 example).}
@@ -34,6 +37,11 @@ simulations favours more extreme predictions (see details)}
 
 \item{size}{size parameter of negative binomial distribition. Ignored if
 model is poisson}
+
+\item{time_change}{an optional vector of dates at which the simulations
+should use a different sample of reproduction numbers; if provided, `n`
+dates in `time_change` will produce `n+1` time windows, in which case `R`
+should be a list of vectors of `n+1` `R` values, one per each time window.}
 }
 \description{
 This function simulates future incidence based on past incidence data, a
@@ -78,7 +86,8 @@ plot(proj_1)
 plot(i[1:160]) \%>\% add_projections(proj_1)
 
 
-## projections after the first 100 days, over 60 days, varying R
+## projections after the first 100 days, over 60 days,
+## using a sample of R
 
 set.seed(1)
 R <- rnorm(100, 1.8, 0.2)
@@ -98,9 +107,35 @@ proj_3 <- project(x = i[1:100], R = R, si = si, n_days = 60,
 ## add projections to incidence plot
 plot(i[1:160]) \%>\% add_projections(proj_3)
 
+
+## time-varying R, 2 periods, R is 2.1 then 0.5
+set.seed(1)
+proj_4 <- project(i,
+                  R = c(2.1, 0.5),
+                  si = si,
+                  n_days = 60,
+                  time_change = 40,
+                  n_sim = 100)
+plot(proj_4)
+
+
+## time-varying R, 2 periods, separate distributions of R for each period
+set.seed(1)
+R_period_1 <- runif(100, min = 1.1, max = 3)
+R_period_2 <- runif(100, min = 0.6, max = .9)
+
+proj_5 <- project(i,
+                  R = list(R_period_1, R_period_2),
+                  si = si,
+                  n_days = 60,
+                  time_change = 20,
+                  n_sim = 100)
+plot(proj_5)
+
 }
 
 }
 \author{
-Pierre Nouvellet and Thibaut Jombart
+Pierre Nouvellet (original model), Thibaut Jombart (bulk of the
+  code), Sangeeta Bhatia (Negative Binomial model)
 }
