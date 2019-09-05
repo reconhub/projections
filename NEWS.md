@@ -1,9 +1,9 @@
 # projections 0.4.0
 
 - `project` can now use time-varying R by specifying `time_change`, a vector of
-  dates at which R changes, and providing a `list` of values for `R` instead of
-  a vector, in which case it needs to have `length(time_change) + 1` components,
-  each of which is a vector of R values.
+  dates at which R changes, and providing a `vector` or a `list` of values for
+  `R` instead of a vector, in which case it needs to have `length(time_change) +
+  1` components, each of which is a vector of R values.
 
 # projections 0.3.2
 
