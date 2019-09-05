@@ -6,6 +6,8 @@ teardown({
   RNGversion(cur_R_version)
 })
 
+
+
 test_that("Test against reference results", {
     skip_on_cran()
 
@@ -24,16 +26,41 @@ test_that("Test against reference results", {
     expect_equal_to_reference(pred_1, file = "rds/pred_1.rds", update = FALSE)
 
 
-    ## time-varying R
+    ## time-varying R (fixed within time windows)
     set.seed(1)
     pred_2 <- project(i,
-                      R = list(1.5, 0.5, 2.1, .4, 1.4),
+                      R = c(1.5, 0.5, 2.1, .4, 1.4),
                       si = si,
                       n_days = 60,
                       time_change = c(10, 15, 20, 30),
                       n_sim = 100)
     expect_equal_to_reference(pred_2, file = "rds/pred_2.rds", update = FALSE)
 
+
+    ## time-varying R, 2 periods, R is 2.1 then 0.5
+    set.seed(1)
+    
+    pred_3 <- project(i,
+                      R = c(2.1, 0.5),
+                      si = si,
+                      n_days = 60,
+                      time_change = 40,
+                      n_sim = 100)
+    expect_equal_to_reference(pred_3, file = "rds/pred_3.rds", update = FALSE)
+
+    ## time-varying R, 2 periods, separate distributions of R for each period
+    set.seed(1)
+    R_period_1 <- runif(100, min = 1.1, max = 3)
+    R_period_2 <- runif(100, min = 0.6, max = .9)
+    
+    pred_4 <- project(i,
+                      R = list(R_period_1, R_period_2),
+                      si = si,
+                      n_days = 60,
+                      time_change = 20,
+                      n_sim = 100)
+    expect_equal_to_reference(pred_4, file = "rds/pred_4.rds", update = FALSE)    
+    
 })
 
 

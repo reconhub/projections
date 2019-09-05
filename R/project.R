@@ -6,18 +6,19 @@
 #'
 #' @export
 #'
-#' @author Pierre Nouvellet and Thibaut Jombart
+#' @author Pierre Nouvellet (original model), Thibaut Jombart (bulk of the
+#'   code), Sangeeta Bhatia (Negative Binomial model)
 #'
 #' @param x An \code{incidence} object containing daily incidence; other time
 #'   intervals will trigger an error.
 #'
 #' @param R A vector of numbers representing plausible reproduction numbers; for
 #'   instance, these can be samples from a posterior distribution using the
-#'   \code{EpiEstim} package. If `time_change` is provided, then it must be a
-#'   list of such vectors, with one element more than the number of dates in
-#'   `time_change`.
+#'   `earlyR` or `EpiEstim` packages. If `time_change` is provided, then it must
+#'   be a list of such vectors, with one element more than the number of dates
+#'   in `time_change`.
 #'
-#' @param si A function computing the serial interval, or a \code{numeric}
+#' @param si A function computing the serial interval, or a `numeric`
 #'   vector providing its mass function. For functions, we strongly recommend
 #'   using the RECON package \code{distcrete} to obtain such distribution (see
 #'   example).
@@ -80,7 +81,8 @@
 #' plot(i[1:160]) %>% add_projections(proj_1)
 #'
 #'
-#' ## projections after the first 100 days, over 60 days, varying R
+#' ## projections after the first 100 days, over 60 days,
+#' ## using a sample of R
 #'
 #' set.seed(1)
 #' R <- rnorm(100, 1.8, 0.2)
@@ -100,6 +102,11 @@
 #' ## add projections to incidence plot
 #' plot(i[1:160]) %>% add_projections(proj_3)
 #'
+#'
+#' ## time-varying R
+#'
+#' set.seed(1)
+#' 
 #' }
 #'
 
@@ -141,8 +148,8 @@ project <- function(x, R, si, n_sim = 100, n_days = 7,
 
     n_time_periods <- length(time_change) + 1
 
-    if (!is.list(R)) {
-      msg <- sprintf("`R` must be a `list` if `time_change` provided; it is a `%s`",
+    if (!is.vector(R)) {
+      msg <- sprintf("`R` must be a `vector` or a `list` if `time_change` provided; it is a `%s`",
                      paste(class(R), collapse = ", "))
       stop(msg)
     }
@@ -218,11 +225,18 @@ project <- function(x, R, si, n_sim = 100, n_days = 7,
   ## over different time periods, we treat all simulations like having time
   ## periods, with `R` being a list of vectors, one for each time period. If
   ## there are no changes, we just consider this is a single time period, so put
-  ## `R` in a list of length 1.
-  
+  ## `R` in a list of length 1. If there are `n` changes and the user provided a
+  ## vector for R of length `n + 1`, we assume the `R` is constant per time
+  ## period and input is silently converted to a list of length `n + 1`.
+
   time_period <- 1L
-  if (!is.list(R)) {
-    R <- list(R)
+  
+  if (!is.list(R)) { # i.e. R is a vector and needs conversion to a list
+    if (n_time_periods > 1L) {  # several time periods
+      R <- as.list(R)
+     } else {  # a single time period
+       R <- list(R)
+     }
   }
   
 
