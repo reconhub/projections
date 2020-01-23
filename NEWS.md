@@ -1,3 +1,8 @@
+# projections 0.4.1
+
+- `project()` will can now take single dates or single projections as inputs.
+  (@acori, @zkamvar, #18).
+
 # projections 0.4.0
 
 - `project` can now use time-varying R by specifying `time_change`, a vector of

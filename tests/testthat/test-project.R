@@ -7,6 +7,40 @@ teardown({
 })
 
 
+test_that("Projections can be performed for a single day", {
+  i <- incidence::incidence(as.Date('2020-01-23'))
+  si <- c(0.2, 0.5, 0.2, 0.1)
+  R0 <- 2
+  
+  p <- project(x = i,
+    si = si,
+    R = R0,
+    n_sim = 2,  # doesn't work with 1 in project function
+    R_fix_within = TRUE,
+    n_days = 1, # doing 2 days as project function currently not working with one day - will only use first day though
+    model = "poisson"
+  )
+
+  expect_identical(get_dates(p), as.Date("2020-01-24"))
+})
+
+test_that("Projections can be performed for a single day", {
+  i <- incidence::incidence(as.Date('2020-01-23'))
+  si <- c(0.2, 0.5, 0.2, 0.1)
+  R0 <- 2
+  
+  p <- project(x = i,
+    si = si,
+    R = R0,
+    n_sim = 1,  # doesn't work with 1 in project function
+    R_fix_within = TRUE,
+    n_days = 2, # doing 2 days as project function currently not working with one day - will only use first day though
+    model = "poisson"
+  )
+
+  expect_identical(get_dates(p), as.Date("2020-01-24") + 0:1)
+  expect_identical(ncol(p), 1L)
+})
 
 test_that("Test against reference results", {
     skip_on_cran()
