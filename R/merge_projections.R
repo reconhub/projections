@@ -6,10 +6,31 @@
 #' @author Thibaut Jombart
 #' 
 #' @param x A `list` of `projections` objects to be merged.
+#'
+#' @export
 #' 
 #' @examples
+#'
+#' ## generate toy data
+#' dates <- Sys.Date() + c(0, 0, 2, 5, 6, 6, 7)
+#' i <- incidence::incidence(dates)
+#' si <- c(0.2, 0.5, 0.2, 0.1)
+#' R0 <- 3.5
 #' 
-
+#' ## make several projections objects
+#' x <- lapply(1:10,
+#'             function(j)
+#'               project(x = i,
+#'                       si = si,
+#'                       R = R0,
+#'                       n_sim = 2 * j,
+#'                       R_fix_within = TRUE,
+#'                       n_days = j,
+#'                       model = "poisson"
+#'                       ))
+#' ## see all dimensions
+#' lapply(x, dim)
+#' merge_projections(x)
 
 merge_projections <- function(x) {
 
