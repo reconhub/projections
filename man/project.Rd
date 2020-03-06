@@ -4,17 +4,8 @@
 \alias{project}
 \title{Project future incidence}
 \usage{
-project(
-  x,
-  R,
-  si,
-  n_sim = 100,
-  n_days = 7,
-  R_fix_within = FALSE,
-  model = c("poisson", "negbin"),
-  size = 0.03,
-  time_change = NULL
-)
+project(x, R, si, n_sim = 100, n_days = 7, R_fix_within = FALSE,
+  model = c("poisson", "negbin"), size = 0.03, time_change = NULL)
 }
 \arguments{
 \item{x}{An \code{incidence} object containing daily incidence; other time
