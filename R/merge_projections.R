@@ -28,6 +28,11 @@ merge_projections <- function(x) {
     stop(msg)
   }
 
+  if (!length(x)) {
+    msg <- "x is an empty `list`"
+    stop(msg)
+  }
+  
   ## note: Reduce(function(...) merge(..., all = TRUE), proj) would work here
   ## but take a loooot of time; `dplyr::full_join` is worse; we do the merge
   ## manually instead

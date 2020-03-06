@@ -7,8 +7,15 @@
 merge_projections(x)
 }
 \arguments{
-\item{x}{a `list` of `projections` objects to be merged}
+\item{x}{A `list` of `projections` objects to be merged.}
 }
 \description{
-This function merges `projections` objects.
+This function merges `projections` objects, binding them by columns, making
+sure that they all use the same dates, adding rows of '0' where needed.
+}
+\examples{
+
+}
+\author{
+Thibaut Jombart
 }

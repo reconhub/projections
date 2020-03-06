@@ -36,3 +36,20 @@ test_that("Merging works", {
   expect_equal(get_dates(x), get_dates(x_3)) # check dates
   expect_true(all(x_3[-c(1:3), 3] == 0)) # check zeros in right place
 })
+
+
+
+
+
+test_that("Errors are issued as they should", {
+
+  msg <- "x is not a `list` but a character"
+  expect_error(merge_projections(letters), msg)
+
+  msg <- "some input objects are not `projections` objects"
+  expect_error(merge_projections(list(letters)), msg)
+
+  msg <- "x is an empty `list`"
+  expect_error(merge_projections(list()), msg)
+
+})
