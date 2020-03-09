@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Print method for projections objects — print.projections • projections</title>
+<title>Add data of different projections objects — merge_add_projections • projections</title>
 
 
 <!-- jquery -->
@@ -35,8 +35,12 @@
 
 
 
-<meta property="og:title" content="Print method for projections objects — print.projections" />
-<meta property="og:description" content="This method prints the content of projections objects." />
+<meta property="og:title" content="Add data of different projections objects — merge_add_projections" />
+<meta property="og:description" content="This function adds counts from several `projections` objects, making sure
+that they all use the same dates, adding rows of '0' where
+needed. Simulations (columns) are recycled when needed if some objects have
+less simulations than others. The same operation is implemented by the `+`
+operator." />
 <meta name="twitter:card" content="summary" />
 
 
@@ -103,42 +107,82 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Print method for projections objects</h1>
+    <h1>Add data of different projections objects</h1>
     
-    <div class="hidden name"><code>print.projections.Rd</code></div>
+    <div class="hidden name"><code>merge_add_projections.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>This method prints the content of <code>projections</code> objects.</p>
+    <p>This function adds counts from several `projections` objects, making sure
+that they all use the same dates, adding rows of '0' where
+needed. Simulations (columns) are recycled when needed if some objects have
+less simulations than others. The same operation is implemented by the `+`
+operator.</p>
     </div>
 
-    <pre class="usage"><span class='co'># S3 method for projections</span>
-<span class='fu'><a href='https://rdrr.io/r/base/print.html'>print</a></span>(<span class='no'>x</span>, <span class='no'>...</span>)</pre>
+    <pre class="usage">merge_add_projections(x)
+
+# S3 method for projections
++(a, b)</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
       <th>x</th>
-      <td><p>A <code>projections</code> object.</p></td>
+      <td><p>A `list` of `projections` objects to be added.</p></td>
     </tr>
     <tr>
-      <th>...</th>
-      <td><p>further parameters to be passed to other methods (currently not
-used)</p></td>
+      <th>a</th>
+      <td><p>A  `projections` object.</p></td>
+    </tr>
+    <tr>
+      <th>b</th>
+      <td><p>A  `projections` object.</p></td>
     </tr>
     </table>
 
 
+    <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
+    <pre class="examples"><div class='input'>
+<span class='kw'>if</span> (<span class='fu'><a href='https://rdrr.io/r/base/library.html'>require</a></span>(<span class='no'>incidence</span>)) {
+
+  <span class='co'>## make toy data and projections </span>
+  <span class='fu'><a href='https://rdrr.io/r/base/Random.html'>set.seed</a></span>(<span class='fl'>1</span>)
+  <span class='no'>i</span> <span class='kw'>&lt;-</span> <span class='kw pkg'>incidence</span><span class='kw ns'>::</span><span class='fu'><a href='https://rdrr.io/pkg/incidence/man/incidence.html'>incidence</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/as.Date.html'>as.Date</a></span>(<span class='st'>'2020-01-01'</span>) +
+                          <span class='fu'><a href='https://rdrr.io/r/base/sample.html'>sample</a></span>(<span class='fl'>1</span>:<span class='fl'>20</span>, <span class='fl'>50</span>, <span class='kw'>replace</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>))
+  <span class='no'>si</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>0.2</span>, <span class='fl'>0.5</span>, <span class='fl'>0.2</span>, <span class='fl'>0.1</span>)
+
+  <span class='no'>x_1</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='project.html'>project</a></span>(<span class='kw'>x</span> <span class='kw'>=</span> <span class='no'>i</span>[<span class='fl'>1</span>:<span class='fl'>10</span>],
+                 <span class='kw'>si</span> <span class='kw'>=</span> <span class='no'>si</span>,
+                 <span class='kw'>R</span> <span class='kw'>=</span> <span class='fl'>3.5</span>,
+                 <span class='kw'>n_sim</span> <span class='kw'>=</span> <span class='fl'>200</span>,
+                 <span class='kw'>n_days</span> <span class='kw'>=</span> <span class='fl'>5</span>)
+
+  <span class='no'>x_2</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='project.html'>project</a></span>(<span class='kw'>x</span> <span class='kw'>=</span> <span class='no'>i</span>[<span class='fl'>11</span>:<span class='fl'>20</span>],
+                 <span class='kw'>si</span> <span class='kw'>=</span> <span class='no'>si</span>,
+                 <span class='kw'>R</span> <span class='kw'>=</span> <span class='fl'>1.8</span>,
+                 <span class='kw'>n_sim</span> <span class='kw'>=</span> <span class='fl'>300</span>,
+                 <span class='kw'>n_days</span> <span class='kw'>=</span> <span class='fl'>10</span>
+                 )
+
+  <span class='co'>## check simulations</span>
+  <span class='no'>x_1</span> <span class='co'># first type</span>
+  <span class='no'>x_2</span> <span class='co'># other simulations</span>
+  <span class='no'>y</span> <span class='kw'>&lt;-</span> <span class='no'>x_1</span> + <span class='no'>x_2</span> <span class='co'># add simulations</span>
+  <span class='fu'><a href='https://rdrr.io/r/graphics/plot.html'>plot</a></span>(<span class='no'>y</span>)
+
+}</div><div class='img'><img src='merge_add_projections-1.png' alt='' width='700' height='433' /></div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>
     <ul class="nav nav-pills nav-stacked">
       <li><a href="#arguments">Arguments</a></li>
+      <li><a href="#examples">Examples</a></li>
     </ul>
 
     <h2>Author</h2>
-    <p>Thibaut Jombart (<a href='mailto:thibautjombart@gmail.com'>thibautjombart@gmail.com</a>)</p>
+    <p>Thibaut Jombart</p>
   </div>
 </div>
 
