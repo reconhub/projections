@@ -152,6 +152,9 @@ test_that("Errors are thrown when they should", {
     i <- incidence::incidence(1:10, 1, group = letters[1:10])
     expect_error(project(i),
                  "cannot use multiple groups in incidence object")
+    i <- incidence::incidence(seq(Sys.Date(), by = "month", length.out = 12), "month")
+    expect_error(project(i),
+		 "daily incidence needed, but interval is 30 days")
 
     i <- incidence::incidence(1)
     si <- distcrete::distcrete("gamma", interval = 5L,

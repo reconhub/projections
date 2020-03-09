@@ -59,119 +59,118 @@
 #' @examples
 #'
 #' ## example using simulated Ebola outbreak
-  #' if (require(outbreaks) &&
-  #'     require(distcrete) &&
-  #'     require(incidence) &&
-  #'     require(magrittr)) {
-  #'
-  #' si <- distcrete("gamma", interval = 1L,
-  #'                  shape = 0.37,
-  #'                  scale = 41.4, w = 0)
-  #'
-  #' i <- incidence(ebola_sim$linelist$date_of_onset)
-  #' plot(i)
-  #'
-  #'
-  #' ## projections after the first 100 days, over 60 days, fixed R to 2.1
-  #'
-  #' set.seed(1)
-  #' proj_1 <- project(x = i[1:100], R = 2.1, si = si, n_days = 60)
-  #' plot(proj_1)
-  #'
-  #' ## add projections to incidence plot
-  #' plot(i[1:160]) %>% add_projections(proj_1)
-  #'
-  #'
-  #' ## projections after the first 100 days, over 60 days,
-  #' ## using a sample of R
-  #'
-  #' set.seed(1)
-  #' R <- rnorm(100, 1.8, 0.2)
-  #' hist(R, col = "grey", border = "white", main = "Distribution of R")
-  #' proj_2 <- project(x = i[1:100], R = R, si = si, n_days = 60)
-  #'
-  #' ## add projections to incidence plot
-  #' plot(i[1:160]) %>% add_projections(proj_2)
-  #'
-  #'
-  #' ## same with R constant per simulation (more variability)
-  #'
-  #' set.seed(1)
-  #' proj_3 <- project(x = i[1:100], R = R, si = si, n_days = 60,
-  #'                   R_fix_within = TRUE)
-  #'
-  #' ## add projections to incidence plot
-  #' plot(i[1:160]) %>% add_projections(proj_3)
-  #'
-  #'
-  #' ## time-varying R, 2 periods, R is 2.1 then 0.5
-  #' set.seed(1)
-  #' proj_4 <- project(i,
-  #'                   R = c(2.1, 0.5),
-  #'                   si = si,
-  #'                   n_days = 60,
-  #'                   time_change = 40,
-  #'                   n_sim = 100)
-  #' plot(proj_4)
-  #'
-  #' 
-  #' ## time-varying R, 2 periods, separate distributions of R for each period
-  #' set.seed(1)
-  #' R_period_1 <- runif(100, min = 1.1, max = 3)
-  #' R_period_2 <- runif(100, min = 0.6, max = .9)
-  #' 
-  #' proj_5 <- project(i,
-  #'                   R = list(R_period_1, R_period_2),
-  #'                   si = si,
-  #'                   n_days = 60,
-  #'                   time_change = 20,
-  #'                   n_sim = 100)
-  #' plot(proj_5)
-  #' 
-  #' }
-  #'
+#' if (require(outbreaks) &&
+#'     require(distcrete) &&
+#'     require(incidence) &&
+#'     require(magrittr)) {
+#'
+#' si <- distcrete("gamma", interval = 1L,
+#'                  shape = 0.37,
+#'                  scale = 41.4, w = 0)
+#'
+#' i <- incidence(ebola_sim$linelist$date_of_onset)
+#' plot(i)
+#'
+#'
+#' ## projections after the first 100 days, over 60 days, fixed R to 2.1
+#'
+#' set.seed(1)
+#' proj_1 <- project(x = i[1:100], R = 2.1, si = si, n_days = 60)
+#' plot(proj_1)
+#'
+#' ## add projections to incidence plot
+#' plot(i[1:160]) %>% add_projections(proj_1)
+#'
+#'
+#' ## projections after the first 100 days, over 60 days,
+#' ## using a sample of R
+#'
+#' set.seed(1)
+#' R <- rnorm(100, 1.8, 0.2)
+#' hist(R, col = "grey", border = "white", main = "Distribution of R")
+#' proj_2 <- project(x = i[1:100], R = R, si = si, n_days = 60)
+#'
+#' ## add projections to incidence plot
+#' plot(i[1:160]) %>% add_projections(proj_2)
+#'
+#'
+#' ## same with R constant per simulation (more variability)
+#'
+#' set.seed(1)
+#' proj_3 <- project(x = i[1:100], R = R, si = si, n_days = 60,
+#'                   R_fix_within = TRUE)
+#'
+#' ## add projections to incidence plot
+#' plot(i[1:160]) %>% add_projections(proj_3)
+#'
+#'
+#' ## time-varying R, 2 periods, R is 2.1 then 0.5
+#' set.seed(1)
+#' proj_4 <- project(i,
+#'                   R = c(2.1, 0.5),
+#'                   si = si,
+#'                   n_days = 60,
+#'                   time_change = 40,
+#'                   n_sim = 100)
+#' plot(proj_4)
+#'
+#' 
+#' ## time-varying R, 2 periods, separate distributions of R for each period
+#' set.seed(1)
+#' R_period_1 <- runif(100, min = 1.1, max = 3)
+#' R_period_2 <- runif(100, min = 0.6, max = .9)
+#' 
+#' proj_5 <- project(i,
+#'                   R = list(R_period_1, R_period_2),
+#'                   si = si,
+#'                   n_days = 60,
+#'                   time_change = 20,
+#'                   n_sim = 100)
+#' plot(proj_5)
+#' 
+#' }
+#'
 
-  project <- function(x, R, si, n_sim = 100, n_days = 7,
-                      R_fix_within = FALSE,
-                      model = c("poisson", "negbin"),
-                      size = 0.03,
-                      time_change = NULL) {
+project <- function(x, R, si, n_sim = 100, n_days = 7,
+                    R_fix_within = FALSE,
+                    model = c("poisson", "negbin"),
+                    size = 0.03,
+                    time_change = NULL) {
 
-    ## Various checks on inputs
+  ## Various checks on inputs
 
-    model <- match.arg(model)
+  model <- match.arg(model)
 
-    if (!inherits(x, "incidence")) {
-      msg <- "x is not an incidence object"
-      stop(msg)
-    }
+  if (!inherits(x, "incidence")) {
+    msg <- "x is not an incidence object"
+    stop(msg)
+  }
 
-    if (as.integer(x$interval) != 1L) {
-      msg <- sprintf(
+  if (as.integer(mean(incidence::get_interval(x))) != 1L) {
+    msg <- sprintf(
         "daily incidence needed, but interval is %d days",
-        x$interval
-      )
+        as.integer(mean(incidence::get_interval(x)))
+    )
+    stop(msg)
+  }
+
+  if (ncol(incidence::get_counts(x)) > 1L) {
+    msg <- sprintf("cannot use multiple groups in incidence object")
+    stop(msg)
+  }
+
+  n_time_periods <- 1 # default value, erased if `time_change` provided
+  
+  if (!is.null(time_change)) {
+    if (!is.numeric(time_change)) {
+      msg <- sprintf("`time_change` must be `numeric`, but is a `%s`",
+                     paste(class(time_change), collapse = ", "))
       stop(msg)
     }
 
+    n_time_periods <- length(time_change) + 1
 
-    if (ncol(x$counts) > 1L) {
-      msg <- sprintf("cannot use multiple groups in incidence object")
-      stop(msg)
-    }
-
-    n_time_periods <- 1 # default value, erased if `time_change` provided
-    
-    if (!is.null(time_change)) {
-      if (!is.numeric(time_change)) {
-        msg <- sprintf("`time_change` must be `numeric`, but is a `%s`",
-                paste(class(time_change), collapse = ", "))
-        stop(msg)
-      }
-
-      n_time_periods <- length(time_change) + 1
-
-      if (!is.vector(R)) {
+    if (!is.vector(R)) {
       msg <- sprintf("`R` must be a `vector` or a `list` if `time_change` provided; it is a `%s`",
                      paste(class(R), collapse = ", "))
       stop(msg)
@@ -190,7 +189,7 @@
 
 
   ## useful variables
-  n_dates_x <- nrow(x$counts)
+  n_dates_x <- nrow(incidence::get_counts(x))
   t_max <- n_days + n_dates_x - 1
 
   if (inherits(si, "distcrete")) {
@@ -228,7 +227,7 @@
 
 
   ## initial conditions
-  I0 <- matrix(x$counts, nrow = n_dates_x, ncol = n_sim)
+  I0 <- matrix(incidence::get_counts(x), nrow = n_dates_x, ncol = n_sim)
 
   ## projection
   out <- rbind(I0, matrix(0, n_days, n_sim))
