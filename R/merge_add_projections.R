@@ -1,17 +1,29 @@
-##' Add cases from different projections objects
-##'
-##' This function adds cases from a list of `projections` objects with the same
-##' number of simulations, but potentially different dates.
-##'
-##' 
-
-
-#' @param x a `list` of `projections` objects to be merged
+#' Add data of different projections objects
+#'
+#' This function adds counts from several `projections` objects, making sure
+#' that they all use the same dates, adding rows of '0' where
+#' needed. Simulations (columns) are recycled when needed if some objects have
+#' less simulations than others.
+#'
+#' @author Thibaut Jombart
+#' 
+#' @param x A `list` of `projections` objects to be added.
+#'
+#' @export
+#' 
+#' @examples
+#'
 #'
 
 merge_add_projections <- function(x) {
 
-  ## add input validators here
+  ## check that inputs are all okay
+  if (!is.list(x)) {
+    msg <- sprintf("x is not a `list` but a %s",
+                   class(x)[1])
+    stop(msg)
+  }
+  
   is_projections <- vapply(x,
                            function(e) inherits(e, "projections"),
                            logical(1))
@@ -20,6 +32,12 @@ merge_add_projections <- function(x) {
     stop(msg)
   }
 
+  if (!length(x)) {
+    msg <- "x is an empty `list`"
+    stop(msg)
+  }
+
+  
   ## note: Reduce(function(...) merge(..., all = TRUE), proj) would work here
   ## but take a loooot of time; `dplyr::full_join` is worse; we do the merge
   ## manually instead
