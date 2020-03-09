@@ -67,7 +67,12 @@ test_that("Merging works", {
   x <- merge_add_projections(list(x_2, x_2[c(1:3), ]))
   expect_equal(as.vector(x[1:3, ]), as.vector(x_2[1:3, ] * 2))
   expect_equal(as.vector(x[-(1:3), ]), as.vector(x_2[-(1:3), ]))
-    
+
+
+  ## check operator version
+  expect_identical(x + x, x * 2)
+  expect_identical(x[-1, ] + x[1, ], x)
+  
 })
 
 

@@ -3,11 +3,16 @@
 #' This function adds counts from several `projections` objects, making sure
 #' that they all use the same dates, adding rows of '0' where
 #' needed. Simulations (columns) are recycled when needed if some objects have
-#' less simulations than others.
+#' less simulations than others. The same operation is implemented by the `+`
+#' operator.
 #'
 #' @author Thibaut Jombart
 #' 
 #' @param x A `list` of `projections` objects to be added.
+#'
+#' @param a A  `projections` object.
+#'
+#' @param b A  `projections` object.
 #'
 #' @export
 #' 
@@ -95,3 +100,19 @@ merge_add_projections <- function(x) {
   out <- build_projections(out_matrix, all_dates)
   out
 }
+
+
+
+#' @export
+#' @rdname merge_add_projections
+`+.projections` <- function(a, b) {
+  if (inherits(b, "projections")) {
+    merge_add_projections(list(a, b))
+  } else {
+    old_class <- class(a)
+    out <- unclass(a) + b
+    class(out) <- old_class
+    out
+  }
+}
+
