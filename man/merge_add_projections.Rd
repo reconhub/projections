@@ -2,14 +2,23 @@
 % Please edit documentation in R/merge_add_projections.R
 \name{merge_add_projections}
 \alias{merge_add_projections}
-\title{Add cases from different projections objects}
+\title{Add data of different projections objects}
 \usage{
 merge_add_projections(x)
 }
 \arguments{
-\item{x}{a `list` of `projections` objects to be merged}
+\item{x}{A `list` of `projections` objects to be added.}
 }
 \description{
-This function adds cases from a list of `projections` objects with the same
-number of simulations, but potentially different dates.
+This function adds counts from several `projections` objects, making sure
+that they all use the same dates, adding rows of '0' where
+needed. Simulations (columns) are recycled when needed if some objects have
+less simulations than others.
+}
+\examples{
+
+
+}
+\author{
+Thibaut Jombart
 }

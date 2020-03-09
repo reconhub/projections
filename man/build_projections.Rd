@@ -4,8 +4,7 @@
 \alias{build_projections}
 \title{Constructor for projections objects}
 \usage{
-build_projections(x, dates = NULL, cumulative = FALSE,
-  order_dates = TRUE)
+build_projections(x, dates = NULL, cumulative = FALSE, order_dates = TRUE)
 }
 \arguments{
 \item{x}{A \code{matrix} of simulated incidence stored as integers, where

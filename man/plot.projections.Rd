@@ -7,12 +7,24 @@
 \usage{
 \method{plot}{projections}(x, ...)
 
-add_projections(p, x, quantiles = c(0.01, 0.05, 0.1, 0.5),
-  ribbon = TRUE, boxplots = FALSE, palette = quantile_pal,
-  quantiles_alpha = 1, linetype = 1, linesize = 0.5,
-  ribbon_quantiles = NULL, ribbon_color = NULL, ribbon_alpha = 0.3,
-  boxplots_color = "#47476b", boxplots_fill = "grey",
-  boxplots_alpha = 0.8, outliers = TRUE)
+add_projections(
+  p,
+  x,
+  quantiles = c(0.01, 0.05, 0.1, 0.5),
+  ribbon = TRUE,
+  boxplots = FALSE,
+  palette = quantile_pal,
+  quantiles_alpha = 1,
+  linetype = 1,
+  linesize = 0.5,
+  ribbon_quantiles = NULL,
+  ribbon_color = NULL,
+  ribbon_alpha = 0.3,
+  boxplots_color = "#47476b",
+  boxplots_fill = "grey",
+  boxplots_alpha = 0.8,
+  outliers = TRUE
+)
 }
 \arguments{
 \item{x}{A \code{projections} object.}
