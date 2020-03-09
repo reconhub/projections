@@ -10,7 +10,7 @@ teardown({
 test_that("Merging works", {
 
   set.seed(1)
-  i <- incidence::incidence(as.Date('2020-01-23') + sample(1:30, 10))
+  i <- incidence::incidence(as.Date('2020-01-01') + sample(1:30, 10))
   si <- c(0.2, 0.5, 0.2, 0.1)
   
   x_1 <- project(x = i[1:10],
@@ -72,6 +72,11 @@ test_that("Merging works", {
   ## check operator version
   expect_identical(x + x, x * 2)
   expect_identical(x[-1, ] + x[1, ], x)
+
+  ## check date continuity
+  y <- x[1,] + x[nrow(x),]
+  expected_dates <- seq(from = min(get_dates(x)), to = max(get_dates(x)), by = 1L)
+  expect_identical(get_dates(y), expected_dates)
   
 })
 

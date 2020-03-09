@@ -25,7 +25,34 @@ operator.
 }
 \examples{
 
+if (require(incidence)) {
 
+  ## make toy data and projections 
+  set.seed(1)
+  i <- incidence::incidence(as.Date('2020-01-01') +
+                          sample(1:20, 50, replace = TRUE))
+  si <- c(0.2, 0.5, 0.2, 0.1)
+
+  x_1 <- project(x = i[1:10],
+                 si = si,
+                 R = 3.5,
+                 n_sim = 200,
+                 n_days = 5)
+
+  x_2 <- project(x = i[11:20],
+                 si = si,
+                 R = 1.8,
+                 n_sim = 300,
+                 n_days = 10
+                 )
+
+  ## check simulations
+  x_1 # first type
+  x_2 # other simulations
+  y <- x_1 + x_2 # add simulations
+  plot(y)
+
+}
 }
 \author{
 Thibaut Jombart
