@@ -63,3 +63,28 @@ test_that("Test errors", {
       fixed = TRUE)
 
 })
+
+
+
+
+
+
+
+test_that("Test ordering", {
+    skip_on_cran()
+
+    mat <- matrix(round(rnorm(100, 10)), ncol = 20)
+    dates <- Sys.Date() + c(5, 1, 3, 2, 4)
+
+    ## test ordering
+    x <- build_projections(mat, dates)
+    expect_identical(get_dates(x), sort(dates))
+    expect_equal(as.vector(mat[order(dates), ]), as.vector(x))
+
+    ## test no ordering
+    x <- build_projections(mat, dates, order_dates = FALSE)
+    expect_identical(get_dates(x), dates)
+    expect_equal(as.vector(mat), as.vector(x))
+    
+})
+

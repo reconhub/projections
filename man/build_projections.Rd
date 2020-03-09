@@ -4,7 +4,7 @@
 \alias{build_projections}
 \title{Constructor for projections objects}
 \usage{
-build_projections(x, dates = NULL, cumulative = FALSE)
+build_projections(x, dates = NULL, cumulative = FALSE, order_dates = TRUE)
 }
 \arguments{
 \item{x}{A \code{matrix} of simulated incidence stored as integers, where
@@ -17,6 +17,9 @@ NULL, the time steps will be counted, with the first dates corresponding to
 
 \item{cumulative}{A logical indicating if data represent cumulative
 incidence; defaults to \code{FALSE}.}
+
+\item{order_dates}{A logical indicating whether the dates should be ordered,
+from the oldest to the most recent one; `TRUE` by default.}
 }
 \description{
 This function builds a valid \code{projections} object from some input

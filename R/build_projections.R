@@ -19,6 +19,9 @@
 #' @param cumulative A logical indicating if data represent cumulative
 #'   incidence; defaults to \code{FALSE}.
 #'
+#' @param order_dates A logical indicating whether the dates should be ordered,
+#'   from the oldest to the most recent one; `TRUE` by default.
+#'
 #'
 #' @export
 #'
@@ -27,7 +30,8 @@
 #'   objects.
 #'
 #'
-build_projections <- function(x, dates = NULL, cumulative = FALSE) {
+build_projections <- function(x, dates = NULL, cumulative = FALSE,
+                              order_dates = TRUE) {
   out <- as.matrix(x)
   if (is.null(dates)) {
     dates <- seq_len(nrow(x)) - 1L
@@ -39,6 +43,15 @@ build_projections <- function(x, dates = NULL, cumulative = FALSE) {
         length(dates), nrow(out))
       )
   }
+
+  ## reorder dates
+  if (order_dates) {
+    idx <- order(dates)
+    dates <- sort(dates)
+    out <- out[idx, , drop = FALSE]
+  }
+  
+  ## shape up output
   attr(out, "dates") <- dates
   rownames(out) <- as.character(dates)
   attr(out, "cumulative") <- cumulative
