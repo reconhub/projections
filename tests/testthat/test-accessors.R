@@ -1,5 +1,11 @@
 context("Test accessors")
 
+setup(RNGversion("3.5.3"))
+teardown({
+  cur_R_version <- trimws(substr(R.version.string, 10, 16))
+  RNGversion(cur_R_version)
+})
+
 test_that("Accessors return the right thing", {
     skip_on_cran()
 
@@ -8,9 +14,9 @@ test_that("Accessors return the right thing", {
     i <- incidence::incidence(dat)
 
     ## example with a function for SI
-    si <- distcrete("gamma", interval = 1L,
-                    shape = 1.5,
-                    scale = 2, w = 0)
+    si <- distcrete::distcrete("gamma", interval = 1L,
+                               shape = 1.5,
+                               scale = 2, w = 0)
 
 
     pred_1 <- project(i, runif(100, 0.8, 1.9), si, n_days = 30)

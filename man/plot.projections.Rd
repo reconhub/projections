@@ -7,11 +7,24 @@
 \usage{
 \method{plot}{projections}(x, ...)
 
-add_projections(p, x, quantiles = c(0.01, 0.05, 0.1, 0.5),
-  ribbon = TRUE, boxplots = FALSE, palette = quantile_pal,
-  quantiles_alpha = 1, linetype = 1, linesize = 0.5,
-  ribbon_quantiles = NULL, ribbon_color = NULL, ribbon_alpha = 0.3,
-  boxplots_color = "#47476b", boxplots_alpha = 0.8, outliers = TRUE)
+add_projections(
+  p,
+  x,
+  quantiles = c(0.01, 0.05, 0.1, 0.5),
+  ribbon = TRUE,
+  boxplots = FALSE,
+  palette = quantile_pal,
+  quantiles_alpha = 1,
+  linetype = 1,
+  linesize = 0.5,
+  ribbon_quantiles = NULL,
+  ribbon_color = NULL,
+  ribbon_alpha = 0.3,
+  boxplots_color = "#47476b",
+  boxplots_fill = "grey",
+  boxplots_alpha = 0.8,
+  outliers = TRUE
+)
 }
 \arguments{
 \item{x}{A \code{projections} object.}
@@ -51,6 +64,8 @@ available; if quantiles are not provided, the daily range will be used.}
 ribbon, from 0 (full transparency) to 1 (full opacity); defaults to 0.3.}
 
 \item{boxplots_color}{Any valid color, used for the boxplot.}
+
+\item{boxplots_fill}{Any valid color, used for filling the boxplot.}
 
 \item{boxplots_alpha}{A number used to control the transparency of the
 boxplots, from 0 (full transparency) to 1 (full opacity); defaults to 0.8.}

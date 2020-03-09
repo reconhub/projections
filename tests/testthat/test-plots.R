@@ -1,5 +1,11 @@
 context("Test project function")
 
+setup(RNGversion("3.5.3"))
+teardown({
+  cur_R_version <- trimws(substr(R.version.string, 10, 16))
+  RNGversion(cur_R_version)
+})
+
 test_that("Test against reference results", {
   skip_on_cran()
 
@@ -9,9 +15,9 @@ test_that("Test against reference results", {
 
 
   ## example with a function for SI
-  si <- distcrete("gamma", interval = 1L,
-                  shape = 1.5,
-                  scale = 2, w = 0)
+  si <- distcrete::distcrete("gamma", interval = 1L,
+                             shape = 1.5,
+                             scale = 2, w = 0)
 
   set.seed(1)
   pred_1 <- project(i, runif(100, 0.8, 1.9), si, n_days = 30)
@@ -21,11 +27,11 @@ test_that("Test against reference results", {
 
   ## using simulated ebola data
 
-  si <- distcrete("gamma", interval = 1L,
+  si <- distcrete::distcrete("gamma", interval = 1L,
                   shape = 0.37,
                   scale = 41.4, w = 0)
 
-  i <- incidence::incidence(ebola_sim$linelist$date_of_onset)
+  i <- incidence::incidence(outbreaks::ebola_sim$linelist$date_of_onset)
 
   ## add projections after the first 100 days, over 60 days
   set.seed(1)
@@ -56,14 +62,14 @@ test_that("Test against reference results", {
                                    ribbon_quantiles = c(.4, .6)))
 
 
-  ## adding projections to incidence plot
+  ## adding projections to incidence::incidence plot
   p <- plot(i) %>% add_projections(proj)
-  vdiffr::expect_doppelganger("EVD proj with incidence", p)
+  vdiffr::expect_doppelganger("EVD proj with incidence::incidence", p)
   p <- plot(i) %>% add_projections(proj, boxplots = TRUE)
-  vdiffr::expect_doppelganger("EVD proj with incidence no box", p)
+  vdiffr::expect_doppelganger("EVD proj with incidence::incidence no box", p)
   p <- plot(i) %>% add_projections(proj, quantiles = FALSE, ribbon = FALSE,
                                    boxplots = TRUE)
-  vdiffr::expect_doppelganger("EVD proj with incidence box only", p)
+  vdiffr::expect_doppelganger("EVD proj with incidence::incidence box only", p)
 
   ## same, custom colors and quantiles
   quantiles <- c(.001, .01, 0.05, .1, .2, .3, .4, .5)
@@ -71,7 +77,7 @@ test_that("Test against reference results", {
   p <- plot(i[1:200]) %>%
     add_projections(proj, quantiles, palette = pal)
 
-  vdiffr::expect_doppelganger("EVD proj with incidence and custom", p)
+  vdiffr::expect_doppelganger("EVD proj with incidence::incidence and custom", p)
 
 })
 

@@ -27,7 +27,6 @@
 #'   objects.
 #'
 #'
-
 build_projections <- function(x, dates = NULL, cumulative = FALSE) {
   out <- as.matrix(x)
   if (is.null(dates)) {
@@ -43,6 +42,6 @@ build_projections <- function(x, dates = NULL, cumulative = FALSE) {
   attr(out, "dates") <- dates
   rownames(out) <- as.character(dates)
   attr(out, "cumulative") <- cumulative
-  class(out) <- c("projections", "matrix")
+  class(out) <- unique(c("projections", class(out)))
   out
 }

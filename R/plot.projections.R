@@ -45,6 +45,8 @@
 #'
 #' @param boxplots_color Any valid color, used for the boxplot.
 #'
+#' @param boxplots_fill Any valid color, used for filling the boxplot.
+#'
 #' @param boxplots_alpha A number used to control the transparency of the
 #'   boxplots, from 0 (full transparency) to 1 (full opacity); defaults to 0.8.
 #'
@@ -129,6 +131,7 @@ add_projections <- function(p, x, quantiles = c(0.01, 0.05, 0.1, 0.5),
                             ribbon_quantiles = NULL,
                             ribbon_color = NULL, ribbon_alpha = 0.3,
                             boxplots_color = "#47476b",
+                            boxplots_fill = "grey",
                             boxplots_alpha = 0.8,
                             outliers = TRUE) {
 
@@ -148,7 +151,7 @@ add_projections <- function(p, x, quantiles = c(0.01, 0.05, 0.1, 0.5),
   out <- p
   dates <- attr(x, "dates")
 
-  if (!is.null(quantiles) && !isFALSE(quantiles) && !is.na(quantiles)) {
+  if (!is.null(quantiles) && !isFALSE(quantiles) && !all(is.na(quantiles))) {
     quantiles <- sort(unique(c(quantiles, 1 - quantiles)))
     quantiles <- quantiles[quantiles >= 0 & quantiles <= 1]
   }
@@ -159,7 +162,7 @@ add_projections <- function(p, x, quantiles = c(0.01, 0.05, 0.1, 0.5),
   if (isTRUE(ribbon)) {
     ## find the ymin and ymax for ribbon
     if (is.null(ribbon_quantiles)) {
-      if (is.null(quantiles) || isFALSE(quantiles) || is.na(quantiles)) {
+      if (is.null(quantiles) || isFALSE(quantiles) || all(is.na(quantiles))) {
         ribbon_quantiles <- c(0, 1)
       } else {
         ribbon_quantiles <- range(quantiles)
@@ -193,6 +196,7 @@ add_projections <- function(p, x, quantiles = c(0.01, 0.05, 0.1, 0.5),
           data = df,
           ggplot2::aes_string(x = "date", y = "incidence", group = "date"),
           color = transp(boxplots_color, boxplots_alpha),
+          fill = transp(boxplots_fill, boxplots_alpha),
           outlier.size = 0.5,
           outlier.color = ifelse(outliers, boxplots_color, "transparent")
         )

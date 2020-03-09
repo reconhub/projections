@@ -1,3 +1,20 @@
+# projections 0.4.1
+
+- `project()` will can now take single dates or single projections as inputs.
+  (@acori, @zkamvar, #18).
+
+# projections 0.4.0
+
+- `project` can now use time-varying R by specifying `time_change`, a vector of
+  dates at which R changes, and providing a `vector` or a `list` of values for
+  `R` instead of a vector, in which case it needs to have `length(time_change) +
+  1` components, each of which is a vector of R values.
+
+# projections 0.3.2
+
+- A bug in `project()` where R was being resampled recursively was fixed
+  (#11, @jarvisc1; #12, @zkamvar)
+
 # projections 0.3.1
 
  - `get_dates()` now inherits the generic `get_dates()` from incidence

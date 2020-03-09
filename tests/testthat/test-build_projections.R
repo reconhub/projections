@@ -1,5 +1,11 @@
 context("Test build_projections")
 
+setup(RNGversion("3.5.3"))
+teardown({
+  cur_R_version <- trimws(substr(R.version.string, 10, 16))
+  RNGversion(cur_R_version)
+})
+
 test_that("Test round trip", {
     skip_on_cran()
 
@@ -9,7 +15,7 @@ test_that("Test round trip", {
 
 
     ## example with a function for SI
-    si <- distcrete("gamma", interval = 1L,
+    si <- distcrete::distcrete("gamma", interval = 1L,
                     shape = 1.5,
                     scale = 2, w = 0)
 
@@ -34,7 +40,7 @@ test_that("Test dates default", {
 
 
     ## example with a function for SI
-    si <- distcrete("gamma", interval = 1L,
+    si <- distcrete::distcrete("gamma", interval = 1L,
                     shape = 1.5,
                     scale = 2, w = 0)
 

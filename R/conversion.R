@@ -30,7 +30,7 @@
 
 as.matrix.projections <- function(x, ...) {
   out <- x
-  class(out) <- "matrix"
+  class(out) <- oldClass(out)[-1] # first class will be projections 
   attr(out, "dates")  <- NULL
   attr(out, "cumulative")  <- NULL
   rownames(out) <- as.character(get_dates(x))
