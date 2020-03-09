@@ -54,9 +54,11 @@ merge_add_projections <- function(x) {
 
   ## 4. replace all NAs by 0
 
-  ## 5. add data from the different data.frame
+  ## 5. recycle matrices with less simulations
 
-  ## 6. build a new `projections` object
+  ## 6. add data from the different data.frame
+
+  ## 7. build a new `projections` object
 
 
   ## step 1
@@ -72,11 +74,19 @@ merge_add_projections <- function(x) {
   list_df_complete <- lapply(list_df,
                              function(e) merge(all_dates_df, e, all = TRUE))
 
-  ## step 4
+  ## step 4-5
   list_matrices <- lapply(list_df_complete,
                           function(e) as.matrix(e[, -1], drop = FALSE))
+  n_sims <- max(vapply(list_matrices, ncol, integer(1)))
+  
   for (i in seq_along(list_matrices)) {
+    ## step 4
     list_matrices[[i]][is.na(list_matrices[[i]])] <- 0
+
+    ## step 5
+    current_n_col <- ncol(list_matrices[[i]])
+    idx_col <- rep(seq_len(current_n_col), length.out = n_sims)
+    list_matrices[[i]] <- list_matrices[[i]][, idx_col, drop = FALSE]
   }
   
   ## step 5
