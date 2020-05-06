@@ -43,11 +43,16 @@
   }
 
   out <- as.matrix(x)[i, j, drop = FALSE]
-  attr(out, "dates") <- get_dates(x)[i]
-  rownames(out) <- as.character(get_dates(x)[i])
-  attr(out, "cumulative") <- attr(x, "cumulative")
-  class(out) <- c("projections", "matrix")
-  out
+  dates_present <- rownames(out)
+  if (is.character(i)) {
+    tmp <- as.character(get_dates(x))
+    idx <- which(tmp %in% dates_present)
+    dates <- get_dates(x)[idx]
+  } else {
+    dates <- get_dates(x)[i]
+  }
+  cumulative <- attr(x, "cumulative")
+  new_projections(out, dates, cumulative)
 }
 
 
