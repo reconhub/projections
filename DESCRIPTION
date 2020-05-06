@@ -12,12 +12,11 @@ Depends: R (>= 3.3.0)
 License: MIT + file LICENSE
 Encoding: UTF-8
 LazyData: true
-Suggests: testthat, vdiffr, roxygen2, knitr, rmarkdown, outbreaks, magrittr
+Suggests: testthat, vdiffr, roxygen2, knitr, rmarkdown, outbreaks, magrittr, distcrete
 Imports: 
     stats,
     utils,
     incidence (>= 1.4.1),
-    distcrete,
     ggplot2,
     methods
 RoxygenNote: 7.1.0
