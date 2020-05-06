@@ -13,16 +13,16 @@
 #'
 print.projections <- function(x, ...){
   cat("\n/// Incidence projections //\n")
-  cat("\n  // class:", paste(class(x), collapse=", "))
-  cat("\n  //", format(nrow(x), big.mark=","),
+  cat("\n  // class:", paste(class(x), collapse = ", "))
+  cat("\n  //", format(nrow(x), big.mark = ","),
       "dates (rows);",
-      format(ncol(x), big.mark=","),
+      format(ncol(x), big.mark = ","),
       "simulations (columns)\n")
 
   cat("\n // first rows/columns:\n")
   p <- min(6, ncol(x))
   n <- min(4, nrow(x))
-  print(as.matrix(x)[1:n, 1:p, drop = FALSE])
+  print(unclass(x)[seq_len(n), seq_len(p), drop = FALSE])
   if (n < nrow(x)) replicate(3, cat(" .\n"))
 
   cat("\n // dates:\n")
