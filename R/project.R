@@ -39,10 +39,12 @@
 #' @param size size parameter of negative binomial distribition. Ignored if
 #' model is poisson
 #'
-#' @param time_change an optional vector of dates at which the simulations
-#'   should use a different sample of reproduction numbers; if provided, `n`
-#'   dates in `time_change` will produce `n+1` time windows, in which case `R`
-#'   should be a list of vectors of `n+1` `R` values, one per each time window.
+#' @param time_change an optional vector of times at which the simulations
+#'   should use a different sample of reproduction numbers, provided in days
+#'   into the simulation (so that day '1' is the first day after the input
+#'   `incidence` object); if provided, `n` dates in `time_change` will produce
+#'   `n+1` time windows, in which case `R` should be a list of vectors of `n+1`
+#'   `R` values, one per each time window.
 #'
 #' @details The decision to fix R values within simulations
 #'     (\code{R_fix_within}) reflects two alternative views of the uncertainty
