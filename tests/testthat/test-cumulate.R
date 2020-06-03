@@ -21,9 +21,9 @@ test_that("Printing as planned", {
 
   set.seed(1)
   x <- project(i, runif(100, 0.8, 1.9), si, n_days = 30)
-  y <- cumulate(x)
+  y <- incidence::cumulate(x)
 
-  expect_identical(unname(apply(x, 2, cumsum)), unname(as.matrix(y)))
+  expect_identical(apply(x, 2, cumsum), unclass(as.matrix(y)))
   expect_error(cumulate(y), "x is already a cumulative incidence")
 
 })

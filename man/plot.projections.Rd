@@ -5,7 +5,7 @@
 \alias{add_projections}
 \title{Plot projections objects}
 \usage{
-\method{plot}{projections}(x, ...)
+\method{plot}{projections}(x, ylab = NULL, title = NULL, ...)
 
 add_projections(
   p,
@@ -28,6 +28,11 @@ add_projections(
 }
 \arguments{
 \item{x}{A \code{projections} object.}
+
+\item{ylab}{An optional label for the y-axis. If missing will default to 
+"predicted incidence" or, if cumulative, "predicted cumulative incidence"}
+
+\item{title}{An optional title.}
 
 \item{...}{Further arguments to be passed to \code{add_projections}.}
 
