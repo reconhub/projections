@@ -16,6 +16,11 @@
 #' @aliases plot.projections
 #'
 #' @param x A \code{projections} object.
+#' 
+#' @param ylab An optional label for the y-axis. If missing will default to 
+#'   "predicted incidence" or, if cumulative, "predicted cumulative incidence"
+#'   
+#' @param title An optional title.
 #'
 #' @param quantiles A vector of quantiles to plot, automatically completed to be
 #'   symmetric around the median.
@@ -103,15 +108,23 @@
 #' }
 #'
 
-plot.projections <- function(x, ...) {
+plot.projections <- function(x, ylab = NULL, title = NULL, ...) {
   empty <- ggplot2::ggplot()
   out <- add_projections(empty, x, ...)
-  ylab <- ifelse(isTRUE(attr(x, "cumulative")),
-                 "Predicted cumulative incidence",
-                 "Predicted incidence")
-  out <- out + ggplot2::labs(x = "", y = ylab)
+  if (is.null(ylab)) {
+    ylab <- ifelse(isTRUE(attr(x, "cumulative")),
+                   "Predicted cumulative incidence",
+                   "Predicted incidence")  
+  }
+  
+  if (is.null(title)) {
+    title <- ggplot2::waiver()
+  }
+  
+  out <- out + ggplot2::labs(x = "", y = ylab, title = title)
   out
 }
+
 
 
 

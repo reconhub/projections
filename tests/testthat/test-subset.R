@@ -23,8 +23,11 @@ test_that("Test against reference results - numeric dates", {
     pred_1 <- project(i, runif(100, 0.8, 1.9), si, n_days = 30)
 
     subset_1 <- subset(pred_1, from = 15, to = 20, sim = 1:10)
+    attributes(subset_1)$class <- attributes(subset_1)$class[(1:2)]
     subset_2 <- subset(pred_1, from = 15, sim = c(TRUE, FALSE))
+    attributes(subset_2)$class <- attributes(subset_2)$class[(1:2)]
     subset_3 <- subset(pred_1, to = 15, sim = c(TRUE, FALSE))
+    attributes(subset_3)$class <- attributes(subset_3)$class[(1:2)]
 
     expect_identical(pred_1[], pred_1)
     expect_equal_to_reference(subset_1, file = "rds/subset_1.rds", update = FALSE)
@@ -56,8 +59,11 @@ test_that("Test against reference results - Date dates", {
     pred_1 <- project(i, runif(100, 0.8, 1.9), si, n_days = 30)
 
     subset_1 <- subset(pred_1, from = day + 15, to = day + 20, sim = 1:10)
+    attributes(subset_1)$class <- attributes(subset_1)$class[(1:2)]
     subset_2 <- subset(pred_1, from = day + 15, sim = c(TRUE, FALSE))
+    attributes(subset_2)$class <- attributes(subset_2)$class[(1:2)]
     subset_3 <- subset(pred_1, to = day + 15, sim = c(TRUE, FALSE))
+    attributes(subset_3)$class <- attributes(subset_3)$class[(1:2)]
 
     expect_identical(pred_1[], pred_1)
     expect_equal_to_reference(subset_1, file = "rds/subset_Date_1.rds", update = FALSE)
