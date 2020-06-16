@@ -7,7 +7,8 @@
 #' @export
 #'
 #' @author Pierre Nouvellet (original model), Thibaut Jombart (bulk of the
-#'   code), Sangeeta Bhatia (Negative Binomial model), Stéphane Ghozzi (bug fixes time varying R)
+#'   code), Sangeeta Bhatia (Negative Binomial model), Stéphane Ghozzi (bug fixes 
+#'   time varying R)
 #'
 #' @param x An \code{incidence} object containing daily incidence; other time
 #'   intervals will trigger an error.
@@ -138,16 +139,16 @@ project <- function(x, R, si, n_sim = 100, n_days = 7,
   model = c("poisson", "negbin"),
   size = 0.03,
   time_change = NULL) {
-  
+
   ## Various checks on inputs
-  
+
   model <- match.arg(model)
-  
+
   if (!inherits(x, "incidence")) {
     msg <- "x is not an incidence object"
     stop(msg)
   }
-  
+
   if (as.integer(mean(incidence::get_interval(x))) != 1L) {
     msg <- sprintf(
       "daily incidence needed, but interval is %d days",
@@ -155,29 +156,29 @@ project <- function(x, R, si, n_sim = 100, n_days = 7,
     )
     stop(msg)
   }
-  
+
   if (ncol(incidence::get_counts(x)) > 1L) {
     msg <- sprintf("cannot use multiple groups in incidence object")
     stop(msg)
   }
-  
+
   n_time_periods <- 1 # default value, erased if `time_change` provided
-  
+
   if (!is.null(time_change)) {
     if (!is.numeric(time_change)) {
       msg <- sprintf("`time_change` must be `numeric`, but is a `%s`",
         paste(class(time_change), collapse = ", "))
       stop(msg)
     }
-    
+
     n_time_periods <- length(time_change) + 1
-    
+
     if (!is.vector(R)) {
       msg <- sprintf("`R` must be a `vector` or a `list` if `time_change` provided; it is a `%s`",
         paste(class(R), collapse = ", "))
       stop(msg)
     }
-    
+
     if (length(R) != n_time_periods) {
       msg <- sprintf("`R` must be a `list` of size %d to match %d time changes; found %d",
         n_time_periods,
@@ -186,14 +187,14 @@ project <- function(x, R, si, n_sim = 100, n_days = 7,
       stop(msg)
     }
   }
-  
+
   assert_R(R)
-  
-  
+
+
   ## useful variables
   n_dates_x <- nrow(incidence::get_counts(x))
   t_max <- n_days + n_dates_x - 1
-  
+
   if (inherits(si, "distcrete")) {
     if (as.integer(si$interval) != 1L) {
       msg <- sprintf(
@@ -202,35 +203,35 @@ project <- function(x, R, si, n_sim = 100, n_days = 7,
       )
       stop(msg)
     }
-    
+
     ws <- rev(si$d(0:t_max))
   } else {
     si <- si / sum(si)
     si <- c(si, rep(0, t_max))
     ws <- rev(si)
   }
-  
-  
+
+
   if (is.null(time_change)) {
     time_change <- Inf
   }
-  
-  
+
+
   ## Computation of projections: we use the basic branching process with a
   ## Poisson likelihood, identical to the one used for estimating R0 in EpiEstim
   ## and earlyR. The force of infection on a given day is the sum of individual
-  ## forces of infection. The invididual force of infection is computed as the
+  ## forces of infection. The individual force of infection is computed as the
   ## R0 multiplied by the pmf of the serial interval for the corresponding day:
-  
-  ## lambda_{i,t} = R(t_i) w(t - t_i)
-  
-  ## where 'w' is the PMF of the serial interval and 't_i' is the date of
-  ## onset of case 'i'.
-  
-  
+
+  ## lambda_{i,t} = R0(t_i) si(t - t_i) = R0(t_i) ws(t_i)
+
+  ## where 'si' is the PMF of the serial interval, 'ws' it's reverse, and 
+  ## 't_i' is the date of onset of case 'i'.
+
+
   ## initial conditions
   I0 <- matrix(incidence::get_counts(x), nrow = n_dates_x, ncol = n_sim)
-  
+
   ## projection
   out <- I0
   t_start <- n_dates_x + 1
@@ -240,11 +241,11 @@ project <- function(x, R, si, n_sim = 100, n_days = 7,
     to = t_stop,
     by = 1L
   )
-  
+
   ## time_change is provided in relative dates, i.e. date 1 is the first day of
   ## the simulation, but really is max(x$dates) + 1
   time_change <- t_start + time_change - 1
-  
+
   ## handling time periods: to cover the more generic cases when `R` can change
   ## over different time periods, we treat all simulations like having time
   ## periods, with `R` being a list of vectors, one for each time period. If
@@ -252,8 +253,8 @@ project <- function(x, R, si, n_sim = 100, n_days = 7,
   ## `R` in a list of length 1. If there are `n` changes and the user provided a
   ## vector for R of length `n + 1`, we assume the `R` is constant per time
   ## period and input is silently converted to a list of length `n + 1`.
-  
-  
+
+
   if (!is.list(R)) { # i.e. R is a vector and needs conversion to a list
     if (n_time_periods > 1L) {  # several time periods
       R <- as.list(R)
@@ -261,8 +262,8 @@ project <- function(x, R, si, n_sim = 100, n_days = 7,
       R <- list(R)
     }
   }
-  
-  
+
+
   ## On the drawing of R values: either these are constant within simulations,
   ## so drawn once for all simulations, or they need drawing at every time step
   ## for every simulations.
@@ -273,7 +274,7 @@ project <- function(x, R, si, n_sim = 100, n_days = 7,
   ## the true incidence (true_I) is determined using this lambda (Poisson
   ## process) and we apply effects sampling to this true incidence to get the
   ## projected one, using a Binomial sampling.
-  
+
   time_change_boundaries <- c(
     1, 
     ifelse(is.finite(time_change), time_change, NULL),
@@ -302,10 +303,11 @@ project <- function(x, R, si, n_sim = 100, n_days = 7,
     }
   }
   rownames(R_t) <- NULL
-  
+
   for (i in t_sim) {
 
-    lambda_R <- utils::tail(ws, i-1) %*% (R_t[seq_len(i-1), , drop = FALSE] * out)
+    lambda_R <- ws[(length(ws)-(i-1)):(length(ws)-1)] %*%
+      (R_t[seq_len(i-1), , drop = FALSE] * out)
     ## lambda <- lambda / reporting
     if (model == "poisson") {
       out <- rbind(out, stats::rpois(n_sim, lambda_R))
@@ -322,17 +324,17 @@ project <- function(x, R, si, n_sim = 100, n_days = 7,
     }
     ## out <- rbind(out, stats::rbinom(ncol(out), true_I, prob = reporting))
   }
-  
-  
+
+
   ## shape output: 'projections' objects are basically matrices of predicted
   ## incidence, with dates in rows and simulations in columns. Dates are
   ## stored as attributes of the object, in a format similar to that of the
   ## original dates in the 'incidence' object. We also store the original
   ## 'incidence' object in the attributes.
-  
+
   out <- out[(n_dates_x + 1):(n_dates_x + n_days), , drop = FALSE]
-  
+
   dates <- utils::tail(x$dates, 1) + seq_len(nrow(out))
-  
+
   build_projections(out, dates, FALSE)
 }
