@@ -283,7 +283,7 @@ project <- function(x, R, si, n_sim = 100, n_days = 7,
   R_t <- matrix(nrow = 0, ncol = n_sim)
   if (R_fix_within) {
     for (time_period in 1:n_time_periods) {
-      R_time_period <- R[[time_period]]
+      R_time_period <- sample_(R[[time_period]], n_sim, replace = TRUE)
       period_duration <- time_change_boundaries[time_period+1] - time_change_boundaries[time_period]
       current_R_t <- do.call(
         'rbind', 
