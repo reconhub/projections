@@ -76,6 +76,8 @@ test_that("Test against reference results", {
     set.seed(1)
     pred_1 <- project(i, runif(100, 0.8, 1.9), si, n_days = 30)
     attributes(pred_1)$class <- attributes(pred_1)$class[(1:2)]
+    ## Uncomment to generate references
+    # saveRDS(pred_1, file = "rds/pred_1.rds")
     expect_equal_to_reference(pred_1, file = "rds/pred_1.rds", update = FALSE)
 
 
@@ -88,12 +90,14 @@ test_that("Test against reference results", {
                       time_change = c(10, 15, 20, 30),
                       n_sim = 100)
     attributes(pred_2)$class <- attributes(pred_2)$class[(1:2)]
+    ## Uncomment to generate references
+    # saveRDS(pred_2, file = "rds/pred_2.rds")
     expect_equal_to_reference(pred_2, file = "rds/pred_2.rds", update = FALSE)
 
 
     ## time-varying R, 2 periods, R is 2.1 then 0.5
     set.seed(1)
-    
+
     pred_3 <- project(i,
                       R = c(2.1, 0.5),
                       si = si,
@@ -101,13 +105,15 @@ test_that("Test against reference results", {
                       time_change = 40,
                       n_sim = 100)
     attributes(pred_3)$class <- attributes(pred_3)$class[(1:2)]
+    ## Uncomment to generate references
+    # saveRDS(pred_3, file = "rds/pred_3.rds")
     expect_equal_to_reference(pred_3, file = "rds/pred_3.rds", update = FALSE)
 
     ## time-varying R, 2 periods, separate distributions of R for each period
     set.seed(1)
     R_period_1 <- runif(100, min = 1.1, max = 3)
     R_period_2 <- runif(100, min = 0.6, max = .9)
-    
+
     pred_4 <- project(i,
                       R = list(R_period_1, R_period_2),
                       si = si,
@@ -115,8 +121,10 @@ test_that("Test against reference results", {
                       time_change = 20,
                       n_sim = 100)
     attributes(pred_4)$class <- attributes(pred_4)$class[(1:2)]
-    expect_equal_to_reference(pred_4, file = "rds/pred_4.rds", update = FALSE)    
-    
+    ## Uncomment to generate reference
+    # saveRDS(pred_4, file = "rds/pred_4.rds")
+    expect_equal_to_reference(pred_4, file = "rds/pred_4.rds", update = FALSE)
+
 })
 
 

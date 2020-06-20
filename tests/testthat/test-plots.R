@@ -22,6 +22,11 @@ test_that("Test against reference results", {
   set.seed(1)
   pred_1 <- project(i, runif(100, 0.8, 1.9), si, n_days = 30)
   plot_1 <- plot(pred_1)
+  
+  ## Uncomment to generate references
+  # library(svglite)
+  # ggplot2::ggsave('../figs/test-project-function/basic-example-plot.svg', plot=plot_1)
+  
   vdiffr::expect_doppelganger("basic example plot", plot_1)
 
 
@@ -38,6 +43,31 @@ test_that("Test against reference results", {
   proj <- project(x = i[1:100], R = 2.1, si = si, n_days = 60)
 
   ## plotting projections
+
+  ## Uncomment to generate references
+  # ggplot2::ggsave("../figs/test-project-function/evd-proj.svg", plot=plot(proj))
+  # ggplot2::ggsave("../figs/test-project-function/evd-proj-box-no-outliers.svg",
+  #   plot=plot(proj, boxplots = TRUE, outliers = FALSE))
+  # ggplot2::ggsave("../figs/test-project-function/evd-proj-no-ribbon.svg",
+  #   plot=plot(proj, ribbon = FALSE))
+  # ggplot2::ggsave("../figs/test-project-function/evd-proj-no-box-custom-lines.svg",
+  #   plot=plot(proj, boxplots = FALSE,
+  #     linetype = 2, linesize = 3))
+  # ggplot2::ggsave("../figs/test-project-function/evd-proj-red-box.svg",
+  #   plot=plot(proj, boxplots = TRUE, boxplots_color = "red"))
+  # ggplot2::ggsave("../figs/test-project-function/evd-proj-box-only.svg",
+  #   plot=plot(proj, quantiles = FALSE,
+  #     ribbon = FALSE, boxplots = TRUE))
+  # ggplot2::ggsave("../figs/test-project-function/evd-proj-ribbon-only.svg",
+  #   plot=plot(proj, quantiles = FALSE))
+  # ggplot2::ggsave("../figs/test-project-function/evd-proj-red-ribbon.svg",
+  #   plot=plot(proj, ribbon_color = "red",
+  #     quantiles = FALSE))
+  # ggplot2::ggsave("../figs/test-project-function/evd-proj-full-red-ribbon-narrow-range.svg",
+  #   plot=plot(proj, ribbon_color = "red",
+  #     ribbon_alpha = 1, quantiles = FALSE,
+  #     ribbon_quantiles = c(.4, .6)))    
+
   vdiffr::expect_doppelganger("EVD proj", plot(proj))
   vdiffr::expect_doppelganger("EVD proj box, no outliers",
                               plot(proj, boxplots = TRUE, outliers = FALSE))
@@ -64,11 +94,25 @@ test_that("Test against reference results", {
 
   ## adding projections to incidence::incidence plot
   p <- plot(i) %>% add_projections(proj)
+  
+  ## Uncomment to generate references
+  # ggplot2::ggsave("../figs/test-project-function/evd-proj-with-incidence-incidence.svg", plot=p)
+  
   vdiffr::expect_doppelganger("EVD proj with incidence::incidence", p)
   p <- plot(i) %>% add_projections(proj, boxplots = TRUE)
+  
+  ## Uncomment to generate references
+  # ggplot2::ggsave("../figs/test-project-function/evd-proj-with-incidence-incidence-no-box.svg", 
+  #   plot=p)
+  
   vdiffr::expect_doppelganger("EVD proj with incidence::incidence no box", p)
   p <- plot(i) %>% add_projections(proj, quantiles = FALSE, ribbon = FALSE,
                                    boxplots = TRUE)
+  
+  ## Uncomment to generate references
+  # ggplot2::ggsave("../figs/test-project-function/evd-proj-with-incidence-incidence-box-only.svg",
+  #   plot=p)
+  
   vdiffr::expect_doppelganger("EVD proj with incidence::incidence box only", p)
 
   ## same, custom colors and quantiles
@@ -77,6 +121,10 @@ test_that("Test against reference results", {
   p <- plot(i[1:200]) %>%
     add_projections(proj, quantiles, palette = pal)
 
+  ## Uncomment to generate references
+  # ggplot2::ggsave("../figs/test-project-function/evd-proj-with-incidence-incidence-and-custom.svg",
+  #   plot=p)
+  
   vdiffr::expect_doppelganger("EVD proj with incidence::incidence and custom", p)
 
 })

@@ -24,11 +24,15 @@ test_that("Test against reference results", {
 
     ## basic export
     df_1 <- as.data.frame(pred_1)
+    ## Uncomment to generate reference
+    # saveRDS(df_1, file = "rds/df_1.rds")
     expect_equal_to_reference(df_1, file = "rds/df_1.rds", update = FALSE)
     expect_equal(as.vector(unlist(df_1[, -1])), as.vector(pred_1))
 
     ## long format
     df_2 <- as.data.frame(pred_1, long = TRUE)
+    ## Uncomment to generate reference
+    # saveRDS(df_2, file = "rds/df_2.rds")
     expect_equal_to_reference(df_2, file = "rds/df_2.rds", update = FALSE)
 
 

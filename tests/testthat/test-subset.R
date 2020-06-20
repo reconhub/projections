@@ -30,6 +30,10 @@ test_that("Test against reference results - numeric dates", {
     attributes(subset_3)$class <- attributes(subset_3)$class[(1:2)]
 
     expect_identical(pred_1[], pred_1)
+    ## Uncomment to generate references
+    # saveRDS(subset_1, file = "rds/subset_1.rds")
+    # saveRDS(subset_2, file = "rds/subset_2.rds")
+    # saveRDS(subset_3, file = "rds/subset_3.rds")
     expect_equal_to_reference(subset_1, file = "rds/subset_1.rds", update = FALSE)
     expect_equal_to_reference(subset_2, file = "rds/subset_2.rds", update = FALSE)
     expect_equal_to_reference(subset_3, file = "rds/subset_3.rds", update = FALSE)
@@ -66,6 +70,10 @@ test_that("Test against reference results - Date dates", {
     attributes(subset_3)$class <- attributes(subset_3)$class[(1:2)]
 
     expect_identical(pred_1[], pred_1)
+    ## Uncomment to generate references
+    # saveRDS(subset_1, file = "rds/subset_Date_1.rds")
+    # saveRDS(subset_2, file = "rds/subset_Date_2.rds")
+    # saveRDS(subset_3, file = "rds/subset_Date_3.rds")
     expect_equal_to_reference(subset_1, file = "rds/subset_Date_1.rds", update = FALSE)
     expect_equal_to_reference(subset_2, file = "rds/subset_Date_2.rds", update = FALSE)
     expect_equal_to_reference(subset_3, file = "rds/subset_Date_3.rds", update = FALSE)
