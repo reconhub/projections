@@ -275,7 +275,7 @@ project <- function(x, R, si, n_sim = 100, n_days = 7,
   ## process) and we apply effects sampling to this true incidence to get the
   ## projected one, using a Binomial sampling.
 
-  if (is.finite(time_change)) {
+  if (any(is.finite(time_change))) {
     time_change_boundaries <- c(1, time_change, t_stop+1)
   } else {
     time_change_boundaries <- c(1, t_stop+1)
