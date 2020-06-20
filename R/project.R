@@ -7,7 +7,7 @@
 #' @export
 #'
 #' @author Pierre Nouvellet (original model), Thibaut Jombart (bulk of the
-#'   code), Sangeeta Bhatia (Negative Binomial model), Stéphane Ghozzi (bug fixes 
+#'   code), Sangeeta Bhatia (Negative Binomial model), Stephane Ghozzi (bug fixes 
 #'   time varying R)
 #'
 #' @param x An \code{incidence} object containing daily incidence; other time
@@ -195,6 +195,8 @@ project <- function(x, R, si, n_sim = 100, n_days = 7,
   n_dates_x <- nrow(incidence::get_counts(x))
   t_max <- n_days + n_dates_x - 1
 
+  # si is the the pmf of the serial interval starting at day 1, i.e. one day 
+  # after symptom onset
   if (inherits(si, "distcrete")) {
     if (as.integer(si$interval) != 1L) {
       msg <- sprintf(
@@ -204,11 +206,10 @@ project <- function(x, R, si, n_sim = 100, n_days = 7,
       stop(msg)
     }
 
-    ws <- rev(si$d(0:t_max))
+    si <- si$d(1:t_max)
   } else {
     si <- si / sum(si)
-    si <- c(si, rep(0, t_max))
-    ws <- rev(si)
+    si <- c(si, rep(0, t_max-1))
   }
 
 
@@ -221,9 +222,9 @@ project <- function(x, R, si, n_sim = 100, n_days = 7,
   ## Poisson likelihood, identical to the one used for estimating R0 in EpiEstim
   ## and earlyR. The force of infection on a given day is the sum of individual
   ## forces of infection. The individual force of infection is computed as the
-  ## R0 multiplied by the pmf of the serial interval for the corresponding day:
+  ## R0 multiplied by the pmf of the serial interval si for the corresponding day:
 
-  ## lambda_{i,t} = R0(t_i) si(t - t_i) = R0(t_i) ws(t_i)
+  ## lambda_{i,t} = R0(t_i) si(t - t_i) 
 
   ## where 'si' is the PMF of the serial interval, 'ws' it's reverse, and 
   ## 't_i' is the date of onset of case 'i'.
@@ -232,13 +233,13 @@ project <- function(x, R, si, n_sim = 100, n_days = 7,
   ## initial conditions
   I0 <- matrix(incidence::get_counts(x), nrow = n_dates_x, ncol = n_sim)
 
-  ## projection
+  ## projection: read until t and project at t+1
   out <- I0
   t_start <- n_dates_x + 1
   t_stop <- t_max + 1
   t_sim <- seq(
-    from = t_start,
-    to = t_stop,
+    from = t_start-1,
+    to = t_stop-1,
     by = 1L
   )
 
@@ -275,7 +276,7 @@ project <- function(x, R, si, n_sim = 100, n_days = 7,
   ## process) and we apply effects sampling to this true incidence to get the
   ## projected one, using a Binomial sampling.
 
-  if (any(is.finite(time_change))) {
+  if (all(is.finite(time_change))) {
     time_change_boundaries <- c(1, time_change, t_stop+1)
   } else {
     time_change_boundaries <- c(1, t_stop+1)
@@ -306,21 +307,20 @@ project <- function(x, R, si, n_sim = 100, n_days = 7,
 
   for (i in t_sim) {
 
-    lambda_R <- ws[(length(ws)-(i-1)):(length(ws)-1)] %*%
-      (R_t[seq_len(i-1), , drop = FALSE] * out)
+    lambda <- compute_force_infection(si, out, R_t, i)
     ## lambda <- lambda / reporting
     if (model == "poisson") {
-      out <- rbind(out, stats::rpois(n_sim, lambda_R))
+      out <- rbind(out, stats::rpois(n_sim, lambda))
     } else {
       ## If mu = 0, then it doesn't matter what the size value is,
       ## rnbinom will output 0s (mu = 0 => p =1).
       ## mu will be 0 if lambda is 0. But that will make size 0 which
       ## will make rnbinom spit NAs. Workaround is: if lambda is 0
       ## set size to a non-trivial value.
-      size_adj <- lambda_R * size
-      idx <- which(lambda_R == 0)
+      size_adj <- lambda * size
+      idx <- which(lambda == 0)
       size_adj[idx] <- 1
-      out <- rbind(out, stats::rnbinom(n_sim, size = size_adj, mu = lambda_R))
+      out <- rbind(out, stats::rnbinom(n_sim, size = size_adj, mu = lambda))
     }
     ## out <- rbind(out, stats::rbinom(ncol(out), true_I, prob = reporting))
   }
