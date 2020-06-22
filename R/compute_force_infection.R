@@ -22,6 +22,7 @@
 #'   computed for `t+1` taking into account past cases and R from time point `1`
 #'   until `t`
 #'
+#' @noRd 
 
 compute_force_infection <- function(w, cases, R, t) {
   rev_w <- rev(w)
