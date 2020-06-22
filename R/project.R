@@ -68,8 +68,9 @@
 #'     require(magrittr)) {
 #'
 #' si <- distcrete("gamma", interval = 1L,
-#'                  shape = 0.37,
-#'                  scale = 41.4, w = 0)
+#'                  shape = 2.4,
+#'                  scale = 4.7,
+#'                  w = 0.5)
 #'
 #' i <- incidence(ebola_sim$linelist$date_of_onset)
 #' plot(i)
@@ -213,7 +214,6 @@ project <- function(x, R, si, n_sim = 100, n_days = 7,
     ## (https://github.com/reconhub/projections/pull/31), the user-specified PMF
     ## of the serial interval now starts at w(1); if a `distcrete` object is
     ## provided, we ignore w(0) and rescale the distribution.
-    
     si <- si$d(1:t_max)
     si <- si / sum(si)
   } else {

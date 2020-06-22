@@ -92,16 +92,18 @@ if (require(outbreaks) &&
     require(incidence) &&
     require(magrittr)) {
 
-si <- distcrete("gamma", interval = 1L,
-                 shape = 0.37,
-                 scale = 41.4, w = 0)
+si <- distcrete("gamma",
+                 interval = 1L,
+                 shape = 2.4,
+                 scale = 4.7,
+                 w = 0.5)
 
 i <- incidence(ebola_sim$linelist$date_of_onset)
 plot(i)
 
 ## add projections after the first 100 days, over 60 days
 set.seed(1)
-proj <- project(x = i[1:100], R = 2.1, si = si, n_days = 60)
+proj <- project(x = i[1:100], R = 1.4, si = si, n_days = 60)
 
 ## plotting projections: different options
 plot(proj)

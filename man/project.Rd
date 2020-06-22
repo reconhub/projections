@@ -27,10 +27,11 @@ be a `vector` (for fixed values of R per time window) or a `list` of
 vectors (for separate distributions of R per time window), with one element
 more than the number of dates in `time_change`.}
 
-\item{si}{A function computing the serial interval, or a `numeric`
-vector providing its mass function. For functions, we strongly recommend
-using the RECON package \code{distcrete} to obtain such distribution (see
-example).}
+\item{si}{A function computing the serial interval, or a `numeric` vector
+providing its mass function, starting a day 1, so that si[i] is the PMF for
+serial interval of `i`. The model implicitly assumes that `si[0] = 0`. For
+functions, we strongly recommend using the RECON package \code{distcrete}
+to obtain such distribution (see example).}
 
 \item{n_sim}{The number of epicurves to simulate. Defaults to 100.}
 
@@ -61,15 +62,14 @@ serial interval (time from primary onset to secondary onset).
 }
 \details{
 The decision to fix R values within simulations
-    (\code{R_fix_within}) reflects two alternative views of the uncertainty
-    associated with R. When drawing R values at random from the provided
-    sample, (\code{R_fix_within} set to \code{FALSE}), it is assumed that R
-    varies naturally, and can be treated as a random variable with a given
-    distribution. When fixing values within simulations (\code{R_fix_within}
-    set to \code{TRUE}), R is treated as a fixed parameter, and the
-    uncertainty is merely a consequence of the estimation of R. In other
-    words, the first view is rather Bayesian, while the second is more
-    frequentist.
+  (\code{R_fix_within}) reflects two alternative views of the uncertainty
+  associated with R. When drawing R values at random from the provided
+  sample, (\code{R_fix_within} set to \code{FALSE}), it is assumed that R
+  varies naturally, and can be treated as a random variable with a given
+  distribution. When fixing values within simulations (\code{R_fix_within}
+  set to \code{TRUE}), R is treated as a fixed parameter, and the uncertainty
+  is merely a consequence of the estimation of R. In other words, the first
+  view is rather Bayesian, while the second is more frequentist.
 }
 \examples{
 
@@ -80,8 +80,9 @@ if (require(outbreaks) &&
     require(magrittr)) {
 
 si <- distcrete("gamma", interval = 1L,
-                 shape = 0.37,
-                 scale = 41.4, w = 0)
+                 shape = 2.4,
+                 scale = 4.7,
+                 w = 0.5)
 
 i <- incidence(ebola_sim$linelist$date_of_onset)
 plot(i)
