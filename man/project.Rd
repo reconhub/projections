@@ -47,10 +47,12 @@ simulations favours more extreme predictions (see details)}
 \item{size}{size parameter of negative binomial distribition. Ignored if
 model is poisson}
 
-\item{time_change}{an optional vector of dates at which the simulations
-should use a different sample of reproduction numbers; if provided, `n`
-dates in `time_change` will produce `n+1` time windows, in which case `R`
-should be a list of vectors of `n+1` `R` values, one per each time window.}
+\item{time_change}{an optional vector of times at which the simulations
+should use a different sample of reproduction numbers, provided in days
+into the simulation (so that day '1' is the first day after the input
+`incidence` object); if provided, `n` dates in `time_change` will produce
+`n+1` time windows, in which case `R` should be a list of vectors of `n+1`
+`R` values, one per each time window.}
 }
 \description{
 This function simulates future incidence based on past incidence data, a
@@ -146,5 +148,6 @@ plot(proj_5)
 }
 \author{
 Pierre Nouvellet (original model), Thibaut Jombart (bulk of the
-  code), Sangeeta Bhatia (Negative Binomial model)
+  code), Sangeeta Bhatia (Negative Binomial model), Stephane Ghozzi (bug fixes 
+  time varying R)
 }
