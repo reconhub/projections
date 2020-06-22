@@ -20,25 +20,26 @@
 #'   vectors (for separate distributions of R per time window), with one element
 #'   more than the number of dates in `time_change`.
 #'
-#' @param si A function computing the serial interval, or a `numeric`
-#'   vector providing its mass function. For functions, we strongly recommend
-#'   using the RECON package \code{distcrete} to obtain such distribution (see
-#'   example).
+#' @param si A function computing the serial interval, or a `numeric` vector
+#'   providing its mass function, starting a day 1, so that si[i] is the PMF for
+#'   serial interval of `i`. The model implicitly assumes that `si[0] = 0`. For
+#'   functions, we strongly recommend using the RECON package \code{distcrete}
+#'   to obtain such distribution (see example).
 #'
 #' @param n_sim The number of epicurves to simulate. Defaults to 100.
 #'
 #' @param n_days The number of days to run simulations for. Defaults to 14.
 #'
 #' @param R_fix_within A logical indicating if R should be fixed within
-#'     simulations (but still varying across simulations). If \code{FALSE}, R is
-#'     drawn for every simulation and every time step. Fixing values within
-#'     simulations favours more extreme predictions (see details)
+#'   simulations (but still varying across simulations). If \code{FALSE}, R is
+#'   drawn for every simulation and every time step. Fixing values within
+#'   simulations favours more extreme predictions (see details)
 #'
 #' @param model Distribution to be used for projections. Must be one of
-#' "poisson" or "negbin" (negative binomial process). Defaults to poisson
+#'   "poisson" or "negbin" (negative binomial process). Defaults to poisson
 #'
 #' @param size size parameter of negative binomial distribition. Ignored if
-#' model is poisson
+#'   model is poisson
 #'
 #' @param time_change an optional vector of times at which the simulations
 #'   should use a different sample of reproduction numbers, provided in days
@@ -48,15 +49,14 @@
 #'   `R` values, one per each time window.
 #'
 #' @details The decision to fix R values within simulations
-#'     (\code{R_fix_within}) reflects two alternative views of the uncertainty
-#'     associated with R. When drawing R values at random from the provided
-#'     sample, (\code{R_fix_within} set to \code{FALSE}), it is assumed that R
-#'     varies naturally, and can be treated as a random variable with a given
-#'     distribution. When fixing values within simulations (\code{R_fix_within}
-#'     set to \code{TRUE}), R is treated as a fixed parameter, and the
-#'     uncertainty is merely a consequence of the estimation of R. In other
-#'     words, the first view is rather Bayesian, while the second is more
-#'     frequentist.
+#'   (\code{R_fix_within}) reflects two alternative views of the uncertainty
+#'   associated with R. When drawing R values at random from the provided
+#'   sample, (\code{R_fix_within} set to \code{FALSE}), it is assumed that R
+#'   varies naturally, and can be treated as a random variable with a given
+#'   distribution. When fixing values within simulations (\code{R_fix_within}
+#'   set to \code{TRUE}), R is treated as a fixed parameter, and the uncertainty
+#'   is merely a consequence of the estimation of R. In other words, the first
+#'   view is rather Bayesian, while the second is more frequentist.
 #'
 #'
 #' @examples
@@ -206,7 +206,16 @@ project <- function(x, R, si, n_sim = 100, n_days = 7,
       stop(msg)
     }
 
+    ## Note: there is a difficult choice re how to handle w(0); in theory, the
+    ## model assumes w(0)=0, which is kind of needed for the current
+    ## implementation, although in theory `w(t<0) > 0` should be possible. To
+    ## avoid having to 'fix' user inputs, we redefined at PR 31
+    ## (https://github.com/reconhub/projections/pull/31), the user-specified PMF
+    ## of the serial interval now starts at w(1); if a `distcrete` object is
+    ## provided, we ignore w(0) and rescale the distribution.
+    
     si <- si$d(1:t_max)
+    si <- si / sum(si)
   } else {
     si <- si / sum(si)
     si <- c(si, rep(0, t_max-1))
