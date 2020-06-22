@@ -15,27 +15,27 @@ test_that("Test against reference results", {
 
 
     ## example with a function for SI
-    si <- distcrete::distcrete("gamma", interval = 1L,
-                    shape = 1.5,
-                    scale = 2, w = 0)
+    si <- distcrete::distcrete("gamma",
+                               interval = 1L,
+                               shape = 1.5,
+                               scale = 2, w = 0)
 
-    set.seed(1)
-    pred_1 <- project(i, runif(100, 0.8, 1.9), si, n_days = 30)
+    x <- project(i, runif(100, 0.8, 1.9), si, n_days = 30)
 
+       
     ## basic export
-    df_1 <- as.data.frame(pred_1)
-    ## Uncomment to generate reference
-    # saveRDS(df_1, file = "rds/df_1.rds")
-    expect_equal_to_reference(df_1, file = "rds/df_1.rds", update = FALSE)
-    expect_equal(as.vector(unlist(df_1[, -1])), as.vector(pred_1))
+    df_1 <- as.data.frame(x)
+    expect_identical(get_dates(x), df_1$dates)
+    expect_identical(as.vector(x), unname(unlist(df_1[-1])))
 
+    
     ## long format
-    df_2 <- as.data.frame(pred_1, long = TRUE)
-    ## Uncomment to generate reference
-    # saveRDS(df_2, file = "rds/df_2.rds")
-    expect_equal_to_reference(df_2, file = "rds/df_2.rds", update = FALSE)
-
-
+    df_2 <- as.data.frame(x, long = TRUE)
+    expect_identical(3L, ncol(df_2))
+    expect_identical(c("date", "incidence", "sim"), names(df_2))
+    expect_identical(get_dates(x), unique(df_2$date))
+    expect_identical(as.vector(x), unname(unlist(df_2[[2]])))
+    expect_identical(ncol(x), length(unique(df_2[[3]])))
 })
 
 
