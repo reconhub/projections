@@ -6,7 +6,7 @@ teardown({
   RNGversion(cur_R_version)
 })
 
-test_that("Test against reference results - numeric dates", {
+test_that("Test subsetting with numeric dates inputs", {
     skip_on_cran()
 
     ## simulate basic epicurve
@@ -16,28 +16,31 @@ test_that("Test against reference results - numeric dates", {
 
     ## example with a function for SI
     si <- distcrete::distcrete("gamma", interval = 1L,
-                    shape = 1.5,
-                    scale = 2, w = 0)
+                               shape = 1.5,
+                               scale = 2, w = 0)
+    
+    x <- project(i, runif(100, 0.8, 1.9), si, n_days = 30)
 
-    set.seed(1)
-    pred_1 <- project(i, runif(100, 0.8, 1.9), si, n_days = 30)
-
-    subset_1 <- subset(pred_1, from = 15, to = 20, sim = 1:10)
+    subset_1 <- subset(x, from = 15, to = 20, sim = 1:10)
     attributes(subset_1)$class <- attributes(subset_1)$class[(1:2)]
-    subset_2 <- subset(pred_1, from = 15, sim = c(TRUE, FALSE))
+    ref_1 <- x[get_dates(x) %in% 15:20, 1:10]
+    expect_identical(ref_1, subset_1)
+    
+    subset_2 <- subset(x, from = 15, sim = c(TRUE, FALSE))
     attributes(subset_2)$class <- attributes(subset_2)$class[(1:2)]
-    subset_3 <- subset(pred_1, to = 15, sim = c(TRUE, FALSE))
+    ref_2 <- x[get_dates(x) >= 15, c(TRUE, FALSE)]
+    expect_identical(ref_2, subset_2)
+    
+    subset_3 <- subset(x, to = 15, sim = c(TRUE, FALSE))
     attributes(subset_3)$class <- attributes(subset_3)$class[(1:2)]
+    ref_3 <- x[get_dates(x) <= 15, c(TRUE, FALSE)]
+    expect_identical(ref_3, subset_3)
 
-    expect_identical(pred_1[], pred_1)
-    ## Uncomment to generate references
-    # saveRDS(subset_1, file = "rds/subset_1.rds")
-    # saveRDS(subset_2, file = "rds/subset_2.rds")
-    # saveRDS(subset_3, file = "rds/subset_3.rds")
-    expect_equal_to_reference(subset_1, file = "rds/subset_1.rds", update = FALSE)
-    expect_equal_to_reference(subset_2, file = "rds/subset_2.rds", update = FALSE)
-    expect_equal_to_reference(subset_3, file = "rds/subset_3.rds", update = FALSE)
-    expect_error(subset(pred_1, from = 1, to = 0), "No data retained.")
+    expect_identical(x[], x)
+    expect_identical(as.vector(subset_1),
+                     unname(unlist(as.data.frame(x)[get_dates(x) %in% 15:20, 2:11])))
+
+    expect_error(subset(x, from = 1, to = 0), "No data retained.")
 
 })
 
@@ -45,7 +48,7 @@ test_that("Test against reference results - numeric dates", {
 
 
 
-test_that("Test against reference results - Date dates", {
+test_that("Test subsetting with Date inputs", {
     skip_on_cran()
 
     ## simulate basic epicurve
@@ -59,24 +62,22 @@ test_that("Test against reference results - Date dates", {
                     shape = 1.5,
                     scale = 2, w = 0)
 
-    set.seed(1)
-    pred_1 <- project(i, runif(100, 0.8, 1.9), si, n_days = 30)
+    x <- project(i, runif(100, 0.8, 1.9), si, n_days = 30)
 
-    subset_1 <- subset(pred_1, from = day + 15, to = day + 20, sim = 1:10)
+    subset_1 <- subset(x, from = day + 15, to = day + 20, sim = 1:10)
     attributes(subset_1)$class <- attributes(subset_1)$class[(1:2)]
-    subset_2 <- subset(pred_1, from = day + 15, sim = c(TRUE, FALSE))
+    ref_1 <- x[get_dates(x) %in% (day + 15:20), 1:10]
+    expect_identical(ref_1, subset_1)
+    
+    subset_2 <- subset(x, from = day + 15, sim = c(TRUE, FALSE))
     attributes(subset_2)$class <- attributes(subset_2)$class[(1:2)]
-    subset_3 <- subset(pred_1, to = day + 15, sim = c(TRUE, FALSE))
+    ref_2 <- x[get_dates(x) >= (day + 15), c(TRUE, FALSE)]
+    expect_identical(ref_2, subset_2)
+    
+    subset_3 <- subset(x, to = day + 15, sim = 3:10)
     attributes(subset_3)$class <- attributes(subset_3)$class[(1:2)]
-
-    expect_identical(pred_1[], pred_1)
-    ## Uncomment to generate references
-    # saveRDS(subset_1, file = "rds/subset_Date_1.rds")
-    # saveRDS(subset_2, file = "rds/subset_Date_2.rds")
-    # saveRDS(subset_3, file = "rds/subset_Date_3.rds")
-    expect_equal_to_reference(subset_1, file = "rds/subset_Date_1.rds", update = FALSE)
-    expect_equal_to_reference(subset_2, file = "rds/subset_Date_2.rds", update = FALSE)
-    expect_equal_to_reference(subset_3, file = "rds/subset_Date_3.rds", update = FALSE)
+    ref_3 <- x[get_dates(x) <= (day + 15), 3:10]
+    expect_identical(ref_3, subset_3)
 
 })
 
