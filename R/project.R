@@ -7,7 +7,8 @@
 #' @export
 #'
 #' @author Pierre Nouvellet (original model), Thibaut Jombart (bulk of the
-#'   code), Sangeeta Bhatia (Negative Binomial model)
+#'   code), Sangeeta Bhatia (Negative Binomial model), Stephane Ghozzi (bug fixes 
+#'   time varying R)
 #'
 #' @param x An \code{incidence} object containing daily incidence; other time
 #'   intervals will trigger an error.
@@ -19,25 +20,26 @@
 #'   vectors (for separate distributions of R per time window), with one element
 #'   more than the number of dates in `time_change`.
 #'
-#' @param si A function computing the serial interval, or a `numeric`
-#'   vector providing its mass function. For functions, we strongly recommend
-#'   using the RECON package \code{distcrete} to obtain such distribution (see
-#'   example).
+#' @param si A function computing the serial interval, or a `numeric` vector
+#'   providing its mass function, starting a day 1, so that si[i] is the PMF for
+#'   serial interval of `i`. The model implicitly assumes that `si[0] = 0`. For
+#'   functions, we strongly recommend using the RECON package \code{distcrete}
+#'   to obtain such distribution (see example).
 #'
 #' @param n_sim The number of epicurves to simulate. Defaults to 100.
 #'
 #' @param n_days The number of days to run simulations for. Defaults to 14.
 #'
 #' @param R_fix_within A logical indicating if R should be fixed within
-#'     simulations (but still varying across simulations). If \code{FALSE}, R is
-#'     drawn for every simulation and every time step. Fixing values within
-#'     simulations favours more extreme predictions (see details)
+#'   simulations (but still varying across simulations). If \code{FALSE}, R is
+#'   drawn for every simulation and every time step. Fixing values within
+#'   simulations favours more extreme predictions (see details)
 #'
 #' @param model Distribution to be used for projections. Must be one of
-#' "poisson" or "negbin" (negative binomial process). Defaults to poisson
+#'   "poisson" or "negbin" (negative binomial process). Defaults to poisson
 #'
 #' @param size size parameter of negative binomial distribition. Ignored if
-#' model is poisson
+#'   model is poisson
 #'
 #' @param time_change an optional vector of times at which the simulations
 #'   should use a different sample of reproduction numbers, provided in days
@@ -47,15 +49,14 @@
 #'   `R` values, one per each time window.
 #'
 #' @details The decision to fix R values within simulations
-#'     (\code{R_fix_within}) reflects two alternative views of the uncertainty
-#'     associated with R. When drawing R values at random from the provided
-#'     sample, (\code{R_fix_within} set to \code{FALSE}), it is assumed that R
-#'     varies naturally, and can be treated as a random variable with a given
-#'     distribution. When fixing values within simulations (\code{R_fix_within}
-#'     set to \code{TRUE}), R is treated as a fixed parameter, and the
-#'     uncertainty is merely a consequence of the estimation of R. In other
-#'     words, the first view is rather Bayesian, while the second is more
-#'     frequentist.
+#'   (\code{R_fix_within}) reflects two alternative views of the uncertainty
+#'   associated with R. When drawing R values at random from the provided
+#'   sample, (\code{R_fix_within} set to \code{FALSE}), it is assumed that R
+#'   varies naturally, and can be treated as a random variable with a given
+#'   distribution. When fixing values within simulations (\code{R_fix_within}
+#'   set to \code{TRUE}), R is treated as a fixed parameter, and the uncertainty
+#'   is merely a consequence of the estimation of R. In other words, the first
+#'   view is rather Bayesian, while the second is more frequentist.
 #'
 #'
 #' @examples
@@ -67,8 +68,9 @@
 #'     require(magrittr)) {
 #'
 #' si <- distcrete("gamma", interval = 1L,
-#'                  shape = 0.37,
-#'                  scale = 41.4, w = 0)
+#'                  shape = 2.4,
+#'                  scale = 4.7,
+#'                  w = 0.5)
 #'
 #' i <- incidence(ebola_sim$linelist$date_of_onset)
 #' plot(i)
@@ -134,10 +136,10 @@
 #'
 
 project <- function(x, R, si, n_sim = 100, n_days = 7,
-                    R_fix_within = FALSE,
-                    model = c("poisson", "negbin"),
-                    size = 0.03,
-                    time_change = NULL) {
+  R_fix_within = FALSE,
+  model = c("poisson", "negbin"),
+  size = 0.03,
+  time_change = NULL) {
 
   ## Various checks on inputs
 
@@ -150,8 +152,8 @@ project <- function(x, R, si, n_sim = 100, n_days = 7,
 
   if (as.integer(mean(incidence::get_interval(x))) != 1L) {
     msg <- sprintf(
-        "daily incidence needed, but interval is %d days",
-        as.integer(mean(incidence::get_interval(x)))
+      "daily incidence needed, but interval is %d days",
+      as.integer(mean(incidence::get_interval(x)))
     )
     stop(msg)
   }
@@ -162,11 +164,11 @@ project <- function(x, R, si, n_sim = 100, n_days = 7,
   }
 
   n_time_periods <- 1 # default value, erased if `time_change` provided
-  
+
   if (!is.null(time_change)) {
     if (!is.numeric(time_change)) {
       msg <- sprintf("`time_change` must be `numeric`, but is a `%s`",
-                     paste(class(time_change), collapse = ", "))
+        paste(class(time_change), collapse = ", "))
       stop(msg)
     }
 
@@ -174,19 +176,19 @@ project <- function(x, R, si, n_sim = 100, n_days = 7,
 
     if (!is.vector(R)) {
       msg <- sprintf("`R` must be a `vector` or a `list` if `time_change` provided; it is a `%s`",
-                     paste(class(R), collapse = ", "))
+        paste(class(R), collapse = ", "))
       stop(msg)
     }
 
     if (length(R) != n_time_periods) {
       msg <- sprintf("`R` must be a `list` of size %d to match %d time changes; found %d",
-                     n_time_periods,
-                     n_time_periods - 1,
-                     length(R))
+        n_time_periods,
+        n_time_periods - 1,
+        length(R))
       stop(msg)
     }
   }
-  
+
   assert_R(R)
 
 
@@ -194,6 +196,8 @@ project <- function(x, R, si, n_sim = 100, n_days = 7,
   n_dates_x <- nrow(incidence::get_counts(x))
   t_max <- n_days + n_dates_x - 1
 
+  # si is the the pmf of the serial interval starting at day 1, i.e. one day 
+  # after symptom onset
   if (inherits(si, "distcrete")) {
     if (as.integer(si$interval) != 1L) {
       msg <- sprintf(
@@ -203,11 +207,18 @@ project <- function(x, R, si, n_sim = 100, n_days = 7,
       stop(msg)
     }
 
-    ws <- rev(si$d(0:t_max))
+    ## Note: there is a difficult choice re how to handle w(0); in theory, the
+    ## model assumes w(0)=0, which is kind of needed for the current
+    ## implementation, although in theory `w(t<0) > 0` should be possible. To
+    ## avoid having to 'fix' user inputs, we redefined at PR 31
+    ## (https://github.com/reconhub/projections/pull/31), the user-specified PMF
+    ## of the serial interval now starts at w(1); if a `distcrete` object is
+    ## provided, we ignore w(0) and rescale the distribution.
+    si <- si$d(1:t_max)
+    si <- si / sum(si)
   } else {
     si <- si / sum(si)
-    si <- c(si, rep(0, t_max))
-    ws <- rev(si)
+    si <- c(si, rep(0, t_max-1))
   }
 
 
@@ -219,25 +230,25 @@ project <- function(x, R, si, n_sim = 100, n_days = 7,
   ## Computation of projections: we use the basic branching process with a
   ## Poisson likelihood, identical to the one used for estimating R0 in EpiEstim
   ## and earlyR. The force of infection on a given day is the sum of individual
-  ## forces of infection. The invididual force of infection is computed as the
-  ## R0 multiplied by the pmf of the serial interval for the corresponding day:
+  ## forces of infection. The individual force of infection is computed as the
+  ## R0 multiplied by the pmf of the serial interval si for the corresponding day:
 
-  ## lambda_{i,t} = R0 w(t - t_i)
+  ## lambda_{i,t} = R0(t_i) si(t - t_i) 
 
-  ## where 'w' is the PMF of the serial interval and 't_i' is the date of
-  ## onset of case 'i'.
+  ## where 'si' is the PMF of the serial interval, 'ws' it's reverse, and 
+  ## 't_i' is the date of onset of case 'i'.
 
 
   ## initial conditions
   I0 <- matrix(incidence::get_counts(x), nrow = n_dates_x, ncol = n_sim)
 
-  ## projection
-  out <- rbind(I0, matrix(0, n_days, n_sim))
+  ## projection: read until t and project at t+1
+  out <- I0
   t_start <- n_dates_x + 1
   t_stop <- t_max + 1
   t_sim <- seq(
-    from = t_start,
-    to = t_stop,
+    from = t_start-1,
+    to = t_stop-1,
     by = 1L
   )
 
@@ -253,21 +264,20 @@ project <- function(x, R, si, n_sim = 100, n_days = 7,
   ## vector for R of length `n + 1`, we assume the `R` is constant per time
   ## period and input is silently converted to a list of length `n + 1`.
 
-  time_period <- 1L
-  
+
   if (!is.list(R)) { # i.e. R is a vector and needs conversion to a list
     if (n_time_periods > 1L) {  # several time periods
       R <- as.list(R)
-     } else {  # a single time period
-       R <- list(R)
-     }
+    } else {  # a single time period
+      R <- list(R)
+    }
   }
-  
+
 
   ## On the drawing of R values: either these are constant within simulations,
   ## so drawn once for all simulations, or they need drawing at every time step
   ## for every simulations.
-
+  
   ## On the handling of reporting: reporting first affects the force of
   ## infection lambda, with the underlying assumption that the true epicurve
   ## multiplied by the (constant) reporting results in the observed one. Then,
@@ -275,25 +285,41 @@ project <- function(x, R, si, n_sim = 100, n_days = 7,
   ## process) and we apply effects sampling to this true incidence to get the
   ## projected one, using a Binomial sampling.
 
-  if (R_fix_within) {
-    R_time_period <- R[[time_period]]
-    current_R <- sample_(R_time_period, n_sim, replace = TRUE)
+  if (all(is.finite(time_change))) {
+    time_change_boundaries <- c(1, time_change, t_stop+1)
+  } else {
+    time_change_boundaries <- c(1, t_stop+1)
   }
+  R_t <- matrix(nrow = 0, ncol = n_sim)
+  if (R_fix_within) {
+    for (time_period in 1:n_time_periods) {
+      R_time_period <- sample_(R[[time_period]], n_sim, replace = TRUE)
+      period_duration <- time_change_boundaries[time_period+1] - time_change_boundaries[time_period]
+      current_R_t <- do.call(
+        'rbind', 
+        replicate(period_duration, R_time_period, simplify = FALSE)
+      )
+      R_t <- rbind(R_t, current_R_t)
+    }
+  } else {
+    time_period <- 1L
+    for (i in 1:t_stop) {
+      R_time_period <- R[[time_period]]
+      current_R_t <- sample_(R_time_period, n_sim, replace = TRUE)
+      R_t <- rbind(R_t, current_R_t)
+      if (i %in% time_change) {
+        time_period <- time_period + 1
+      }
+    }
+  }
+  rownames(R_t) <- NULL
 
   for (i in t_sim) {
-    ## update the time period if needed
-    if (i %in% time_change) {
-      time_period <- time_period + 1
-    }
-     
-    if (!R_fix_within) {
-    R_time_period <- R[[time_period]]
-      current_R <- sample_(R_time_period, n_sim, replace = TRUE)
-    }
-    lambda <- utils::tail(ws, i) %*% out[seq_len(i), , drop = FALSE]
+
+    lambda <- compute_force_infection(si, out, R_t, i)
     ## lambda <- lambda / reporting
     if (model == "poisson") {
-      out[i, ] <- stats::rpois(n_sim, current_R * lambda)
+      out <- rbind(out, stats::rpois(n_sim, lambda))
     } else {
       ## If mu = 0, then it doesn't matter what the size value is,
       ## rnbinom will output 0s (mu = 0 => p =1).
@@ -303,9 +329,9 @@ project <- function(x, R, si, n_sim = 100, n_days = 7,
       size_adj <- lambda * size
       idx <- which(lambda == 0)
       size_adj[idx] <- 1
-      out[i, ] <- stats::rnbinom(n_sim, size = size_adj, mu = current_R * lambda)
+      out <- rbind(out, stats::rnbinom(n_sim, size = size_adj, mu = lambda))
     }
-    ## out[i,] <- stats::rbinom(ncol(out), true_I, prob = reporting)
+    ## out <- rbind(out, stats::rbinom(ncol(out), true_I, prob = reporting))
   }
 
 
