@@ -22,17 +22,14 @@ test_that("Test subsetting with numeric dates inputs", {
     x <- project(i, runif(100, 0.8, 1.9), si, n_days = 30)
 
     subset_1 <- subset(x, from = 15, to = 20, sim = 1:10)
-    attributes(subset_1)$class <- attributes(subset_1)$class[(1:2)]
     ref_1 <- x[get_dates(x) %in% 15:20, 1:10]
     expect_identical(ref_1, subset_1)
     
     subset_2 <- subset(x, from = 15, sim = c(TRUE, FALSE))
-    attributes(subset_2)$class <- attributes(subset_2)$class[(1:2)]
     ref_2 <- x[get_dates(x) >= 15, c(TRUE, FALSE)]
     expect_identical(ref_2, subset_2)
     
     subset_3 <- subset(x, to = 15, sim = c(TRUE, FALSE))
-    attributes(subset_3)$class <- attributes(subset_3)$class[(1:2)]
     ref_3 <- x[get_dates(x) <= 15, c(TRUE, FALSE)]
     expect_identical(ref_3, subset_3)
 
@@ -65,17 +62,14 @@ test_that("Test subsetting with Date inputs", {
     x <- project(i, runif(100, 0.8, 1.9), si, n_days = 30)
 
     subset_1 <- subset(x, from = day + 15, to = day + 20, sim = 1:10)
-    attributes(subset_1)$class <- attributes(subset_1)$class[(1:2)]
     ref_1 <- x[get_dates(x) %in% (day + 15:20), 1:10]
     expect_identical(ref_1, subset_1)
     
     subset_2 <- subset(x, from = day + 15, sim = c(TRUE, FALSE))
-    attributes(subset_2)$class <- attributes(subset_2)$class[(1:2)]
     ref_2 <- x[get_dates(x) >= (day + 15), c(TRUE, FALSE)]
     expect_identical(ref_2, subset_2)
     
     subset_3 <- subset(x, to = day + 15, sim = 3:10)
-    attributes(subset_3)$class <- attributes(subset_3)$class[(1:2)]
     ref_3 <- x[get_dates(x) <= (day + 15), 3:10]
     expect_identical(ref_3, subset_3)
 
