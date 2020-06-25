@@ -76,3 +76,26 @@ test_that("Test subsetting with Date inputs", {
 })
 
 
+
+
+
+test_that("Test [ operator handles dates and content", {
+  skip_on_cran()
+
+  ## test with numeric dates
+  dates <- 0:9
+  x_mat <- matrix(1:30, ncol = 3)
+  x <- build_projections(x_mat, dates = dates)
+  sub_x <- x[4:2, 2:3]
+  expect_identical(as.vector(x_mat[4:2, 2:3]), as.vector(sub_x))
+  expect_identical(dates[4:2], get_dates(sub_x))
+
+  ## test with Date
+  dates <- 0:9 + Sys.Date()
+  x_mat <- matrix(1:30, ncol = 3)
+  x <- build_projections(x_mat, dates = dates)
+  sub_x <- x[4:2, 2:3]
+  expect_identical(as.vector(sub_x), as.vector(x_mat[4:2, 2:3]))
+  expect_identical(dates[4:2], get_dates(sub_x))
+
+})
