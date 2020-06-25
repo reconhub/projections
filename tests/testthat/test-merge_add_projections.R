@@ -96,3 +96,40 @@ test_that("Errors are issued as they should", {
   expect_error(merge_add_projections(list()), msg)
 
 })
+
+
+
+
+
+test_that("+ operator works with numeric right-hand operator", {
+
+  set.seed(1)
+  i <- incidence::incidence(as.Date('2020-01-01') + sample(1:30, 10))
+  si <- c(0.2, 0.5, 0.2, 0.1)
+  
+  x <- project(x = i[1:10],
+                 si = si,
+                 R = 2,
+                 n_sim = 1000,
+                 R_fix_within = TRUE,
+                 n_days = 10,
+                 model = "poisson"
+                 )[1:3, ]
+
+  ## test with a scalar integer
+  x_plus <- x + 2L
+  expect_identical(as.matrix(x) + 2, as.matrix(x_plus))
+  expect_identical(class(x), class(x_plus))
+
+  ## test with a with a numeric vector
+  x_plus <- x + 10:13
+  expect_identical(as.matrix(x) + 10:13, as.matrix(x_plus))
+  expect_identical(class(x), class(x_plus))
+
+  ## test with a with a decimal numbers
+  b <- 10:13 + 1.1
+  x_plus <- x + b
+  expect_identical(as.matrix(x) + b, as.matrix(x_plus))
+  expect_identical(class(x), class(x_plus))
+
+})
