@@ -1,4 +1,4 @@
-context("Test printing")
+context("Test cumulative incidence")
 
 setup(RNGversion("3.5.3"))
 teardown({
@@ -6,7 +6,7 @@ teardown({
   RNGversion(cur_R_version)
 })
 
-test_that("Printing as planned", {
+test_that("Test cumulate()", {
   skip_on_cran()
 
   ## simulate basic epicurve
@@ -21,9 +21,9 @@ test_that("Printing as planned", {
 
   set.seed(1)
   x <- project(i, runif(100, 0.8, 1.9), si, n_days = 30)
-  y <- incidence::cumulate(x)
+  y <- cumulate(x)
 
   expect_identical(apply(x, 2, cumsum), unclass(as.matrix(y)))
-  expect_error(cumulate(y), "x is already a cumulative incidence")
+  expect_error(cumulate(y), "x already contains cumulative incidence")
 
 })

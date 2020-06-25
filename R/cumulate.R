@@ -43,7 +43,7 @@
 #'
 cumulate.projections <- function(x) {
   if (isTRUE(attr(x, "cumulative"))) {
-    stop("x is already a cumulative incidence")
+    stop("x already contains cumulative incidence")
   }
   out <- x
   out[] <- apply(out[], 2, cumsum)
