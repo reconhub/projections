@@ -343,7 +343,7 @@ project <- function(x, R, si, n_sim = 100, n_days = 7,
 
   out <- out[(n_dates_x + 1):(n_dates_x + n_days), , drop = FALSE]
 
-  dates <- utils::tail(x$dates, 1) + seq_len(nrow(out))
+  dates <- utils::tail(get_dates(x), 1) + seq_len(nrow(out))
 
   build_projections(out, dates, FALSE)
 }
