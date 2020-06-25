@@ -166,7 +166,7 @@ add_projections <- function(p, x, quantiles = c(0.01, 0.05, 0.1, 0.5),
   ## - ribbon
 
   out <- p
-  dates <- attr(x, "dates")
+  dates <- get_dates(x)
 
   if (!is.null(quantiles) && !isFALSE(quantiles) && !all(is.na(quantiles))) {
     quantiles <- sort(unique(c(quantiles, 1 - quantiles)))
@@ -250,6 +250,14 @@ add_projections <- function(p, x, quantiles = c(0.01, 0.05, 0.1, 0.5),
     )
   }
 
+  ## We need to update the x scale, depending on the type of the dates
+
+  if (inherits(dates, c("Date", "POSIXct"))) {
+    out <- out + ggplot2::scale_x_date()
+  } else {
+    out <- out + ggplot2::scale_x_continuous()
+  }
+  
   out
 }
 

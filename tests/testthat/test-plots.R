@@ -126,7 +126,8 @@ test_that("Test against reference results", {
   quantiles <- c(.001, .01, 0.05, .1, .2, .3, .4, .5)
   pal <- colorRampPalette(c("#b3c6ff", "#00e64d", "#cc0066"))
   p <- plot(i[1:200]) %>%
-    add_projections(proj, quantiles, palette = pal)
+    add_projections(proj, quantiles, palette = pal) +
+    ggplot2::scale_x_date(date_labels = "%b %Y")
 
   ## Uncomment to generate references
   # ggplot2::ggsave("../figs/test-project-function/evd-proj-with-incidence-incidence-and-custom.svg",
