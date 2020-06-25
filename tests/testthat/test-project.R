@@ -129,6 +129,12 @@ test_that("Errors are thrown when they should", {
   expect_error(project(i, R = list(1), si = si, time_change = 2),
                "`R` must be a `list` of size 2 to match 1 time changes; found 1",
                fixed = TRUE)
+  expect_error(project(i, si = si, time_change = "pophip"),
+               "`time_change` must be `numeric`, but is a `character`",
+               fixed = TRUE)
+  expect_error(project(i, si = si, time_change = 2, R = matrix(1.2)),
+               "`R` must be a `vector` or a `list` if `time_change` provided; it is a `matrix`",
+               fixed = TRUE)
   
 })
 
