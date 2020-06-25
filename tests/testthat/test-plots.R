@@ -6,6 +6,10 @@ teardown({
   RNGversion(cur_R_version)
 })
 
+
+
+
+
 test_that("Test against reference results", {
   skip_on_cran()
 
@@ -133,3 +137,20 @@ test_that("Test against reference results", {
 })
 
 
+
+
+
+test_that("Plotting issues expected errors", {
+  skip_on_cran()
+
+
+  ## simulate basic epicurve
+  dat <- c(0, 2, 2, 3, 3, 5, 5, 5, 6, 6, 6, 6)
+  i <- incidence::incidence(dat)
+  p <- plot(i)
+  
+  ## example with a function for SI
+  expect_error(add_projections(p, "toto"),
+               "`x` must be a 'projections' object but is a `character`",
+               fixed = TRUE)
+})

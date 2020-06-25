@@ -151,8 +151,10 @@ add_projections <- function(p, x, quantiles = c(0.01, 0.05, 0.1, 0.5),
                             outliers = TRUE) {
 
   if (!inherits(x, "projections")) {
-    stop("x must be a 'projections' object;",
-         "\nsee ?projections::project")
+    msg <- sprintf(
+      "`x` must be a 'projections' object but is a `%s`",
+      paste(class(x), collapse = ", "))
+    stop(msg)
   }
 
   ## Strategy: we start off the provided plot, which may well be empty
