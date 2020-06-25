@@ -31,6 +31,8 @@
   
 - (*testing*) revised sets of tests relying less on comparison to references,
   but testing for meaningful output properties instead
+  
+- (*testing*) 100% coverage
 
 
 # projections 0.4.1

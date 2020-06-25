@@ -67,11 +67,24 @@ The main features of the package include:
 - **`build_projections`**: build a `projections` object from an input matrix and
   optional dates.
 
+- **`merge_projections`**: merge several `projections` objects into one, putting
+  them on a common time frame; useful to combine runs from different simulations
+  and/or perform model averaging
+
+- **`merge_add_projections`**: puts several `projections` on the same time
+  frame, and adds incidences to form a new object; objects having less
+  simulations are recycled to match the largest number of simulations; useful to
+  combine cases simulated from different processes
+
+  
+
 
 
 # Resources
 
 ## Worked example
+
+### Simulated Ebola outbreak
 
 In the following, we project future incidence using a simulate Ebola outbreak
 distributed in the package `outbreaks`:
@@ -79,8 +92,8 @@ distributed in the package `outbreaks`:
 library(outbreaks)
 library(incidence)
 
-onset <- ebola_sim$linelist$date_of_onset
-i <- incidence(onset)
+linelist <- ebola_sim_clean$linelist
+i <- incidence(linelist$date_of_onset)
 plot(i) # full outbreak
 plot(i[1:160]) # first 160 days
 ```
@@ -112,20 +125,20 @@ of 1.5, from day 100 and for 60 days:
 ```{r predictions}
 library(projections)
 set.seed(1)
-pred <- project(i[1:100], R = 1.5, si = si, n_days = 60, n_sim = 1000)
-pred
-plot(pred) # default plot
-pred_cum <- cumulate(pred) # cumulative predictions
-plot(pred_cum) # plot cumulative predictions
+pred_1 <- project(i[1:100], R = 1.5, si = si, n_days = 60, n_sim = 1000)
+pred_1
+plot(pred_1) # default plot
+pred_1_cum <- cumulate(pred_1) # cumulative predictions
+plot(pred_1_cum) # plot cumulative predictions
 
-apply(pred, 1, mean) # average prediction per day
-apply(pred, 1, range) # range across simulations
+apply(pred_1, 1, mean) # average prediction per day
+apply(pred_1, 1, range) # range across simulations
 ```
 
 An alternative representation of the outcomes:
 ```{r plots}
 library(ggplot2)
-df <- as.data.frame(pred, long = TRUE)
+df <- as.data.frame(pred_1, long = TRUE)
 head(df)
 p <- ggplot(df, aes(x = date, y = incidence)) +
   geom_jitter(alpha = .3) + geom_smooth()
@@ -140,6 +153,53 @@ library(magrittr)
 plot(i[20:160]) %>% add_projections(pred, boxplots = FALSE)
  
 ```
+
+
+
+### Combining models
+
+What if we were uncertain about the serial interval, and wanted to use, say, 3
+different serial intervals, and study the impact of this uncertainty on our
+predictions? One way to approach this is to create 3 sets of simulations, and
+merge the resulting objects
+
+```{r }
+
+## get incidence by hospital
+i_hosp <- incidence(linelist$date_of_onset, groups = linelist$hospital)
+plot(i_hosp) + theme_bw()
+
+
+## derive predictions for each hospital
+n_groups <- ncol(get_counts(i_hosp))
+
+pred_hosp <- lapply(
+  seq_len(n_groups),
+  function(j)
+    project(i_hosp[1:100, j],
+            R = 1.5,
+            si = si,
+            n_days = 60,
+            n_sim = 500))
+names(pred_hosp) <- colnames(get_counts(i_hosp))
+cowplot::plot_grid(plotlist = lapply(pred_hosp, plot), labels = names(pred_hosp))
+
+## combine predictions only for known hospitals
+pred_merged <- merge_add_projections(pred_hosp)
+
+## note: we can also use `+`; for instance to combine predictions for Connaught
+## and Rokupa hospitals: 
+pred_connaugt_rokupa <- pred_hosp$`Connaught Hospital` + pred_hosp$`Rokupa Hospital`
+cowplot::plot_grid(
+  plot(pred_hosp$`Connaught Hospital`),
+  plot(pred_hosp$`Rokupa Hospital`),
+  plot(pred_connaugt_rokupa),
+  ncol = 3,
+  labels = c("Connaught", "Rokupa", "Connaught + Rokupa"))
+
+```
+
+
 
 
 
