@@ -118,7 +118,7 @@ test_that("+ operator works with numeric right-hand operator", {
 
   ## test with a scalar integer
   x_plus <- x + 2L
-  expect_identical(as.matrix(x) + 2, as.matrix(x_plus))
+  expect_identical(as.matrix(x) + 2L, as.matrix(x_plus))
   expect_identical(class(x), class(x_plus))
 
   ## test with a with a numeric vector
