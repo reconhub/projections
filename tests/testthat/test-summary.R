@@ -80,7 +80,7 @@ test_that("Testing summary on/off", {
 
   ## no quantiles
   s_no_quantiles <- summary(p, quantiles = FALSE)
-  expect_identical(get_dates(p), s_no_range$dates)
+  expect_identical(get_dates(p), s_no_quantiles$dates)
   expect_equal(as.vector(apply(p, 1, mean)), s_no_quantiles$mean)
   expect_equal(as.vector(apply(p, 1, sd)), s_no_quantiles$sd)
   expect_equal(as.vector(apply(p, 1, min)), s_no_quantiles$min)
