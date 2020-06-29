@@ -10,6 +10,9 @@
   accordingly; if objects contain different numbers of simulations, the shortest
   ones are recycled as needed; also implemented as the operator `+`
 
+- new function `summary` will summarise `projections` objects by day, using a
+  range of pre-defined statistics (mean, sd, min, max, and user-defined
+  quantiles)
 
 ## Fixes and improvements
 
