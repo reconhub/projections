@@ -10,23 +10,27 @@
 
 
 <!-- jquery -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
 <!-- Bootstrap -->
 
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha256-916EbMg70RQy9LHiGkXzG8hSg9EdNy97GazNG/aiY1w=" crossorigin="anonymous" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.4.1/css/bootstrap.min.css" integrity="sha256-bZLfwXAP04zRMK2BjiO8iu9pf4FbLqX6zitd+tIvLhE=" crossorigin="anonymous" />
 
-<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha256-U5ZEeKfGNOja007MMD3YBI0A3OSZOQbeG6z2f2Y0hu8=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.4.1/js/bootstrap.min.js" integrity="sha256-nuL8/2cJ5NDSSwnKD8VqreErSWHtnEP9E7AySL+1ev4=" crossorigin="anonymous"></script>
+
+<!-- bootstrap-toc -->
+<link rel="stylesheet" href="../bootstrap-toc.css">
+<script src="../bootstrap-toc.js"></script>
 
 <!-- Font Awesome icons -->
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.7.1/css/all.min.css" integrity="sha256-nAmazAk6vS34Xqo0BSrTb+abbtFlgsFK7NKSi6o7Y78=" crossorigin="anonymous" />
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.7.1/css/v4-shims.min.css" integrity="sha256-6qHlizsOWFskGlwVOKuns+D1nB6ssZrHQrNj1wGplHc=" crossorigin="anonymous" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/all.min.css" integrity="sha256-mmgLkCYLUQbXn0B1SRqzHar6dCnv9oZFPEC1g1cwlkk=" crossorigin="anonymous" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/v4-shims.min.css" integrity="sha256-wZjR52fzng1pJHwx4aV2AO3yyTOXrcDW7jBpJtTwVxw=" crossorigin="anonymous" />
 
 <!-- clipboard.js -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.4/clipboard.min.js" integrity="sha256-FiZwavyI2V6+EXO1U+xzLG3IKldpiTFf3153ea9zikQ=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.6/clipboard.min.js" integrity="sha256-inc5kl9MA1hkeYUt+EC3BhlIgyp/2jDIyBLS6k3UxPI=" crossorigin="anonymous"></script>
 
 <!-- headroom.js -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.9.4/headroom.min.js" integrity="sha256-DJFC1kqIhelURkuza0AvYal5RxMtpzLjFhsnVIeuk+U=" crossorigin="anonymous"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.9.4/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/headroom.min.js" integrity="sha256-AsUX4SJE1+yuDu5+mAVzJbuYNPHj/WroHuZ8Ir/CkE0=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script>
 
 <!-- pkgdown -->
 <link href="../pkgdown.css" rel="stylesheet">
@@ -53,7 +57,7 @@
 
   </head>
 
-  <body>
+  <body data-spy="scroll" data-target="#toc">
     <div class="container template-news">
       <header>
       <div class="navbar navbar-default navbar-fixed-top" role="navigation">
@@ -67,7 +71,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">projections</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.4.1</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.5.0</span>
       </span>
     </div>
 
@@ -87,7 +91,12 @@
 </li>
       </ul>
       <ul class="nav navbar-nav navbar-right">
-        
+        <li>
+  <a href="http://github.com/reconhub/projections/">
+    <span class="fab fa fab fa-github fa-lg"></span>
+     
+  </a>
+</li>
       </ul>
       
     </div><!--/.nav-collapse -->
@@ -101,21 +110,48 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-      <h1>Changelog <small></small></h1>
-      
+      <h1 data-toc-skip>Changelog <small></small></h1>
+      <small>Source: <a href='http://github.com/reconhub/projections/blob/master/NEWS.md'><code>NEWS.md</code></a></small>
     </div>
 
+    <div id="projections-0-5-0" class="section level1">
+<h1 class="page-header" data-toc-text="0.5.0">
+<a href="#projections-0-5-0" class="anchor"></a>projections 0.5.0<small> Unreleased </small>
+</h1>
+<div id="new-functions" class="section level2">
+<h2 class="hasAnchor">
+<a href="#new-functions" class="anchor"></a>New functions</h2>
+<ul>
+<li><p>new function <code>merge_projections</code> permits to join different sets of simulations, adapting the respective time windows accordingly</p></li>
+<li><p>new function <code>merge_add_projections</code> permits to add simulated case incidence from different sets of simulations, adapting the respective time windows accordingly; if objects contain different numbers of simulations, the shortest ones are recycled as needed; also implemented as the operator <code><a href="https://rdrr.io/r/base/Arithmetic.html">+</a></code></p></li>
+<li><p>new function <code>summary</code> will summarise <code>projections</code> objects by day, using a range of pre-defined statistics (mean, sd, min, max, and user-defined quantiles)</p></li>
+</ul>
+</div>
+<div id="fixes-and-improvements" class="section level2">
+<h2 class="hasAnchor">
+<a href="#fixes-and-improvements" class="anchor"></a>Fixes and improvements</h2>
+<ul>
+<li><p>bug fix for the use of time-varying R in <code>project</code></p></li>
+<li><p>bug fix for <code><a href="https://rdrr.io/r/base/as.data.frame.html">as.data.frame(..., long = TRUE)</a></code></p></li>
+<li><p>more consistent handling of inputs for the serial interval; if provided as a vector, <code>si</code> now starts at a delay of 1 day, rather than 0 and assuming the first entry is 0; for <code>distcrete</code> inputs, the mass for <code>si$d(0)</code> is now ignored, and the rest of the distribution is rescaled accorindly to ensure the PMF sums to 1</p></li>
+<li><p>(<em>documentation</em>) more realistic serial interval distribution used for the Ebola examples</p></li>
+<li><p>(<em>internal</em>) the force of infection is now calculated by the new internal function <code>compute_force_infection</code></p></li>
+<li><p>(<em>testing</em>) revised sets of tests relying less on comparison to references, but testing for meaningful output properties instead</p></li>
+<li><p>(<em>testing</em>) 100% coverage</p></li>
+</ul>
+</div>
+</div>
     <div id="projections-0-4-1" class="section level1">
-<h1 class="page-header">
+<h1 class="page-header" data-toc-text="0.4.1">
 <a href="#projections-0-4-1" class="anchor"></a>projections 0.4.1<small> Unreleased </small>
 </h1>
 <ul>
 <li>
-<code><a href="../reference/project.html">project()</a></code> will can now take single dates or single projections as inputs. (<a href='https://github.com/acori'>@acori</a>, <a href='https://github.com/zkamvar'>@zkamvar</a>, #18).</li>
+<code><a href="../reference/project.html">project()</a></code> will can now take single dates or single projections as inputs. (<a href='http://github.com/acori'>@acori</a>, <a href='http://github.com/zkamvar'>@zkamvar</a>, <a href='http://github.com/reconhub/projections/issues/18'>#18</a>).</li>
 </ul>
 </div>
     <div id="projections-0-4-0" class="section level1">
-<h1 class="page-header">
+<h1 class="page-header" data-toc-text="0.4.0">
 <a href="#projections-0-4-0" class="anchor"></a>projections 0.4.0<small> Unreleased </small>
 </h1>
 <ul>
@@ -124,15 +160,15 @@
 </ul>
 </div>
     <div id="projections-0-3-2" class="section level1">
-<h1 class="page-header">
+<h1 class="page-header" data-toc-text="0.3.2">
 <a href="#projections-0-3-2" class="anchor"></a>projections 0.3.2<small> Unreleased </small>
 </h1>
 <ul>
-<li>A bug in <code><a href="../reference/project.html">project()</a></code> where R was being resampled recursively was fixed (#11, <a href='https://github.com/jarvisc1'>@jarvisc1</a>; #12, <a href='https://github.com/zkamvar'>@zkamvar</a>)</li>
+<li>A bug in <code><a href="../reference/project.html">project()</a></code> where R was being resampled recursively was fixed (<a href='http://github.com/reconhub/projections/issues/11'>#11</a>, <a href='http://github.com/jarvisc1'>@jarvisc1</a>; <a href='http://github.com/reconhub/projections/issues/12'>#12</a>, <a href='http://github.com/zkamvar'>@zkamvar</a>)</li>
 </ul>
 </div>
     <div id="projections-0-3-1" class="section level1">
-<h1 class="page-header">
+<h1 class="page-header" data-toc-text="0.3.1">
 <a href="#projections-0-3-1" class="anchor"></a>projections 0.3.1<small> 2018-08-27 </small>
 </h1>
 <ul>
@@ -141,7 +177,7 @@
 </ul>
 </div>
     <div id="projections-0-3-0" class="section level1">
-<h1 class="page-header">
+<h1 class="page-header" data-toc-text="0.3.0">
 <a href="#projections-0-3-0" class="anchor"></a>projections 0.3.0<small> 2018-06-20 </small>
 </h1>
 <div id="new-features" class="section level2">
@@ -157,7 +193,7 @@
 </div>
 </div>
     <div id="projections-0-1-1" class="section level1">
-<h1 class="page-header">
+<h1 class="page-header" data-toc-text="0.1.1">
 <a href="#projections-0-1-1" class="anchor"></a>projections 0.1.1<small> 2018-05-29 </small>
 </h1>
 <div id="new-features-1" class="section level2">
@@ -175,7 +211,7 @@
 </div>
 </div>
     <div id="projections-0-0-1" class="section level1">
-<h1 class="page-header">
+<h1 class="page-header" data-toc-text="0.0.1">
 <a href="#projections-0-0-1" class="anchor"></a>projections 0.0.1<small> 2017-12-06 </small>
 </h1>
 <p>First release of the package!</p>
@@ -183,7 +219,7 @@
 <h2 class="hasAnchor">
 <a href="#new-features-2" class="anchor"></a>New features</h2>
 <ul>
-<li><p><code>project</code>: a function generating projections from an existing <em>incidence</em> object, a serial interval distribution, and a set of plausible reproduction numbers ($R$); returns a <code>projections</code> object.</p></li>
+<li><p><code>project</code>: a function generating projections from an existing <em>incidence</em> object, a serial interval distribution, and a set of plausible reproduction numbers (<span class="math inline"><em>R</em></span>); returns a <code>projections</code> object.</p></li>
 <li><p><code>plot</code>/<code>print</code>: plotting and printing methods for <code>projections</code> objects.</p></li>
 <li><p><code>get_dates</code>: accessors for <code>projections</code> objects.</p></li>
 <li><p><code>as.data.frame</code>: conversion from <code>projections</code> objects to <code>data.frame</code>.</p></li>
@@ -192,19 +228,10 @@
 </div>
   </div>
 
-  <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
-    <div id="tocnav">
-      <h2>Contents</h2>
-      <ul class="nav nav-pills nav-stacked">
-        <li><a href="#projections-0-4-1">0.4.1</a></li>
-        <li><a href="#projections-0-4-0">0.4.0</a></li>
-        <li><a href="#projections-0-3-2">0.3.2</a></li>
-        <li><a href="#projections-0-3-1">0.3.1</a></li>
-        <li><a href="#projections-0-3-0">0.3.0</a></li>
-        <li><a href="#projections-0-1-1">0.1.1</a></li>
-        <li><a href="#projections-0-0-1">0.0.1</a></li>
-      </ul>
-    </div>
+  <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
+    <nav id="toc" data-toggle="toc" class="sticky-top">
+      <h2 data-toc-skip>Contents</h2>
+    </nav>
   </div>
 
 </div>
@@ -216,7 +243,7 @@
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.4.1.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.</p>
 </div>
 
       </footer>
