@@ -19,11 +19,15 @@ branching process where daily incidence follows a Poisson process determined by
 a daily infectiousness, computed as:
 
 $$
-\lambda_t = \sum_{s = 1}^{t - 1} y_s w(t - s)
+\lambda_t = \sum_{s = 1}^{t - 1} R_s y_s w(t - s)
 $$
 
-where $w()$ is the probability mass function (PMF) of the serial interval, and
-$y_s$ is the incidence at time $s$.
+where:
+
+* $w()$ is the probability mass function (PMF) of the serial interval
+* $y_s$ is the incidence (by date of onset) at time $s$
+* $R_s$ is the effective reproduction number (average number of secondary cases
+  by infected case) at time $s$
 
 
 ## Installing the package
@@ -33,7 +37,9 @@ To install the current stable, CRAN version of the package, type:
 install.packages("projections")
 ```
 
-To benefit from the latest features and bug fixes, install the development, *github* version of the package using:
+To benefit from the latest features and bug fixes, install the development,
+*github* version of the package using:
+
 ```{r install2, eval = FALSE}
 devtools::install_github("reconhub/projections")
 ```
@@ -47,7 +53,9 @@ The main features of the package include:
 
 - **`project`**: a function generating projections from an existing `incidence`
   object, a serial interval distribution, and a set of plausible reproduction
-  numbers ($R$); returns a `projections` object.
+  numbers (*R*); returns a `projections` object; two models are implemented:
+  Poisson, and Negative Binomial; both models can either use a constant
+  distribution for *R*, or use time-varying distributions
   
 - **`plot`/`print`**: plotting and printing methods for `projections` objects.
 
@@ -86,16 +94,36 @@ The main features of the package include:
 
 ### Simulated Ebola outbreak
 
-In the following, we project future incidence using a simulate Ebola outbreak
-distributed in the package `outbreaks`:
+In this example, we use the simulated Ebola outbreak `ebola_sim_clean` from the
+`outbreaks` package to illustrate the package's functionalities. We will:
+
+* first calculate case incidence
+* create a serial interval distribution from known mean / standard deviations
+  (e.g. taken from the literature)
+* project case incidence
+* summarise the resulting projections
+* export results as `data.frame` for further processing, e.g. making custom
+  plots using *ggplot2*
+* showcase advanced handling of `projections` objects (merging/adding
+  projections)
+
+
+#### Compute case incidence.
+
+Here we use `incidence` to calculate daily counts of new cases by date of onset:
+
 ```{r onset}
 library(outbreaks)
 library(incidence)
+library(ggplot2)
 
 linelist <- ebola_sim_clean$linelist
 i <- incidence(linelist$date_of_onset)
-plot(i) # full outbreak
-plot(i[1:160]) # first 160 days
+plot(i) +
+  theme_bw() # full outbreak
+plot(i[1:160]) +
+  theme_bw() # first 160 days
+
 ```
 
 We create a serial interval distribution using `distcrete`:
@@ -110,12 +138,18 @@ params
 
 si <- distcrete("gamma", shape = params$shape,
                 scale = params$scale,
-                interval = 1, w = 0)
+                interval = 1, w = 0.5)
 si
 
-plot(1:50, si$d(1:50), type = "h", lwd = 3, col = "navy",
-     main = "Serial interval", xlab = "Days after onset",
-     ylab = "Relative infectiousness")
+si_df <- data.frame(t = 1:50,
+                    p = si$d(1:50))
+ggplot(si_df, aes(x = t, y = p)) +
+  theme_bw() +
+  geom_col() +
+  labs(title = "Serial interval",
+       x = "Days after onset",
+       y = "Probability")
+
 ```
 
 
@@ -127,22 +161,28 @@ library(projections)
 set.seed(1)
 pred_1 <- project(i[1:100], R = 1.5, si = si, n_days = 60, n_sim = 1000)
 pred_1
-plot(pred_1) # default plot
+plot(pred_1) +
+  theme_bw() # default plot
 pred_1_cum <- cumulate(pred_1) # cumulative predictions
-plot(pred_1_cum) # plot cumulative predictions
+plot(pred_1_cum) +
+  theme_bw() # plot cumulative predictions
 
 apply(pred_1, 1, mean) # average prediction per day
-apply(pred_1, 1, range) # range across simulations
+apply(pred_1, 1, quantile, c(0.025, 0.25, 0.5, 0.75, 0.975)) # quantiles
+
 ```
 
+Note that you 
 An alternative representation of the outcomes:
+
 ```{r plots}
-library(ggplot2)
+
 df <- as.data.frame(pred_1, long = TRUE)
 head(df)
 p <- ggplot(df, aes(x = date, y = incidence)) +
   geom_jitter(alpha = .3) + geom_smooth()
 p
+
 ```
 
 
