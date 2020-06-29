@@ -59,21 +59,24 @@ The main features of the package include:
   
 - **`plot`/`print`**: plotting and printing methods for `projections` objects.
 
-- **`get_dates`**: accessors for `projections` objects.
+- **`summary`**: summary method for `projections` objects, deriving a range of
+  summary statistics for each day of forecast
 
-- **`cumulate`**: cumulate predicted incidence over time.
+- **`get_dates`**: accessors for `projections` objects
 
-- **`as.data.frame`**: conversion from `projections` objects to `data.frame`.
+- **`cumulate`**: cumulate predicted incidence over time
+
+- **`as.data.frame`**: conversion from `projections` objects to `data.frame`
 
 - **`[`**: subsetting operator for `projections` objects, permiting to specify
   which dates and simulations to retain; uses a syntax similar to matrices,
   i.e. `x[i, j]`, where `x` is the `projections` object, `i` a subset of dates,
-  and `j` a subset of simulations.
+  and `j` a subset of simulations
 
-- **`subset`**: subset a `projections` object by specifying a time window.
+- **`subset`**: subset a `projections` object by specifying a time window
 
 - **`build_projections`**: build a `projections` object from an input matrix and
-  optional dates.
+  optional dates
 
 - **`merge_projections`**: merge several `projections` objects into one, putting
   them on a common time frame; useful to combine runs from different simulations
@@ -108,9 +111,10 @@ In this example, we use the simulated Ebola outbreak `ebola_sim_clean` from the
   projections)
 
 
-#### Compute case incidence.
+#### Computing case incidence
 
-Here we use `incidence` to calculate daily counts of new cases by date of onset:
+Here we use `incidence` (from the similarly named package) to calculate daily
+counts of new cases by date of onset:
 
 ```{r onset}
 library(outbreaks)
@@ -126,8 +130,17 @@ plot(i[1:160]) +
 
 ```
 
-We create a serial interval distribution using `distcrete`:
+#### Creating a serial interval
+
+We create a serial interval distribution using `distcrete` (from the similarly
+named package); we use published values of the Serial Interval for Ebola with a
+mean of 15.3 days and a standard deviation of 9.3 days), to build a discretised
+Gamma distribution. Because the Gamma implementation in R uses shape and scale
+as parameters, we first need to convert the mean and coefficient of variation
+into shape and scale, using `gamma_mucv2shapescale` from the *epitrix* package.
+
 ```{r si}
+
 library(distcrete)
 library(epitrix)
 mu <- 15.3
@@ -153,13 +166,19 @@ ggplot(si_df, aes(x = t, y = p)) +
 ```
 
 
-We predict future incidence based on these data, assuming a reproduction number
-of 1.5, from day 100 and for 60 days:
+#### Projecting future incidence
+
+We forecast future incidence based on the incidence data and the serial
+interval, assuming a reproduction number of 1.5; for the sake of illustration,
+we start use the first 100 days of data to determine the force of infection, and
+derive forecasts for 30 days (in practice, forecasts can only be reliable for
+short term predictions, typically 3 weeks maximum):
 
 ```{r predictions}
+
 library(projections)
 set.seed(1)
-pred_1 <- project(i[1:100], R = 1.5, si = si, n_days = 60, n_sim = 1000)
+pred_1 <- project(i[1:100], R = 1.5, si = si, n_days = 30, n_sim = 1000)
 pred_1
 plot(pred_1) +
   theme_bw() # default plot
@@ -167,47 +186,170 @@ pred_1_cum <- cumulate(pred_1) # cumulative predictions
 plot(pred_1_cum) +
   theme_bw() # plot cumulative predictions
 
-apply(pred_1, 1, mean) # average prediction per day
-apply(pred_1, 1, quantile, c(0.025, 0.25, 0.5, 0.75, 0.975)) # quantiles
-
-```
-
-Note that you 
-An alternative representation of the outcomes:
-
-```{r plots}
-
-df <- as.data.frame(pred_1, long = TRUE)
-head(df)
-p <- ggplot(df, aes(x = date, y = incidence)) +
-  geom_jitter(alpha = .3) + geom_smooth()
-p
-
 ```
 
 
-Predictions can also be added to the epicurve:
+Forecasts stored in a `projections` object can also be added to an `incidence`
+plot using `add_projections`, which admits the same options as the `plot`
+method. This function is best used with a pipe `%>%`:
+
 ```{r plot_with_incidence}
-library(magrittr)
 
-plot(i[20:160]) %>% add_projections(pred, boxplots = FALSE)
+library(magrittr)
+plot(i[20:160], alpha = 0.5) %>% 
+  add_projections(pred_1, boxplots = FALSE, quantiles = c(0.025, 0.5)) +
+  theme_bw()
  
 ```
 
 
 
-### Combining models
+#### Summarising forecasts
 
-What if we were uncertain about the serial interval, and wanted to use, say, 3
-different serial intervals, and study the impact of this uncertainty on our
-predictions? One way to approach this is to create 3 sets of simulations, and
-merge the resulting objects
+The `summary` function will summarise simulations using several statistics for
+each day of the forecast, allowing the user to switch off some of the summaries,
+and specify quantiles. Several options are illustrated below, but more
+information will be found at `?summary.projections`:
 
-```{r }
+``` {r summary}
 
-## get incidence by hospital
+## default summary
+head(summary(pred_1))
+tail(summary(pred_1))
+
+## keeping only mean, min and max
+head(summary(pred_1, sd = FALSE, quantiles = FALSE))
+
+## using 10%, 50% and 90% quantiles
+head(summary(pred_1, quantiles = c(0.1, 0.5, 0.9)))
+
+```
+
+To derive your own summary for each day, you can use `apply` with custom
+functions; for instance, to calculate the geometric mean for each day:
+
+```{r geom_mean}
+
+## function to calculate geometric mean
+geo_mean = function(x, na.rm = TRUE){
+  exp(sum(log(x[x > 0]), na.rm = na.rm) / length(x))
+}
+
+## raw output
+apply(pred_1, 1, geo_mean)
+
+## with some formatting
+temp <- apply(pred_1, 1, geo_mean)
+data.frame(date = get_dates(pred_1),
+           geometric_mean = apply(pred_1, 1, geo_mean),
+           row.names = NULL)
+
+```
+
+
+
+#### Exporting results
+
+The function `as.data.frame` can be handy for further processing of the
+forecast. The argument `long` in particular will be handy for further processing
+using `dplyr` or `ggplot2`, as it stores the 'simulation' as a 3rd columns,
+which can be used for grouping and/or aesthetics. 
+
+Here is an example with *ggplot2* to produce an alternative plot:
+
+```{r plots}
+
+df <- as.data.frame(pred_1, long = TRUE)
+head(df)
+ggplot(df, aes(x = date, y = incidence)) +
+  theme_bw() +
+  geom_jitter(alpha = 0.05, size = 4) +
+  geom_smooth()
+
+```
+
+
+
+### Advanced handling
+
+`projections` objects can also be combined in two ways:
+
+1. merge different sets of simulations, using `merge_projections`; this can be
+   useful e.g. for model averaging, where different models produce separate sets
+   of forecasts which need combining
+2. add incidences from different simulation sets, using `+`, or
+   `merge_add_projections`; this can be useful for simulating cases from
+   different, complementary processes
+   
+We illustrate case 1, where we produce a second set of forecasts `pred_2` using
+a different serial interval distribution, which we combine to `pred_1`. For the
+sake of example, we use a made-up serial interval which is much shorter than the
+one used in `pred_1`, with an average of 4 days, and a standard deviation of 2
+days.
+
+```{r other_si}
+
+mu <- 4
+sigma <- 2
+cv <- sigma / mu
+params <- gamma_mucv2shapescale(mu, cv)
+params
+
+si_short <- distcrete("gamma", shape = params$shape,
+                      scale = params$scale,
+                      interval = 1, w = 0.5)
+si_short
+
+si_short_df <- data.frame(t = 1:20,
+                          p = si_short$d(1:20))
+ggplot(si_short_df, aes(x = t, y = p)) +
+  theme_bw() +
+  geom_col() +
+  labs(title = "Other serial interval",
+       x = "Days after onset",
+       y = "Probability")
+
+```
+
+We now use this serial interval to produce a second set of forecasts. We compare
+them to the initial one, and the combined forecasts:
+
+```{r pred_2}
+
+set.seed(1)
+pred_2 <- project(i[1:100], R = 1.5, si = si_short, n_days = 30, n_sim = 1000)
+pred_2 # 1000 simulations
+plot(pred_2) +
+  theme_bw() # default plot
+
+## combine the objects; note that any number of objects can be combined
+pred_combined <- merge_projections(list(pred_1, pred_2))
+pred_combined # 2000 simulations
+
+list_plots <- list(
+  plot(pred_1) + theme_bw() + labs(title = "Forecast with initial SI"),
+  plot(pred_2,) + theme_bw() + labs(title = "Forecast with short SI"),
+  plot(pred_combined) + theme_bw() + labs(title = "Combined forecasts")
+)
+
+library(cowplot)
+plot_grid(plotlist = list_plots,
+          ncol = 1)
+
+```
+
+
+To illustrate case 2 (not only merging, but adding `projections` objects), we
+artificially split the dataset by hospitals, derive separate forecasts for each,
+and add forecasts of two hospitals in the example below.
+
+```{r adding_forecasts}
+
+## calculate incidence by hospital
 i_hosp <- incidence(linelist$date_of_onset, groups = linelist$hospital)
-plot(i_hosp) + theme_bw()
+plot(i_hosp) +
+  theme_bw() +
+  theme(legend.position = "bottom")
 
 
 ## derive predictions for each hospital
@@ -222,33 +364,51 @@ pred_hosp <- lapply(
             n_days = 60,
             n_sim = 500))
 names(pred_hosp) <- colnames(get_counts(i_hosp))
-cowplot::plot_grid(plotlist = lapply(pred_hosp, plot), labels = names(pred_hosp))
 
-## combine predictions only for known hospitals
-pred_merged <- merge_add_projections(pred_hosp)
 
-## note: we can also use `+`; for instance to combine predictions for Connaught
-## and Rokupa hospitals: 
-pred_connaugt_rokupa <- pred_hosp$`Connaught Hospital` + pred_hosp$`Rokupa Hospital`
-cowplot::plot_grid(
-  plot(pred_hosp$`Connaught Hospital`),
-  plot(pred_hosp$`Rokupa Hospital`),
-  plot(pred_connaugt_rokupa),
-  ncol = 3,
-  labels = c("Connaught", "Rokupa", "Connaught + Rokupa"))
+## we combine forecasts for Connaught and Rokupa hospitals
+pred_connaught_rokupa <- pred_hosp$`Connaught Hospital` + pred_hosp$`Rokupa Hospital`
+
+
+list_plots <- list(
+  plot(pred_hosp$`Connaught Hospital`) +
+    theme_bw() +
+    ylim(c(0, 30)) +
+    labs(title = "Connaught hospital"),
+  plot(pred_hosp$`Rokupa Hospital`) +
+    theme_bw() +
+    ylim(c(0, 30)) +
+    labs(title = "Rokupa hospital"),
+  plot(pred_connaught_rokupa) +
+    theme_bw() +
+    ylim(c(0, 30)) +
+    labs(title = "Connaught + Rokupa")
+)
+
+plot_grid(plotlist = list_plots,
+          ncol = 1)
+
+```
+
+Note that to add more than 2 `projections` objects, one can use
+`merge_add_projections`. Also note that the `+` operator can also be used with a
+`numeric`, e.g. for adding an offset. For instance:
+
+```{r offset}
+
+plot(pred_connaught_rokupa + 1000) +
+  theme_bw() +
+  labs(title = "Connaught + Rokupa with 1000 added cases")
 
 ```
 
 
 
 
-
-
 ## Vignettes
 
-*projections* does not currently have a dedicated vignette; instead, it is
-illustrated in conjunction with `earlyR` on [this
-vignette](http://www.repidemicsconsortium.org/earlyR/articles/earlyR.html).
+*projections* does not currently have a dedicated vignette. This `README` will
+eventually be converted into separate vignettes.
 
 
 ## Websites
