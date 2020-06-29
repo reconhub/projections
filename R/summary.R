@@ -13,7 +13,7 @@
 #'
 #' @param object A `projections` object to summarise
 #'
-#' @param quantile A `numeric` vector indicating which quantiles should be
+#' @param quantiles A `numeric` vector indicating which quantiles should be
 #'   computed; ignored if `FALSE` or of length 0
 #'
 #' @param mean a `logical` indicating of the mean should be computed

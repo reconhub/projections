@@ -17,6 +17,9 @@
 \arguments{
 \item{object}{A `projections` object to summarise}
 
+\item{quantiles}{A `numeric` vector indicating which quantiles should be
+computed; ignored if `FALSE` or of length 0}
+
 \item{mean}{a `logical` indicating of the mean should be computed}
 
 \item{sd}{a `logical` indicating of the standard deviation should be computed}
@@ -43,9 +46,6 @@ if (require(incidence)) {
   summary(p)
 
 }}
-
-\item{quantile}{A `numeric` vector indicating which quantiles should be
-computed; ignored if `FALSE` or of length 0}
 }
 \description{
 This method summarises predicted epidemic trajectories contained in a
