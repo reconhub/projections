@@ -25,7 +25,24 @@
 
 \item{max}{a `logical` indicating of the maximum should be computed}
 
-\item{...}{only preesnt for compatibility with the generic}
+\item{...}{only preesnt for compatibility with the generic
+
+if (require(incidence)) {
+  i <- incidence::incidence(as.Date('2020-01-23'))
+  si <- c(0.2, 0.5, 0.2, 0.1)
+  R0 <- 2
+
+  p <- project(x = i,
+               si = si,
+               R = R0,
+               n_sim = 2, 
+               R_fix_within = TRUE,
+               n_days = 10,
+               model = "poisson"
+               )
+  summary(p)
+
+}}
 
 \item{quantile}{A `numeric` vector indicating which quantiles should be
 computed; ignored if `FALSE` or of length 0}

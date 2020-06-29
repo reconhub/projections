@@ -25,7 +25,24 @@
 #' @param max a `logical` indicating of the maximum should be computed
 #'
 #' @param ... only preesnt for compatibility with the generic
-#' 
+#'
+#' if (require(incidence)) {
+#'   i <- incidence::incidence(as.Date('2020-01-23'))
+#'   si <- c(0.2, 0.5, 0.2, 0.1)
+#'   R0 <- 2
+#'
+#'   p <- project(x = i,
+#'                si = si,
+#'                R = R0,
+#'                n_sim = 2, 
+#'                R_fix_within = TRUE,
+#'                n_days = 10,
+#'                model = "poisson"
+#'                )
+#'   summary(p)
+#'
+#' }
+
 summary.projections <- function(object,
                                 quantiles = c(0.025, 0.25, 0.5, 0.75, 0.975),
                                 mean = TRUE,
