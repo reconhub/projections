@@ -61,6 +61,8 @@ summary.projections <- function(object,
   out <- apply(object, 1, f_summary,
                mean = mean,
                sd = sd,
+               min = min,
+               max = max,
                quantiles = quantiles
                )
   out <- cbind.data.frame(dates = get_dates(object),
