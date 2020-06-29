@@ -274,10 +274,10 @@ ggplot(df, aes(x = date, y = incidence)) +
 
 `projections` objects can also be combined in two ways:
 
-1. merge different sets of simulations, using `merge_projections`; this can be
+1. **merge** different sets of simulations, using `merge_projections`; this can be
    useful e.g. for model averaging, where different models produce separate sets
    of forecasts which need combining
-2. add incidences from different simulation sets, using `+`, or
+2. **add** forecasts from different simulation sets, using `+`, or
    `merge_add_projections`; this can be useful for simulating cases from
    different, complementary processes
    
