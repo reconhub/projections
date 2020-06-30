@@ -2,7 +2,7 @@
 [![Build status](https://ci.appveyor.com/api/projects/status/265h2el4y9popan9/branch/master?svg=true)](https://ci.appveyor.com/project/thibautjombart/projections/branch/master)
 [![codecov.io](https://codecov.io/github/reconhub/projections/coverage.svg?branch=master)](https://codecov.io/github/reconhub/projections?branch=master)
 [![CRAN_Status_Badge](http://www.r-pkg.org/badges/version/projections)](https://cran.r-project.org/package=projections)
-[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.3922259.svg)](https://doi.org/10.5281/zenodo.3922259)
+[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.3923626.svg)](https://doi.org/10.5281/zenodo.3923626)
 
 
 
