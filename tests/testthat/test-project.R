@@ -122,8 +122,11 @@ test_that("Errors are thrown when they should", {
   expect_error(project(i, si = si, time_change = "pophip"),
                "`time_change` must be `numeric`, but is a `character`",
                fixed = TRUE)
+  msg <- ifelse(R.version.string > "3.6.3",
+                "`R` must be a `vector` or a `list` if `time_change` provided; it is a `matrix, array`",
+                "`R` must be a `vector` or a `list` if `time_change` provided; it is a `matrix`")
   expect_error(project(i, si = si, time_change = 2, R = matrix(1.2)),
-               "`R` must be a `vector` or a `list` if `time_change` provided; it is a `matrix, array`",
+               msg,
                fixed = TRUE)
   
 })
