@@ -1,3 +1,14 @@
+# projections 0.5.1
+
+## Fixes and improvements
+
+- now using the new default random number generator in tests
+
+- updated tests to pass check with R 4.0.2; this includes re-generation of most
+  reference objects, which were manually inspected and validated against old
+  references
+
+
 # projections 0.5.0
 
 ## New functions
