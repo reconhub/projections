@@ -1,12 +1,5 @@
 context("Test merge_add_projections")
 
-setup(RNGversion("3.5.3"))
-teardown({
-  cur_R_version <- trimws(substr(R.version.string, 10, 16))
-  RNGversion(cur_R_version)
-})
-
-
 test_that("Merging works", {
 
   set.seed(1)

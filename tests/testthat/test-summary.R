@@ -1,15 +1,5 @@
 context("Test summary of projections objects")
 
-setup(RNGversion("3.5.3"))
-teardown({
-  cur_R_version <- trimws(substr(R.version.string, 10, 16))
-  RNGversion(cur_R_version)
-})
-
-
-
-
-
 test_that("Testing default summary", {
   i <- incidence::incidence(as.Date('2020-01-23'))
   si <- c(0.2, 0.5, 0.2, 0.1)
