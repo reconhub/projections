@@ -248,6 +248,9 @@ test_that("Test against reference results - NegBin model", {
   R_period_1 <- runif(100, min = 1.1, max = 3)
   R_period_2 <- runif(100, min = 0.6, max = .9)
 
+  par(ask = TRUE)
+  for (i in 1:30)
+    
   pred_8 <- project(i,
                     R = list(R_period_1, R_period_2),
                     si = si,
@@ -255,6 +258,8 @@ test_that("Test against reference results - NegBin model", {
                     time_change = 20,
                     n_sim = 100,
                     model = "negbin")
+  plot(pred_8)
+  }
   expect_equal_to_reference(pred_8, file = "rds/pred_8.rds", update = FALSE)
 
 })
