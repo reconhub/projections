@@ -119,15 +119,13 @@ counts of new cases by date of onset:
 
 ```{r onset}
 library(outbreaks)
-library(incidence)
+library(incidence2)
 library(ggplot2)
 
 linelist <- ebola_sim_clean$linelist
-i <- incidence(linelist$date_of_onset)
-plot(i) +
-  theme_bw() # full outbreak
-plot(i[1:160]) +
-  theme_bw() # first 160 days
+i <- incidence(linelist, date_index = date_of_onset)
+plot(i) # full outbreak
+plot(i[1:160, ]) # first 160 days
 
 ```
 
@@ -179,7 +177,7 @@ short term predictions, typically 3 weeks maximum):
 
 library(projections)
 set.seed(1)
-pred_1 <- project(i[1:100], R = 1.5, si = si, n_days = 30, n_sim = 1000)
+pred_1 <- project(i[1:100, ], R = 1.5, si = si, n_days = 30, n_sim = 1000)
 pred_1
 plot(pred_1) +
   theme_bw() # default plot
@@ -197,7 +195,7 @@ method. This function is best used with a pipe `%>%`:
 ```{r plot_with_incidence}
 
 library(magrittr)
-plot(i[20:160], alpha = 0.5) %>% 
+plot(i[20:160, ], alpha = 0.5) %>% 
   add_projections(pred_1, boxplots = FALSE, quantiles = c(0.025, 0.5)) +
   theme_bw()
  
@@ -318,7 +316,7 @@ them to the initial one, and the combined forecasts:
 ```{r pred_2}
 
 set.seed(1)
-pred_2 <- project(i[1:100], R = 1.5, si = si_short, n_days = 30, n_sim = 1000)
+pred_2 <- project(i[1:100, ], R = 1.5, si = si_short, n_days = 30, n_sim = 1000)
 pred_2 # 1000 simulations
 plot(pred_2) +
   theme_bw() # default plot
@@ -347,24 +345,27 @@ and add forecasts of two hospitals in the example below.
 ```{r adding_forecasts}
 
 ## calculate incidence by hospital
-i_hosp <- incidence(linelist$date_of_onset, groups = linelist$hospital)
-plot(i_hosp) +
-  theme_bw() +
-  theme(legend.position = "bottom")
+i_hosp <- incidence(
+  linelist,
+  date_index = date_of_onset,
+  groups = hospital)
+plot(i_hosp, fill = hospital)
 
 
 ## derive predictions for each hospital
-n_groups <- ncol(get_counts(i_hosp))
+hospitals <- split(i_hosp, i_hosp$hospital)
+hospitals <- lapply(hospitals, regroup)
 
 pred_hosp <- lapply(
-  seq_len(n_groups),
-  function(j)
-    project(i_hosp[1:100, j],
+  hospitals,
+  function(x) {
+    project(x[1:100, ],
             R = 1.5,
             si = si,
             n_days = 60,
-            n_sim = 500))
-names(pred_hosp) <- colnames(get_counts(i_hosp))
+            n_sim = 500)
+    })
+names(pred_hosp) <- names(hospitals)
 
 
 ## we combine forecasts for Connaught and Rokupa hospitals
