@@ -4,19 +4,23 @@
 #' sure that they all use the same dates, adding rows of '0' where needed.
 #'
 #' @author Thibaut Jombart
-#' 
+#'
 #' @param x A `list` of `projections` objects to be merged.
 #'
 #' @export
-#' 
+#'
 #' @examples
 #'
 #' ## generate toy data
 #' dates <- Sys.Date() + c(0, 0, 2, 5, 6, 6, 7)
-#' i <- incidence::incidence(dates)
+#' i <- incidence2::incidence(
+#'   data.frame(dates = dates),
+#'   date_index = dates
+#' )
+#'
 #' si <- c(0.2, 0.5, 0.2, 0.1)
 #' R0 <- 3.5
-#' 
+#'
 #' ## make several projections objects
 #' x <- lapply(1:10,
 #'             function(j)
@@ -40,7 +44,7 @@ merge_projections <- function(x) {
                    class(x)[1])
     stop(msg)
   }
-  
+
   is_projections <- vapply(x,
                            function(e) inherits(e, "projections"),
                            logical(1))
@@ -53,7 +57,7 @@ merge_projections <- function(x) {
     msg <- "x is an empty `list`"
     stop(msg)
   }
-  
+
   ## note: Reduce(function(...) merge(..., all = TRUE), proj) would work here
   ## but take a loooot of time; `dplyr::full_join` is worse; we do the merge
   ## manually instead

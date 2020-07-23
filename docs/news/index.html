@@ -71,7 +71,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">projections</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.5.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.5.1</span>
       </span>
     </div>
 
@@ -114,9 +114,22 @@
       <small>Source: <a href='http://github.com/reconhub/projections/blob/master/NEWS.md'><code>NEWS.md</code></a></small>
     </div>
 
-    <div id="projections-0-5-0" class="section level1">
+    <div id="projections-051" class="section level1">
+<h1 class="page-header" data-toc-text="0.5.1">
+<a href="#projections-051" class="anchor"></a>projections 0.5.1<small> 2020-06-30 </small>
+</h1>
+<div id="fixes-and-improvements" class="section level2">
+<h2 class="hasAnchor">
+<a href="#fixes-and-improvements" class="anchor"></a>Fixes and improvements</h2>
+<ul>
+<li><p>now using the new default random number generator in tests</p></li>
+<li><p>updated tests to pass check with R 4.0.2; this includes re-generation of most reference objects, which were manually inspected and validated against old references</p></li>
+</ul>
+</div>
+</div>
+    <div id="projections-050" class="section level1">
 <h1 class="page-header" data-toc-text="0.5.0">
-<a href="#projections-0-5-0" class="anchor"></a>projections 0.5.0<small> Unreleased </small>
+<a href="#projections-050" class="anchor"></a>projections 0.5.0<small> Unreleased </small>
 </h1>
 <div id="new-functions" class="section level2">
 <h2 class="hasAnchor">
@@ -127,9 +140,9 @@
 <li><p>new function <code>summary</code> will summarise <code>projections</code> objects by day, using a range of pre-defined statistics (mean, sd, min, max, and user-defined quantiles)</p></li>
 </ul>
 </div>
-<div id="fixes-and-improvements" class="section level2">
+<div id="fixes-and-improvements-1" class="section level2">
 <h2 class="hasAnchor">
-<a href="#fixes-and-improvements" class="anchor"></a>Fixes and improvements</h2>
+<a href="#fixes-and-improvements-1" class="anchor"></a>Fixes and improvements</h2>
 <ul>
 <li><p>bug fix for the use of time-varying R in <code>project</code></p></li>
 <li><p>bug fix for <code><a href="https://rdrr.io/r/base/as.data.frame.html">as.data.frame(..., long = TRUE)</a></code></p></li>
@@ -141,44 +154,44 @@
 </ul>
 </div>
 </div>
-    <div id="projections-0-4-1" class="section level1">
+    <div id="projections-041" class="section level1">
 <h1 class="page-header" data-toc-text="0.4.1">
-<a href="#projections-0-4-1" class="anchor"></a>projections 0.4.1<small> Unreleased </small>
+<a href="#projections-041" class="anchor"></a>projections 0.4.1<small> Unreleased </small>
 </h1>
 <ul>
 <li>
 <code><a href="../reference/project.html">project()</a></code> will can now take single dates or single projections as inputs. (<a href='http://github.com/acori'>@acori</a>, <a href='http://github.com/zkamvar'>@zkamvar</a>, <a href='http://github.com/reconhub/projections/issues/18'>#18</a>).</li>
 </ul>
 </div>
-    <div id="projections-0-4-0" class="section level1">
+    <div id="projections-040" class="section level1">
 <h1 class="page-header" data-toc-text="0.4.0">
-<a href="#projections-0-4-0" class="anchor"></a>projections 0.4.0<small> Unreleased </small>
+<a href="#projections-040" class="anchor"></a>projections 0.4.0<small> Unreleased </small>
 </h1>
 <ul>
 <li>
 <code>project</code> can now use time-varying R by specifying <code>time_change</code>, a vector of dates at which R changes, and providing a <code>vector</code> or a <code>list</code> of values for <code>R</code> instead of a vector, in which case it needs to have <code>length(time_change) + 1</code> components, each of which is a vector of R values.</li>
 </ul>
 </div>
-    <div id="projections-0-3-2" class="section level1">
+    <div id="projections-032" class="section level1">
 <h1 class="page-header" data-toc-text="0.3.2">
-<a href="#projections-0-3-2" class="anchor"></a>projections 0.3.2<small> Unreleased </small>
+<a href="#projections-032" class="anchor"></a>projections 0.3.2<small> Unreleased </small>
 </h1>
 <ul>
 <li>A bug in <code><a href="../reference/project.html">project()</a></code> where R was being resampled recursively was fixed (<a href='http://github.com/reconhub/projections/issues/11'>#11</a>, <a href='http://github.com/jarvisc1'>@jarvisc1</a>; <a href='http://github.com/reconhub/projections/issues/12'>#12</a>, <a href='http://github.com/zkamvar'>@zkamvar</a>)</li>
 </ul>
 </div>
-    <div id="projections-0-3-1" class="section level1">
+    <div id="projections-031" class="section level1">
 <h1 class="page-header" data-toc-text="0.3.1">
-<a href="#projections-0-3-1" class="anchor"></a>projections 0.3.1<small> 2018-08-27 </small>
+<a href="#projections-031" class="anchor"></a>projections 0.3.1<small> 2018-08-27 </small>
 </h1>
 <ul>
 <li>
 <code><a href="../reference/projections_accessors.html">get_dates()</a></code> now inherits the generic <code><a href="../reference/projections_accessors.html">get_dates()</a></code> from incidence</li>
 </ul>
 </div>
-    <div id="projections-0-3-0" class="section level1">
+    <div id="projections-030" class="section level1">
 <h1 class="page-header" data-toc-text="0.3.0">
-<a href="#projections-0-3-0" class="anchor"></a>projections 0.3.0<small> 2018-06-20 </small>
+<a href="#projections-030" class="anchor"></a>projections 0.3.0<small> 2018-06-20 </small>
 </h1>
 <div id="new-features" class="section level2">
 <h2 class="hasAnchor">
@@ -192,9 +205,9 @@
 </ul>
 </div>
 </div>
-    <div id="projections-0-1-1" class="section level1">
+    <div id="projections-011" class="section level1">
 <h1 class="page-header" data-toc-text="0.1.1">
-<a href="#projections-0-1-1" class="anchor"></a>projections 0.1.1<small> 2018-05-29 </small>
+<a href="#projections-011" class="anchor"></a>projections 0.1.1<small> 2018-05-29 </small>
 </h1>
 <div id="new-features-1" class="section level2">
 <h2 class="hasAnchor">
@@ -210,9 +223,9 @@
 <p>Fixed the calls to <code>sample</code>, which has a rather irrational behaviour when passing a first argument of length 1 (i.e. not bootstrapping from the vector).</p>
 </div>
 </div>
-    <div id="projections-0-0-1" class="section level1">
+    <div id="projections-001" class="section level1">
 <h1 class="page-header" data-toc-text="0.0.1">
-<a href="#projections-0-0-1" class="anchor"></a>projections 0.0.1<small> 2017-12-06 </small>
+<a href="#projections-001" class="anchor"></a>projections 0.0.1<small> 2017-12-06 </small>
 </h1>
 <p>First release of the package!</p>
 <div id="new-features-2" class="section level2">

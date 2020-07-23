@@ -1,7 +1,7 @@
 #' Compute cumulative projections
 #'
 #' \code{cumulate} is an S3 generic to compute cumulative numbers defined in the
-#' package \code{incidence}. The method for \code{projections} objects turns
+#' package \code{incidence2}. The method for \code{projections} objects turns
 #' predicted incidences into cumulative incidences over time.
 #'
 #'
@@ -15,11 +15,14 @@
 #' @examples
 #'
 #' if (require(distcrete) &&
-#'     require(incidence)) {
+#'     require(incidence2)) {
 #'
 #'   ## simulate basic epicurve
 #'   dat <- c(0, 2, 2, 3, 3, 5, 5, 5, 6, 6, 6, 6)
-#'   i <- incidence(dat)
+#'   i <- incidence(
+#'     data.frame(dates = dat),
+#'     date_index = dates
+#'   )
 #'
 #'
 #'   ## example with a function for SI
@@ -37,7 +40,7 @@
 #' }
 #'
 #'
-#' @importFrom incidence cumulate
+#' @importFrom incidence2 cumulate
 #' @export
 #' @aliases cumulate.projections
 #'

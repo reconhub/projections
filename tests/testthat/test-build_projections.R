@@ -5,7 +5,10 @@ test_that("Test round trip", {
 
     ## simulate basic epicurve
     dat <- c(0, 2, 2, 3, 3, 5, 5, 5, 6, 6, 6, 6)
-    i <- incidence::incidence(dat)
+    i <- incidence2::incidence(
+      data.frame(dates = dat),
+      date_index = dates
+    )
 
 
     ## example with a function for SI
@@ -30,7 +33,10 @@ test_that("Test dates default", {
 
     ## simulate basic epicurve
     dat <- c(0, 2, 2, 3, 3, 5, 5, 5, 6, 6, 6, 6)
-    i <- incidence::incidence(dat)
+    i <- incidence2::incidence(
+      data.frame(dates = dat),
+      date_index = dates
+    )
 
 
     ## example with a function for SI
@@ -82,6 +88,6 @@ test_that("Test ordering", {
     x <- build_projections(mat, dates, order_dates = FALSE)
     expect_identical(get_dates(x), dates)
     expect_equal(as.vector(mat), as.vector(x))
-    
+
 })
 

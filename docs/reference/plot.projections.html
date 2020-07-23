@@ -76,7 +76,7 @@ examples)." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">projections</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.5.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.5.1</span>
       </span>
     </div>
 
@@ -129,7 +129,7 @@ examples).</p>
     </div>
 
     <pre class="usage"><span class='co'># S3 method for projections</span>
-<span class='fu'><a href='https://rdrr.io/r/graphics/plot.html'>plot</a></span>(<span class='no'>x</span>, <span class='kw'>ylab</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>title</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='no'>...</span>)
+<span class='fu'><a href='https://rdrr.io/r/base/plot.html'>plot</a></span>(<span class='no'>x</span>, <span class='kw'>ylab</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>title</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='no'>...</span>)
 
 <span class='fu'>add_projections</span>(
   <span class='no'>p</span>,
@@ -159,7 +159,7 @@ examples).</p>
     </tr>
     <tr>
       <th>ylab</th>
-      <td><p>An optional label for the y-axis. If missing will default to 
+      <td><p>An optional label for the y-axis. If missing will default to
 "predicted incidence" or, if cumulative, "predicted cumulative incidence"</p></td>
     </tr>
     <tr>
@@ -252,7 +252,7 @@ alongside the boxplots; defaults to <code>TRUE</code>.</p></td>
     <pre class="examples"><div class='input'>
 <span class='kw'>if</span> (<span class='fu'><a href='https://rdrr.io/r/base/library.html'>require</a></span>(<span class='no'>outbreaks</span>) <span class='kw'>&amp;&amp;</span>
     <span class='fu'><a href='https://rdrr.io/r/base/library.html'>require</a></span>(<span class='no'>distcrete</span>) <span class='kw'>&amp;&amp;</span>
-    <span class='fu'><a href='https://rdrr.io/r/base/library.html'>require</a></span>(<span class='no'>incidence</span>) <span class='kw'>&amp;&amp;</span>
+    <span class='fu'><a href='https://rdrr.io/r/base/library.html'>require</a></span>(<span class='no'>incidence2</span>) <span class='kw'>&amp;&amp;</span>
     <span class='fu'><a href='https://rdrr.io/r/base/library.html'>require</a></span>(<span class='no'>magrittr</span>)) {
 
 <span class='no'>si</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/pkg/distcrete/man/distcrete.html'>distcrete</a></span>(<span class='st'>"gamma"</span>,
@@ -261,34 +261,37 @@ alongside the boxplots; defaults to <code>TRUE</code>.</p></td>
                  <span class='kw'>scale</span> <span class='kw'>=</span> <span class='fl'>4.7</span>,
                  <span class='kw'>w</span> <span class='kw'>=</span> <span class='fl'>0.5</span>)
 
-<span class='no'>i</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/pkg/incidence/man/incidence.html'>incidence</a></span>(<span class='no'>ebola_sim</span>$<span class='no'>linelist</span>$<span class='no'>date_of_onset</span>)
-<span class='fu'><a href='https://rdrr.io/r/graphics/plot.html'>plot</a></span>(<span class='no'>i</span>)
+<span class='no'>i</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/pkg/incidence2/man/incidence.html'>incidence</a></span>(
+  <span class='fu'><a href='https://rdrr.io/r/base/data.frame.html'>data.frame</a></span>(<span class='kw'>dates</span> <span class='kw'>=</span> <span class='no'>ebola_sim</span>$<span class='no'>linelist</span>$<span class='no'>date_of_onset</span>),
+  <span class='kw'>date_index</span> <span class='kw'>=</span> <span class='no'>dates</span>
+)
+<span class='fu'><a href='https://rdrr.io/r/base/plot.html'>plot</a></span>(<span class='no'>i</span>)
 
 <span class='co'>## add projections after the first 100 days, over 60 days</span>
 <span class='fu'><a href='https://rdrr.io/r/base/Random.html'>set.seed</a></span>(<span class='fl'>1</span>)
-<span class='no'>proj</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='project.html'>project</a></span>(<span class='kw'>x</span> <span class='kw'>=</span> <span class='no'>i</span>[<span class='fl'>1</span>:<span class='fl'>100</span>], <span class='kw'>R</span> <span class='kw'>=</span> <span class='fl'>1.4</span>, <span class='kw'>si</span> <span class='kw'>=</span> <span class='no'>si</span>, <span class='kw'>n_days</span> <span class='kw'>=</span> <span class='fl'>60</span>)
+<span class='no'>proj</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='project.html'>project</a></span>(<span class='kw'>x</span> <span class='kw'>=</span> <span class='no'>i</span>[<span class='fl'>1</span>:<span class='fl'>100</span>, ], <span class='kw'>R</span> <span class='kw'>=</span> <span class='fl'>1.4</span>, <span class='kw'>si</span> <span class='kw'>=</span> <span class='no'>si</span>, <span class='kw'>n_days</span> <span class='kw'>=</span> <span class='fl'>60</span>)
 
 <span class='co'>## plotting projections: different options</span>
-<span class='fu'><a href='https://rdrr.io/r/graphics/plot.html'>plot</a></span>(<span class='no'>proj</span>)
-<span class='fu'><a href='https://rdrr.io/r/graphics/plot.html'>plot</a></span>(<span class='no'>proj</span>, <span class='kw'>quantiles</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>.025</span>, <span class='fl'>.5</span>)) <span class='co'># 95% CI</span>
-<span class='fu'><a href='https://rdrr.io/r/graphics/plot.html'>plot</a></span>(<span class='no'>proj</span>, <span class='kw'>ribbon_color</span> <span class='kw'>=</span> <span class='st'>"red"</span>, <span class='kw'>quantiles</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>) <span class='co'># range</span>
-<span class='fu'><a href='https://rdrr.io/r/graphics/plot.html'>plot</a></span>(<span class='no'>proj</span>, <span class='kw'>ribbon_color</span> <span class='kw'>=</span> <span class='st'>"red"</span>, <span class='kw'>quantiles</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
+<span class='fu'><a href='https://rdrr.io/r/base/plot.html'>plot</a></span>(<span class='no'>proj</span>)
+<span class='fu'><a href='https://rdrr.io/r/base/plot.html'>plot</a></span>(<span class='no'>proj</span>, <span class='kw'>quantiles</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>.025</span>, <span class='fl'>.5</span>)) <span class='co'># 95% CI</span>
+<span class='fu'><a href='https://rdrr.io/r/base/plot.html'>plot</a></span>(<span class='no'>proj</span>, <span class='kw'>ribbon_color</span> <span class='kw'>=</span> <span class='st'>"red"</span>, <span class='kw'>quantiles</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>) <span class='co'># range</span>
+<span class='fu'><a href='https://rdrr.io/r/base/plot.html'>plot</a></span>(<span class='no'>proj</span>, <span class='kw'>ribbon_color</span> <span class='kw'>=</span> <span class='st'>"red"</span>, <span class='kw'>quantiles</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
      <span class='kw'>ribbon_quantiles</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>.025</span>, <span class='fl'>.5</span>))
-<span class='fu'><a href='https://rdrr.io/r/graphics/plot.html'>plot</a></span>(<span class='no'>proj</span>, <span class='kw'>boxplots</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>quantiles</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>ribbon</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)
-<span class='fu'><a href='https://rdrr.io/r/graphics/plot.html'>plot</a></span>(<span class='no'>proj</span>, <span class='kw'>boxplots</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>quantiles</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>outliers</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)
-<span class='fu'><a href='https://rdrr.io/r/graphics/plot.html'>plot</a></span>(<span class='no'>proj</span>, <span class='kw'>linetype</span> <span class='kw'>=</span> <span class='fl'>3</span>)
+<span class='fu'><a href='https://rdrr.io/r/base/plot.html'>plot</a></span>(<span class='no'>proj</span>, <span class='kw'>boxplots</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>quantiles</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>ribbon</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)
+<span class='fu'><a href='https://rdrr.io/r/base/plot.html'>plot</a></span>(<span class='no'>proj</span>, <span class='kw'>boxplots</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>quantiles</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>outliers</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)
+<span class='fu'><a href='https://rdrr.io/r/base/plot.html'>plot</a></span>(<span class='no'>proj</span>, <span class='kw'>linetype</span> <span class='kw'>=</span> <span class='fl'>3</span>)
 
 <span class='co'>## adding them to incidence plot</span>
-<span class='fu'><a href='https://rdrr.io/r/graphics/plot.html'>plot</a></span>(<span class='no'>i</span>) <span class='kw'>%&gt;%</span> <span class='fu'>add_projections</span>(<span class='no'>proj</span>)
-<span class='fu'><a href='https://rdrr.io/r/graphics/plot.html'>plot</a></span>(<span class='no'>i</span>[<span class='fl'>1</span>:<span class='fl'>160</span>]) <span class='kw'>%&gt;%</span> <span class='fu'>add_projections</span>(<span class='no'>proj</span>)
-<span class='fu'><a href='https://rdrr.io/r/graphics/plot.html'>plot</a></span>(<span class='no'>i</span>[<span class='fl'>1</span>:<span class='fl'>160</span>]) <span class='kw'>%&gt;%</span> <span class='fu'>add_projections</span>(<span class='no'>proj</span>, <span class='kw'>boxplots</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)
-<span class='fu'><a href='https://rdrr.io/r/graphics/plot.html'>plot</a></span>(<span class='no'>i</span>[<span class='fl'>1</span>:<span class='fl'>160</span>]) <span class='kw'>%&gt;%</span>
+<span class='fu'><a href='https://rdrr.io/r/base/plot.html'>plot</a></span>(<span class='no'>i</span>) <span class='kw'>%&gt;%</span> <span class='fu'>add_projections</span>(<span class='no'>proj</span>)
+<span class='fu'><a href='https://rdrr.io/r/base/plot.html'>plot</a></span>(<span class='no'>i</span>[<span class='fl'>1</span>:<span class='fl'>160</span>, ]) <span class='kw'>%&gt;%</span> <span class='fu'>add_projections</span>(<span class='no'>proj</span>)
+<span class='fu'><a href='https://rdrr.io/r/base/plot.html'>plot</a></span>(<span class='no'>i</span>[<span class='fl'>1</span>:<span class='fl'>160</span>, ]) <span class='kw'>%&gt;%</span> <span class='fu'>add_projections</span>(<span class='no'>proj</span>, <span class='kw'>boxplots</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)
+<span class='fu'><a href='https://rdrr.io/r/base/plot.html'>plot</a></span>(<span class='no'>i</span>[<span class='fl'>1</span>:<span class='fl'>160</span>, ]) <span class='kw'>%&gt;%</span>
   <span class='fu'>add_projections</span>(<span class='no'>proj</span>, <span class='kw'>boxplots_alpha</span> <span class='kw'>=</span> <span class='fl'>.3</span>, <span class='kw'>boxplots_color</span> <span class='kw'>=</span> <span class='st'>"red"</span>)
 
 <span class='co'>## same, with customised quantiles and colors</span>
 <span class='no'>quantiles</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>.001</span>, <span class='fl'>.01</span>, <span class='fl'>0.05</span>, <span class='fl'>.1</span>, <span class='fl'>.2</span>, <span class='fl'>.3</span>, <span class='fl'>.4</span>, <span class='fl'>.5</span>)
 <span class='no'>pal</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/grDevices/colorRamp.html'>colorRampPalette</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"#b3c6ff"</span>, <span class='st'>"#00e64d"</span>, <span class='st'>"#cc0066"</span>))
-<span class='fu'><a href='https://rdrr.io/r/graphics/plot.html'>plot</a></span>(<span class='no'>i</span>[<span class='fl'>1</span>:<span class='fl'>200</span>]) <span class='kw'>%&gt;%</span>
+<span class='fu'><a href='https://rdrr.io/r/base/plot.html'>plot</a></span>(<span class='no'>i</span>[<span class='fl'>1</span>:<span class='fl'>200</span>, ]) <span class='kw'>%&gt;%</span>
   <span class='fu'>add_projections</span>(<span class='no'>proj</span>, <span class='no'>quantiles</span>, <span class='kw'>palette</span> <span class='kw'>=</span> <span class='no'>pal</span>)
 
 }</div><div class='output co'>#&gt; <span class='message'>Loading required package: outbreaks</span></div><div class='output co'>#&gt; <span class='message'>Loading required package: magrittr</span></div><div class='output co'>#&gt; <span class='message'>Scale for 'x' is already present. Adding another scale for 'x', which will</span>

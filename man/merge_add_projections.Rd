@@ -25,21 +25,24 @@ operator.
 }
 \examples{
 
-if (require(incidence)) {
+if (require(incidence2)) {
 
-  ## make toy data and projections 
+  ## make toy data and projections
   set.seed(1)
-  i <- incidence::incidence(as.Date('2020-01-01') +
-                          sample(1:20, 50, replace = TRUE))
+  i <- incidence2::incidence(
+    data.frame(dates = as.Date('2020-01-01') + sample(1:20, 50, replace = TRUE)),
+    date_index = dates
+  )
+
   si <- c(0.2, 0.5, 0.2, 0.1)
 
-  x_1 <- project(x = i[1:10],
+  x_1 <- project(x = i[1:10, ],
                  si = si,
                  R = 3.5,
                  n_sim = 200,
                  n_days = 5)
 
-  x_2 <- project(x = i[11:20],
+  x_2 <- project(x = i[11:20, ],
                  si = si,
                  R = 1.8,
                  n_sim = 300,

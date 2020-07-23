@@ -7,7 +7,7 @@
 #' operator.
 #'
 #' @author Thibaut Jombart
-#' 
+#'
 #' @param x A `list` of `projections` objects to be added.
 #'
 #' @param a A  `projections` object.
@@ -15,36 +15,39 @@
 #' @param b A  `projections` object.
 #'
 #' @export
-#' 
+#'
 #' @examples
 #'
-#' if (require(incidence)) {
+#' if (require(incidence2)) {
 #'
-#'   ## make toy data and projections 
+#'   ## make toy data and projections
 #'   set.seed(1)
-#'   i <- incidence::incidence(as.Date('2020-01-01') +
-#'                           sample(1:20, 50, replace = TRUE))
+#'   i <- incidence2::incidence(
+#'     data.frame(dates = as.Date('2020-01-01') + sample(1:20, 50, replace = TRUE)),
+#'     date_index = dates
+#'   )
+#'
 #'   si <- c(0.2, 0.5, 0.2, 0.1)
-#' 
-#'   x_1 <- project(x = i[1:10],
+#'
+#'   x_1 <- project(x = i[1:10, ],
 #'                  si = si,
 #'                  R = 3.5,
 #'                  n_sim = 200,
 #'                  n_days = 5)
-#' 
-#'   x_2 <- project(x = i[11:20],
+#'
+#'   x_2 <- project(x = i[11:20, ],
 #'                  si = si,
 #'                  R = 1.8,
 #'                  n_sim = 300,
 #'                  n_days = 10
 #'                  )
-#' 
+#'
 #'   ## check simulations
 #'   x_1 # first type
 #'   x_2 # other simulations
 #'   y <- x_1 + x_2 # add simulations
 #'   plot(y)
-#' 
+#'
 #' }
 
 
@@ -56,7 +59,7 @@ merge_add_projections <- function(x) {
                    class(x)[1])
     stop(msg)
   }
-  
+
   is_projections <- vapply(x,
                            function(e) inherits(e, "projections"),
                            logical(1))
@@ -70,7 +73,7 @@ merge_add_projections <- function(x) {
     stop(msg)
   }
 
-  
+
   ## note: Reduce(function(...) merge(..., all = TRUE), proj) would work here
   ## but take a loooot of time; `dplyr::full_join` is worse; we do the merge
   ## manually instead
@@ -101,7 +104,7 @@ merge_add_projections <- function(x) {
   ## step 2
   all_dates <- Reduce(c, lapply(list_df, function(e) e$dates))
   all_dates <- unique(all_dates)
-  all_dates <- seq(from = min(all_dates), to = max(all_dates), by = 1L)                            
+  all_dates <- seq(from = min(all_dates), to = max(all_dates), by = 1L)
   all_dates_df <- data.frame(dates = all_dates)
 
   ## step 3
@@ -112,7 +115,7 @@ merge_add_projections <- function(x) {
   list_matrices <- lapply(list_df_complete,
                           function(e) as.matrix(e[, -1], drop = FALSE))
   n_sims <- max(vapply(list_matrices, ncol, integer(1)))
-  
+
   for (i in seq_along(list_matrices)) {
     ## step 4
     list_matrices[[i]][is.na(list_matrices[[i]])] <- 0
@@ -122,10 +125,10 @@ merge_add_projections <- function(x) {
     idx_col <- rep(seq_len(current_n_col), length.out = n_sims)
     list_matrices[[i]] <- list_matrices[[i]][, idx_col, drop = FALSE]
   }
-  
+
   ## step 5
   out_matrix <- Reduce("+", list_matrices)
-  
+
   out <- build_projections(out_matrix, all_dates)
   out
 }

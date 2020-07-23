@@ -3,10 +3,13 @@ context("Test merge_add_projections")
 test_that("Merging works", {
 
   set.seed(1)
-  i <- incidence::incidence(as.Date('2020-01-01') + sample(1:30, 10))
+  i <- incidence2::incidence(
+    data.frame(dates = as.Date('2020-01-01') + sample(1:30, 10)),
+    date_index = dates
+  )
   si <- c(0.2, 0.5, 0.2, 0.1)
-  
-  x_1 <- project(x = i[1:10],
+
+  x_1 <- project(x = i[1:10, ],
                  si = si,
                  R = 2,
                  n_sim = 1000,
@@ -40,7 +43,7 @@ test_that("Merging works", {
 
   ## check date range is correct: output should start at first date of all
   ## inputs, end of last dates of all inputs
-  
+
   first_date <- min(Reduce("c", lapply(list_x, function(e) min(get_dates(e)))))
   last_date <- max(Reduce("c", lapply(list_x, function(e) max(get_dates(e)))))
   expect_equal(min(get_dates(x)), first_date)
@@ -48,7 +51,7 @@ test_that("Merging works", {
 
 
   ## check dimensions: output should have as many sims as the largest input
-  
+
   n_sims <- max(sapply(list_x, ncol))
   expect_equal(ncol(x), n_sims)
 
@@ -70,7 +73,7 @@ test_that("Merging works", {
   y <- x[1,] + x[nrow(x),]
   expected_dates <- seq(from = min(get_dates(x)), to = max(get_dates(x)), by = 1L)
   expect_identical(get_dates(y), expected_dates)
-  
+
 })
 
 
@@ -97,10 +100,14 @@ test_that("Errors are issued as they should", {
 test_that("+ operator works with numeric right-hand operator", {
 
   set.seed(1)
-  i <- incidence::incidence(as.Date('2020-01-01') + sample(1:30, 10))
+  i <- incidence2::incidence(
+    data.frame(dates = as.Date('2020-01-01') + sample(1:30, 10)),
+    date_index = dates
+  )
+
   si <- c(0.2, 0.5, 0.2, 0.1)
-  
-  x <- project(x = i[1:10],
+
+  x <- project(x = i[1:10, ],
                  si = si,
                  R = 2,
                  n_sim = 1000,

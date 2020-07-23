@@ -1,14 +1,18 @@
 context("Test summary of projections objects")
 
 test_that("Testing default summary", {
-  i <- incidence::incidence(as.Date('2020-01-23'))
+  i <- incidence2::incidence(
+    data.frame(dates = as.Date('2020-01-23')),
+    date_index = dates
+  )
+
   si <- c(0.2, 0.5, 0.2, 0.1)
   R0 <- 2
-  
+
   p <- project(x = i,
                si = si,
                R = R0,
-               n_sim = 2, 
+               n_sim = 2,
                R_fix_within = TRUE,
                n_days = 10,
                model = "poisson"
@@ -38,14 +42,17 @@ test_that("Testing default summary", {
 
 
 test_that("Testing summary on/off", {
-  i <- incidence::incidence(as.Date('2020-01-23'))
+  i <- incidence2::incidence(
+    data.frame(dates = as.Date('2020-01-23')),
+    date_index = dates
+  )
   si <- c(0.2, 0.5, 0.2, 0.1)
   R0 <- 2
-  
+
   p <- project(x = i,
                si = si,
                R = R0,
-               n_sim = 2, 
+               n_sim = 2,
                R_fix_within = TRUE,
                n_days = 10,
                model = "poisson"
@@ -75,12 +82,12 @@ test_that("Testing summary on/off", {
   expect_equal(as.vector(apply(p, 1, sd)), s_no_quantiles$sd)
   expect_equal(as.vector(apply(p, 1, min)), s_no_quantiles$min)
   expect_equal(as.vector(apply(p, 1, max)), s_no_quantiles$max)
-  
+
   expect_identical(c("dates", "mean", "sd", "min", "max"), names(s_no_quantiles))
   expect_identical(s_no_quantiles, summary(p, quantiles = NULL))
   expect_identical(s_no_quantiles, summary(p, quantiles = numeric(0)))
-  
-  
+
+
   ## different set of quantiles
   s_other_quantiles <- summary(p, quantiles = c(0.4, 0.7))
   expect_identical(as.vector(apply(p, 1, quantile, 0.4)),

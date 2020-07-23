@@ -19,22 +19,25 @@
 #' @param mean a `logical` indicating of the mean should be computed
 #'
 #' @param sd a `logical` indicating of the standard deviation should be computed
-#' 
+#'
 #' @param min a `logical` indicating of the minimum should be computed
-#' 
+#'
 #' @param max a `logical` indicating of the maximum should be computed
 #'
 #' @param ... only preesnt for compatibility with the generic
 #'
-#' if (require(incidence)) {
-#'   i <- incidence::incidence(as.Date('2020-01-23'))
+#' if (require(incidence2)) {
+#'   i <- incidence2::incidence(
+#'     data.frame(dates = as.Date('2020-01-23')),
+#'     date_index = dates
+#'   )
 #'   si <- c(0.2, 0.5, 0.2, 0.1)
 #'   R0 <- 2
 #'
 #'   p <- project(x = i,
 #'                si = si,
 #'                R = R0,
-#'                n_sim = 2, 
+#'                n_sim = 2,
 #'                R_fix_within = TRUE,
 #'                n_days = 10,
 #'                model = "poisson"

@@ -1,7 +1,7 @@
 library(testthat)
 library(vdiffr)
 library(distcrete)
-library(incidence)
+library(incidence2)
 library(projections)
 library(outbreaks)
 library(magrittr)

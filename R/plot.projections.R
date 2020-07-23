@@ -16,10 +16,10 @@
 #' @aliases plot.projections
 #'
 #' @param x A \code{projections} object.
-#' 
-#' @param ylab An optional label for the y-axis. If missing will default to 
+#'
+#' @param ylab An optional label for the y-axis. If missing will default to
 #'   "predicted incidence" or, if cumulative, "predicted cumulative incidence"
-#'   
+#'
 #' @param title An optional title.
 #'
 #' @param quantiles A vector of quantiles to plot, automatically completed to be
@@ -68,7 +68,7 @@
 #'
 #' if (require(outbreaks) &&
 #'     require(distcrete) &&
-#'     require(incidence) &&
+#'     require(incidence2) &&
 #'     require(magrittr)) {
 #'
 #' si <- distcrete("gamma",
@@ -77,12 +77,15 @@
 #'                  scale = 4.7,
 #'                  w = 0.5)
 #'
-#' i <- incidence(ebola_sim$linelist$date_of_onset)
+#' i <- incidence(
+#'   data.frame(dates = ebola_sim$linelist$date_of_onset),
+#'   date_index = dates
+#' )
 #' plot(i)
 #'
 #' ## add projections after the first 100 days, over 60 days
 #' set.seed(1)
-#' proj <- project(x = i[1:100], R = 1.4, si = si, n_days = 60)
+#' proj <- project(x = i[1:100, ], R = 1.4, si = si, n_days = 60)
 #'
 #' ## plotting projections: different options
 #' plot(proj)
@@ -96,15 +99,15 @@
 #'
 #' ## adding them to incidence plot
 #' plot(i) %>% add_projections(proj)
-#' plot(i[1:160]) %>% add_projections(proj)
-#' plot(i[1:160]) %>% add_projections(proj, boxplots = FALSE)
-#' plot(i[1:160]) %>%
+#' plot(i[1:160, ]) %>% add_projections(proj)
+#' plot(i[1:160, ]) %>% add_projections(proj, boxplots = FALSE)
+#' plot(i[1:160, ]) %>%
 #'   add_projections(proj, boxplots_alpha = .3, boxplots_color = "red")
 #'
 #' ## same, with customised quantiles and colors
 #' quantiles <- c(.001, .01, 0.05, .1, .2, .3, .4, .5)
 #' pal <- colorRampPalette(c("#b3c6ff", "#00e64d", "#cc0066"))
-#' plot(i[1:200]) %>%
+#' plot(i[1:200, ]) %>%
 #'   add_projections(proj, quantiles, palette = pal)
 #'
 #' }
@@ -116,13 +119,13 @@ plot.projections <- function(x, ylab = NULL, title = NULL, ...) {
   if (is.null(ylab)) {
     ylab <- ifelse(isTRUE(attr(x, "cumulative")),
                    "Predicted cumulative incidence",
-                   "Predicted incidence")  
+                   "Predicted incidence")
   }
-  
+
   if (is.null(title)) {
     title <- ggplot2::waiver()
   }
-  
+
   out <- out + ggplot2::labs(x = "", y = ylab, title = title)
   out
 }
@@ -257,7 +260,7 @@ add_projections <- function(p, x, quantiles = c(0.01, 0.05, 0.1, 0.5),
   } else {
     out <- out + ggplot2::scale_x_continuous()
   }
-  
+
   out
 }
 

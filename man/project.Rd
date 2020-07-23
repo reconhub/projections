@@ -76,7 +76,7 @@ The decision to fix R values within simulations
 ## example using simulated Ebola outbreak
 if (require(outbreaks) &&
     require(distcrete) &&
-    require(incidence) &&
+    require(incidence2) &&
     require(magrittr)) {
 
 si <- distcrete("gamma", interval = 1L,
@@ -84,18 +84,21 @@ si <- distcrete("gamma", interval = 1L,
                  scale = 4.7,
                  w = 0.5)
 
-i <- incidence(ebola_sim$linelist$date_of_onset)
+i <- incidence(
+  data.frame(dates = ebola_sim$linelist$date_of_onset),
+  date_index = dates
+)
 plot(i)
 
 
 ## projections after the first 100 days, over 60 days, fixed R to 2.1
 
 set.seed(1)
-proj_1 <- project(x = i[1:100], R = 2.1, si = si, n_days = 60)
+proj_1 <- project(x = i[1:100,], R = 2.1, si = si, n_days = 60)
 plot(proj_1)
 
 ## add projections to incidence plot
-plot(i[1:160]) \%>\% add_projections(proj_1)
+plot(i[1:160, ]) \%>\% add_projections(proj_1)
 
 
 ## projections after the first 100 days, over 60 days,
@@ -104,20 +107,20 @@ plot(i[1:160]) \%>\% add_projections(proj_1)
 set.seed(1)
 R <- rnorm(100, 1.8, 0.2)
 hist(R, col = "grey", border = "white", main = "Distribution of R")
-proj_2 <- project(x = i[1:100], R = R, si = si, n_days = 60)
+proj_2 <- project(x = i[1:100, ], R = R, si = si, n_days = 60)
 
 ## add projections to incidence plot
-plot(i[1:160]) \%>\% add_projections(proj_2)
+plot(i[1:160, ]) \%>\% add_projections(proj_2)
 
 
 ## same with R constant per simulation (more variability)
 
 set.seed(1)
-proj_3 <- project(x = i[1:100], R = R, si = si, n_days = 60,
+proj_3 <- project(x = i[1:100, ], R = R, si = si, n_days = 60,
                   R_fix_within = TRUE)
 
 ## add projections to incidence plot
-plot(i[1:160]) \%>\% add_projections(proj_3)
+plot(i[1:160, ]) \%>\% add_projections(proj_3)
 
 
 ## time-varying R, 2 periods, R is 2.1 then 0.5
@@ -149,6 +152,6 @@ plot(proj_5)
 }
 \author{
 Pierre Nouvellet (original model), Thibaut Jombart (bulk of the
-  code), Sangeeta Bhatia (Negative Binomial model), Stephane Ghozzi (bug fixes 
+  code), Sangeeta Bhatia (Negative Binomial model), Stephane Ghozzi (bug fixes
   time varying R)
 }

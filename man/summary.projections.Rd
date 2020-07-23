@@ -30,15 +30,18 @@ computed; ignored if `FALSE` or of length 0}
 
 \item{...}{only preesnt for compatibility with the generic
 
-if (require(incidence)) {
-  i <- incidence::incidence(as.Date('2020-01-23'))
+if (require(incidence2)) {
+  i <- incidence2::incidence(
+    data.frame(dates = as.Date('2020-01-23')),
+    date_index = dates
+  )
   si <- c(0.2, 0.5, 0.2, 0.1)
   R0 <- 2
 
   p <- project(x = i,
                si = si,
                R = R0,
-               n_sim = 2, 
+               n_sim = 2,
                R_fix_within = TRUE,
                n_days = 10,
                model = "poisson"

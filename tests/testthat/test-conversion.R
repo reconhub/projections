@@ -5,7 +5,10 @@ test_that("Test against reference results", {
 
     ## simulate basic epicurve
     dat <- as.Date("2001-01-01") + c(0, 2, 2, 3, 3, 5, 5, 5, 6, 6, 6, 6)
-    i <- incidence::incidence(dat)
+    i <- incidence2::incidence(
+        data.frame(dates = dat),
+        date_index = dates
+    )
 
 
     ## example with a function for SI
@@ -16,13 +19,13 @@ test_that("Test against reference results", {
 
     x <- project(i, runif(100, 0.8, 1.9), si, n_days = 30)
 
-       
+
     ## basic export
     df_1 <- as.data.frame(x)
     expect_identical(get_dates(x), df_1$dates)
     expect_identical(as.vector(x), unname(unlist(df_1[-1])))
 
-    
+
     ## long format
     df_2 <- as.data.frame(x, long = TRUE)
     expect_identical(3L, ncol(df_2))

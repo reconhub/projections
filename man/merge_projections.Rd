@@ -17,7 +17,11 @@ sure that they all use the same dates, adding rows of '0' where needed.
 
 ## generate toy data
 dates <- Sys.Date() + c(0, 0, 2, 5, 6, 6, 7)
-i <- incidence::incidence(dates)
+i <- incidence2::incidence(
+  data.frame(dates = dates),
+  date_index = dates
+)
+
 si <- c(0.2, 0.5, 0.2, 0.1)
 R0 <- 3.5
 

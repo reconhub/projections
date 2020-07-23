@@ -7,7 +7,7 @@
 #' @export
 #'
 #' @author Pierre Nouvellet (original model), Thibaut Jombart (bulk of the
-#'   code), Sangeeta Bhatia (Negative Binomial model), Stephane Ghozzi (bug fixes 
+#'   code), Sangeeta Bhatia (Negative Binomial model), Stephane Ghozzi (bug fixes
 #'   time varying R)
 #'
 #' @param x An \code{incidence} object containing daily incidence; other time
@@ -64,7 +64,7 @@
 #' ## example using simulated Ebola outbreak
 #' if (require(outbreaks) &&
 #'     require(distcrete) &&
-#'     require(incidence) &&
+#'     require(incidence2) &&
 #'     require(magrittr)) {
 #'
 #' si <- distcrete("gamma", interval = 1L,
@@ -72,18 +72,21 @@
 #'                  scale = 4.7,
 #'                  w = 0.5)
 #'
-#' i <- incidence(ebola_sim$linelist$date_of_onset)
+#' i <- incidence(
+#'   data.frame(dates = ebola_sim$linelist$date_of_onset),
+#'   date_index = dates
+#' )
 #' plot(i)
 #'
 #'
 #' ## projections after the first 100 days, over 60 days, fixed R to 2.1
 #'
 #' set.seed(1)
-#' proj_1 <- project(x = i[1:100], R = 2.1, si = si, n_days = 60)
+#' proj_1 <- project(x = i[1:100,], R = 2.1, si = si, n_days = 60)
 #' plot(proj_1)
 #'
 #' ## add projections to incidence plot
-#' plot(i[1:160]) %>% add_projections(proj_1)
+#' plot(i[1:160, ]) %>% add_projections(proj_1)
 #'
 #'
 #' ## projections after the first 100 days, over 60 days,
@@ -92,20 +95,20 @@
 #' set.seed(1)
 #' R <- rnorm(100, 1.8, 0.2)
 #' hist(R, col = "grey", border = "white", main = "Distribution of R")
-#' proj_2 <- project(x = i[1:100], R = R, si = si, n_days = 60)
+#' proj_2 <- project(x = i[1:100, ], R = R, si = si, n_days = 60)
 #'
 #' ## add projections to incidence plot
-#' plot(i[1:160]) %>% add_projections(proj_2)
+#' plot(i[1:160, ]) %>% add_projections(proj_2)
 #'
 #'
 #' ## same with R constant per simulation (more variability)
 #'
 #' set.seed(1)
-#' proj_3 <- project(x = i[1:100], R = R, si = si, n_days = 60,
+#' proj_3 <- project(x = i[1:100, ], R = R, si = si, n_days = 60,
 #'                   R_fix_within = TRUE)
 #'
 #' ## add projections to incidence plot
-#' plot(i[1:160]) %>% add_projections(proj_3)
+#' plot(i[1:160, ]) %>% add_projections(proj_3)
 #'
 #'
 #' ## time-varying R, 2 periods, R is 2.1 then 0.5
@@ -118,12 +121,12 @@
 #'                   n_sim = 100)
 #' plot(proj_4)
 #'
-#' 
+#'
 #' ## time-varying R, 2 periods, separate distributions of R for each period
 #' set.seed(1)
 #' R_period_1 <- runif(100, min = 1.1, max = 3)
 #' R_period_2 <- runif(100, min = 0.6, max = .9)
-#' 
+#'
 #' proj_5 <- project(i,
 #'                   R = list(R_period_1, R_period_2),
 #'                   si = si,
@@ -131,7 +134,7 @@
 #'                   time_change = 20,
 #'                   n_sim = 100)
 #' plot(proj_5)
-#' 
+#'
 #' }
 #'
 
@@ -150,15 +153,15 @@ project <- function(x, R, si, n_sim = 100, n_days = 7,
     stop(msg)
   }
 
-  if (as.integer(mean(incidence::get_interval(x))) != 1L) {
+  if (as.integer(mean(incidence2::get_interval(x, integer = TRUE))) != 1L) {
     msg <- sprintf(
       "daily incidence needed, but interval is %d days",
-      as.integer(mean(incidence::get_interval(x)))
+      as.integer(mean(incidence2::get_interval(x, integer = TRUE)))
     )
     stop(msg)
   }
 
-  if (ncol(incidence::get_counts(x)) > 1L) {
+  if (!is.null(incidence2::get_group_names(x))) {
     msg <- sprintf("cannot use multiple groups in incidence object")
     stop(msg)
   }
@@ -193,10 +196,10 @@ project <- function(x, R, si, n_sim = 100, n_days = 7,
 
 
   ## useful variables
-  n_dates_x <- nrow(incidence::get_counts(x))
+  n_dates_x <- length(incidence2::get_counts(x))
   t_max <- n_days + n_dates_x - 1
 
-  # si is the the pmf of the serial interval starting at day 1, i.e. one day 
+  # si is the the pmf of the serial interval starting at day 1, i.e. one day
   # after symptom onset
   if (inherits(si, "distcrete")) {
     if (as.integer(si$interval) != 1L) {
@@ -233,14 +236,14 @@ project <- function(x, R, si, n_sim = 100, n_days = 7,
   ## forces of infection. The individual force of infection is computed as the
   ## R0 multiplied by the pmf of the serial interval si for the corresponding day:
 
-  ## lambda_{i,t} = R0(t_i) si(t - t_i) 
+  ## lambda_{i,t} = R0(t_i) si(t - t_i)
 
-  ## where 'si' is the PMF of the serial interval, 'ws' it's reverse, and 
+  ## where 'si' is the PMF of the serial interval, 'ws' it's reverse, and
   ## 't_i' is the date of onset of case 'i'.
 
 
   ## initial conditions
-  I0 <- matrix(incidence::get_counts(x), nrow = n_dates_x, ncol = n_sim)
+  I0 <- matrix(incidence2::get_counts(x), nrow = n_dates_x, ncol = n_sim)
 
   ## projection: read until t and project at t+1
   out <- I0
@@ -277,7 +280,7 @@ project <- function(x, R, si, n_sim = 100, n_days = 7,
   ## On the drawing of R values: either these are constant within simulations,
   ## so drawn once for all simulations, or they need drawing at every time step
   ## for every simulations.
-  
+
   ## On the handling of reporting: reporting first affects the force of
   ## infection lambda, with the underlying assumption that the true epicurve
   ## multiplied by the (constant) reporting results in the observed one. Then,
@@ -296,7 +299,7 @@ project <- function(x, R, si, n_sim = 100, n_days = 7,
       R_time_period <- sample_(R[[time_period]], n_sim, replace = TRUE)
       period_duration <- time_change_boundaries[time_period+1] - time_change_boundaries[time_period]
       current_R_t <- do.call(
-        'rbind', 
+        'rbind',
         replicate(period_duration, R_time_period, simplify = FALSE)
       )
       R_t <- rbind(R_t, current_R_t)

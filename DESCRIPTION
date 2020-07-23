@@ -17,7 +17,7 @@ Suggests: testthat, vdiffr, roxygen2, knitr, rmarkdown, outbreaks, magrittr, dis
 Imports: 
     stats,
     utils,
-    incidence (>= 1.4.1),
+    incidence2,
     ggplot2,
     methods
 RoxygenNote: 7.1.1

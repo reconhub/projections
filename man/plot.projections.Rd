@@ -29,7 +29,7 @@ add_projections(
 \arguments{
 \item{x}{A \code{projections} object.}
 
-\item{ylab}{An optional label for the y-axis. If missing will default to 
+\item{ylab}{An optional label for the y-axis. If missing will default to
 "predicted incidence" or, if cumulative, "predicted cumulative incidence"}
 
 \item{title}{An optional title.}
@@ -89,7 +89,7 @@ examples).
 
 if (require(outbreaks) &&
     require(distcrete) &&
-    require(incidence) &&
+    require(incidence2) &&
     require(magrittr)) {
 
 si <- distcrete("gamma",
@@ -98,12 +98,15 @@ si <- distcrete("gamma",
                  scale = 4.7,
                  w = 0.5)
 
-i <- incidence(ebola_sim$linelist$date_of_onset)
+i <- incidence(
+  data.frame(dates = ebola_sim$linelist$date_of_onset),
+  date_index = dates
+)
 plot(i)
 
 ## add projections after the first 100 days, over 60 days
 set.seed(1)
-proj <- project(x = i[1:100], R = 1.4, si = si, n_days = 60)
+proj <- project(x = i[1:100, ], R = 1.4, si = si, n_days = 60)
 
 ## plotting projections: different options
 plot(proj)
@@ -117,15 +120,15 @@ plot(proj, linetype = 3)
 
 ## adding them to incidence plot
 plot(i) \%>\% add_projections(proj)
-plot(i[1:160]) \%>\% add_projections(proj)
-plot(i[1:160]) \%>\% add_projections(proj, boxplots = FALSE)
-plot(i[1:160]) \%>\%
+plot(i[1:160, ]) \%>\% add_projections(proj)
+plot(i[1:160, ]) \%>\% add_projections(proj, boxplots = FALSE)
+plot(i[1:160, ]) \%>\%
   add_projections(proj, boxplots_alpha = .3, boxplots_color = "red")
 
 ## same, with customised quantiles and colors
 quantiles <- c(.001, .01, 0.05, .1, .2, .3, .4, .5)
 pal <- colorRampPalette(c("#b3c6ff", "#00e64d", "#cc0066"))
-plot(i[1:200]) \%>\%
+plot(i[1:200, ]) \%>\%
   add_projections(proj, quantiles, palette = pal)
 
 }

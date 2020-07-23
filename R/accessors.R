@@ -20,11 +20,14 @@
 #' @examples
 #'
 #'
-#' if (require(distcrete) && require(incidence)) { withAutoprint({
+#' if (require(distcrete) && require(incidence2)) { withAutoprint({
 #'
 #' ## prepare input: epicurve and serial interval
 #' dat <- c(0, 2, 2, 3, 3, 5, 5, 5, 6, 6, 6, 6)
-#' i <- incidence(dat)
+#' i <- incidence(
+#'   data.frame(dates = dat),
+#'   date_index = dates
+#' )
 #' si <- distcrete("gamma", interval = 1L,
 #'                  shape = 1.5,
 #'                  scale = 2, w = 0)
@@ -42,7 +45,7 @@
 #' })}
 #' @aliases get_dates.projections
 #' @aliases get_dates
-#' @importFrom incidence get_dates
+#' @importFrom incidence2 get_dates
 #' @export get_dates
 #' @export
 get_dates.projections <- function(x, ...) {

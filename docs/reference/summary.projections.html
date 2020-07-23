@@ -74,7 +74,7 @@ user-specified quantiles for each day." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">projections</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.5.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.5.1</span>
       </span>
     </div>
 
@@ -166,13 +166,16 @@ computed; ignored if `FALSE` or of length 0</p></td>
     <tr>
       <th>...</th>
       <td><p>only preesnt for compatibility with the generic</p>
-<p>if (require(incidence)) 
-  i &lt;- incidence::incidence(as.Date('2020-01-23'))
+<p>if (require(incidence2)) 
+  i &lt;- incidence2::incidence(
+    data.frame(dates = as.Date('2020-01-23')),
+    date_index = dates
+  )
   si &lt;- c(0.2, 0.5, 0.2, 0.1)
   R0 &lt;- 2  p &lt;- project(x = i,
                si = si,
                R = R0,
-               n_sim = 2, 
+               n_sim = 2,
                R_fix_within = TRUE,
                n_days = 10,
                model = "poisson"

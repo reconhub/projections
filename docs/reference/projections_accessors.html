@@ -73,7 +73,7 @@ objects. They currently include:" />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">projections</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.5.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.5.1</span>
       </span>
     </div>
 
@@ -149,11 +149,14 @@ objects. They currently include:</p>
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'>
 
-<span class='kw'>if</span> (<span class='fu'><a href='https://rdrr.io/r/base/library.html'>require</a></span>(<span class='no'>distcrete</span>) <span class='kw'>&amp;&amp;</span> <span class='fu'><a href='https://rdrr.io/r/base/library.html'>require</a></span>(<span class='no'>incidence</span>)) { <span class='fu'><a href='https://rdrr.io/r/base/source.html'>withAutoprint</a></span>({
+<span class='kw'>if</span> (<span class='fu'><a href='https://rdrr.io/r/base/library.html'>require</a></span>(<span class='no'>distcrete</span>) <span class='kw'>&amp;&amp;</span> <span class='fu'><a href='https://rdrr.io/r/base/library.html'>require</a></span>(<span class='no'>incidence2</span>)) { <span class='fu'><a href='https://rdrr.io/r/base/source.html'>withAutoprint</a></span>({
 
 <span class='co'>## prepare input: epicurve and serial interval</span>
 <span class='no'>dat</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>0</span>, <span class='fl'>2</span>, <span class='fl'>2</span>, <span class='fl'>3</span>, <span class='fl'>3</span>, <span class='fl'>5</span>, <span class='fl'>5</span>, <span class='fl'>5</span>, <span class='fl'>6</span>, <span class='fl'>6</span>, <span class='fl'>6</span>, <span class='fl'>6</span>)
-<span class='no'>i</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/pkg/incidence/man/incidence.html'>incidence</a></span>(<span class='no'>dat</span>)
+<span class='no'>i</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/pkg/incidence2/man/incidence.html'>incidence</a></span>(
+  <span class='fu'><a href='https://rdrr.io/r/base/data.frame.html'>data.frame</a></span>(<span class='kw'>dates</span> <span class='kw'>=</span> <span class='no'>dat</span>),
+  <span class='kw'>date_index</span> <span class='kw'>=</span> <span class='no'>dates</span>
+)
 <span class='no'>si</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/pkg/distcrete/man/distcrete.html'>distcrete</a></span>(<span class='st'>"gamma"</span>, <span class='kw'>interval</span> <span class='kw'>=</span> <span class='fl'>1L</span>,
                  <span class='kw'>shape</span> <span class='kw'>=</span> <span class='fl'>1.5</span>,
                  <span class='kw'>scale</span> <span class='kw'>=</span> <span class='fl'>2</span>, <span class='kw'>w</span> <span class='kw'>=</span> <span class='fl'>0</span>)
@@ -169,14 +172,14 @@ objects. They currently include:</p>
 <span class='fu'><a href='https://rdrr.io/r/base/Extremes.html'>max</a></span>(<span class='no'>i</span>$<span class='no'>dates</span>) <span class='co'># predictions start 1 day after last incidence</span>
 
 })}</div><div class='output co'>#&gt; &gt; dat &lt;- c(0, 2, 2, 3, 3, 5, 5, 5, 6, 6, 6, 6)
-#&gt; &gt; i &lt;- incidence(dat)
+#&gt; &gt; i &lt;- incidence(data.frame(dates = dat), date_index = dates)
 #&gt; &gt; si &lt;- distcrete("gamma", interval = 1L, shape = 1.5, scale = 2, w = 0)
 #&gt; &gt; pred_1 &lt;- project(i, 1.2, si, n_days = 30)
 #&gt; &gt; pred_1
 #&gt; 
 #&gt; /// Incidence projections //
 #&gt; 
-#&gt;   // class: projections, matrix
+#&gt;   // class: projections, matrix, array
 #&gt;   // 30 dates (rows); 100 simulations (columns)
 #&gt; 
 #&gt;  // first rows/columns:
@@ -196,8 +199,7 @@ objects. They currently include:</p>
 #&gt; &gt; get_dates(pred_1)
 #&gt;  [1]  7  8  9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27 28 29 30 31
 #&gt; [26] 32 33 34 35 36
-#&gt; &gt; max(i$dates)
-#&gt; [1] 6</div></pre>
+#&gt; &gt; max(i$dates)</div><div class='output co'>#&gt; <span class='warning'>Warning: Unknown or uninitialised column: `dates`.</span></div><div class='output co'>#&gt; <span class='warning'>Warning: no non-missing arguments to max; returning -Inf</span></div><div class='output co'>#&gt; [1] -Inf</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">

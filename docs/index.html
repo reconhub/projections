@@ -31,7 +31,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="index.html">projections</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.5.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.5.1</span>
       </span>
     </div>
 
@@ -110,7 +110,7 @@ $$</span><br></p>
 <li><p><strong><code>get_dates</code></strong>: accessors for <code>projections</code> objects</p></li>
 <li><p><strong><code>cumulate</code></strong>: cumulate predicted incidence over time</p></li>
 <li><p><strong><code>as.data.frame</code></strong>: conversion from <code>projections</code> objects to <code>data.frame</code></p></li>
-<li><p><strong><code><a href="https://rdrr.io/r/base/Extract.html">[</a></code></strong>: subsetting operator for <code>projections</code> objects, permiting to specify which dates and simulations to retain; uses a syntax similar to matrices, i.e. <code>x[i, j]</code>, where <code>x</code> is the <code>projections</code> object, <code>i</code> a subset of dates, and <code>j</code> a subset of simulations</p></li>
+<li><p><strong><code><a href="https://rdrr.io/r/base/Extract.html">[</a></code></strong>: subsetting operator for <code>projections</code> objects, permiting to specify which dates and simulations to retain; uses a syntax similar to matrices, i.e. <code>x[i, j]</code>, where <code>x</code> is the <code>projections</code> object, <code>i</code> a subset of dates, and <code>j</code> a subset of simulations</p></li>
 <li><p><strong><code>subset</code></strong>: subset a <code>projections</code> object by specifying a time window</p></li>
 <li><p><strong><code>build_projections</code></strong>: build a <code>projections</code> object from an input matrix and optional dates</p></li>
 <li><p><strong><code>merge_projections</code></strong>: merge several <code>projections</code> objects into one, putting them on a common time frame; useful to combine runs from different simulations and/or perform model averaging</p></li>
@@ -145,11 +145,11 @@ $$</span><br></p>
 <span class="fu"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="no">ggplot2</span>)
 
 <span class="no">linelist</span> <span class="kw">&lt;-</span> <span class="no">ebola_sim_clean</span>$<span class="no">linelist</span>
-<span class="no">i</span> <span class="kw">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/incidence/man/incidence.html">incidence</a></span>(<span class="no">linelist</span>$<span class="no">date_of_onset</span>)
-<span class="fu"><a href="https://rdrr.io/r/graphics/plot.html">plot</a></span>(<span class="no">i</span>) +
+<span class="no">i</span> <span class="kw">&lt;-</span> <span class="fu">incidence</span>(<span class="no">linelist</span>$<span class="no">date_of_onset</span>)
+<span class="fu"><a href="https://rdrr.io/r/base/plot.html">plot</a></span>(<span class="no">i</span>) +
   <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggtheme.html">theme_bw</a></span>() <span class="co"># full outbreak</span></pre></div>
 <p><img src="figure/onset-1.png" title="plot of chunk onset" alt="plot of chunk onset" width="80%"></p>
-<div class="sourceCode" id="cb4"><pre class="r"><span class="fu"><a href="https://rdrr.io/r/graphics/plot.html">plot</a></span>(<span class="no">i</span>[<span class="fl">1</span>:<span class="fl">160</span>]) +
+<div class="sourceCode" id="cb4"><pre class="r"><span class="fu"><a href="https://rdrr.io/r/base/plot.html">plot</a></span>(<span class="no">i</span>[<span class="fl">1</span>:<span class="fl">160</span>]) +
   <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggtheme.html">theme_bw</a></span>() <span class="co"># first 160 days</span></pre></div>
 <p><img src="figure/onset-2.png" title="plot of chunk onset" alt="plot of chunk onset" width="80%"></p>
 </div>
@@ -219,16 +219,16 @@ $$</span><br></p>
 ## [16] "2014-07-31" "2014-08-01" "2014-08-02" "2014-08-03" "2014-08-04"
 ## [21] "2014-08-05" "2014-08-06" "2014-08-07" "2014-08-08" "2014-08-09"
 ## [26] "2014-08-10" "2014-08-11" "2014-08-12" "2014-08-13" "2014-08-14"</code></pre>
-<div class="sourceCode" id="cb12"><pre class="r"><span class="fu"><a href="https://rdrr.io/r/graphics/plot.html">plot</a></span>(<span class="no">pred_1</span>) +
+<div class="sourceCode" id="cb12"><pre class="r"><span class="fu"><a href="https://rdrr.io/r/base/plot.html">plot</a></span>(<span class="no">pred_1</span>) +
   <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggtheme.html">theme_bw</a></span>() <span class="co"># default plot</span></pre></div>
 <p><img src="figure/predictions-1.png" title="plot of chunk predictions" alt="plot of chunk predictions" width="80%"></p>
-<div class="sourceCode" id="cb13"><pre class="r"><span class="no">pred_1_cum</span> <span class="kw">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/incidence/man/cumulate.html">cumulate</a></span>(<span class="no">pred_1</span>) <span class="co"># cumulative predictions</span>
-<span class="fu"><a href="https://rdrr.io/r/graphics/plot.html">plot</a></span>(<span class="no">pred_1_cum</span>) +
+<div class="sourceCode" id="cb13"><pre class="r"><span class="no">pred_1_cum</span> <span class="kw">&lt;-</span> <span class="fu">cumulate</span>(<span class="no">pred_1</span>) <span class="co"># cumulative predictions</span>
+<span class="fu"><a href="https://rdrr.io/r/base/plot.html">plot</a></span>(<span class="no">pred_1_cum</span>) +
   <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggtheme.html">theme_bw</a></span>() <span class="co"># plot cumulative predictions</span></pre></div>
 <p><img src="figure/predictions-2.png" title="plot of chunk predictions" alt="plot of chunk predictions" width="80%"></p>
 <p>Forecasts stored in a <code>projections</code> object can also be added to an <code>incidence</code> plot using <code>add_projections</code>, which admits the same options as the <code>plot</code> method. This function is best used with a pipe <code><a href="https://rdrr.io/pkg/magrittr/man/pipe.html">%&gt;%</a></code>:</p>
 <div class="sourceCode" id="cb14"><pre class="r"><span class="fu"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="no">magrittr</span>)
-<span class="fu"><a href="https://rdrr.io/r/graphics/plot.html">plot</a></span>(<span class="no">i</span>[<span class="fl">20</span>:<span class="fl">160</span>], <span class="kw">alpha</span> <span class="kw">=</span> <span class="fl">0.5</span>) <span class="kw">%&gt;%</span>
+<span class="fu"><a href="https://rdrr.io/r/base/plot.html">plot</a></span>(<span class="no">i</span>[<span class="fl">20</span>:<span class="fl">160</span>], <span class="kw">alpha</span> <span class="kw">=</span> <span class="fl">0.5</span>) <span class="kw">%&gt;%</span>
   <span class="fu"><a href="reference/plot.projections.html">add_projections</a></span>(<span class="no">pred_1</span>, <span class="kw">boxplots</span> <span class="kw">=</span> <span class="fl">FALSE</span>, <span class="kw">quantiles</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="fl">0.025</span>, <span class="fl">0.5</span>)) +
   <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggtheme.html">theme_bw</a></span>()</pre></div>
 <pre><code>## Scale for 'x' is already present. Adding another scale for 'x', which will
@@ -431,7 +431,7 @@ $$</span><br></p>
 ## [16] "2014-07-31" "2014-08-01" "2014-08-02" "2014-08-03" "2014-08-04"
 ## [21] "2014-08-05" "2014-08-06" "2014-08-07" "2014-08-08" "2014-08-09"
 ## [26] "2014-08-10" "2014-08-11" "2014-08-12" "2014-08-13" "2014-08-14"</code></pre>
-<div class="sourceCode" id="cb39"><pre class="r"><span class="fu"><a href="https://rdrr.io/r/graphics/plot.html">plot</a></span>(<span class="no">pred_2</span>) +
+<div class="sourceCode" id="cb39"><pre class="r"><span class="fu"><a href="https://rdrr.io/r/base/plot.html">plot</a></span>(<span class="no">pred_2</span>) +
   <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggtheme.html">theme_bw</a></span>() <span class="co"># default plot</span></pre></div>
 <p><img src="figure/pred_2-1.png" title="plot of chunk pred_2" alt="plot of chunk pred_2" width="80%"></p>
 <div class="sourceCode" id="cb40"><pre class="r"><span class="co">## combine the objects; note that any number of objects can be combined</span>
@@ -461,24 +461,24 @@ $$</span><br></p>
 ## [21] "2014-08-05" "2014-08-06" "2014-08-07" "2014-08-08" "2014-08-09"
 ## [26] "2014-08-10" "2014-08-11" "2014-08-12" "2014-08-13" "2014-08-14"</code></pre>
 <div class="sourceCode" id="cb42"><pre class="r"><span class="no">list_plots</span> <span class="kw">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span>(
-  <span class="fu"><a href="https://rdrr.io/r/graphics/plot.html">plot</a></span>(<span class="no">pred_1</span>) + <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggtheme.html">theme_bw</a></span>() + <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html">labs</a></span>(<span class="kw">title</span> <span class="kw">=</span> <span class="st">"Forecast with initial SI"</span>),
-  <span class="fu"><a href="https://rdrr.io/r/graphics/plot.html">plot</a></span>(<span class="no">pred_2</span>,) + <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggtheme.html">theme_bw</a></span>() + <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html">labs</a></span>(<span class="kw">title</span> <span class="kw">=</span> <span class="st">"Forecast with short SI"</span>),
-  <span class="fu"><a href="https://rdrr.io/r/graphics/plot.html">plot</a></span>(<span class="no">pred_combined</span>) + <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggtheme.html">theme_bw</a></span>() + <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html">labs</a></span>(<span class="kw">title</span> <span class="kw">=</span> <span class="st">"Combined forecasts"</span>)
+  <span class="fu"><a href="https://rdrr.io/r/base/plot.html">plot</a></span>(<span class="no">pred_1</span>) + <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggtheme.html">theme_bw</a></span>() + <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html">labs</a></span>(<span class="kw">title</span> <span class="kw">=</span> <span class="st">"Forecast with initial SI"</span>),
+  <span class="fu"><a href="https://rdrr.io/r/base/plot.html">plot</a></span>(<span class="no">pred_2</span>,) + <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggtheme.html">theme_bw</a></span>() + <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html">labs</a></span>(<span class="kw">title</span> <span class="kw">=</span> <span class="st">"Forecast with short SI"</span>),
+  <span class="fu"><a href="https://rdrr.io/r/base/plot.html">plot</a></span>(<span class="no">pred_combined</span>) + <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggtheme.html">theme_bw</a></span>() + <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html">labs</a></span>(<span class="kw">title</span> <span class="kw">=</span> <span class="st">"Combined forecasts"</span>)
 )
 
 <span class="fu"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="no">cowplot</span>)
-<span class="fu"><a href="https://rdrr.io/pkg/cowplot/man/plot_grid.html">plot_grid</a></span>(<span class="kw">plotlist</span> <span class="kw">=</span> <span class="no">list_plots</span>,
+<span class="fu">plot_grid</span>(<span class="kw">plotlist</span> <span class="kw">=</span> <span class="no">list_plots</span>,
           <span class="kw">ncol</span> <span class="kw">=</span> <span class="fl">1</span>)</pre></div>
 <p><img src="figure/pred_2-2.png" title="plot of chunk pred_2" alt="plot of chunk pred_2" width="80%"></p>
 <p>To illustrate case 2 (not only merging, but adding <code>projections</code> objects), we artificially split the dataset by hospitals, derive separate forecasts for each, and add forecasts of two hospitals in the example below.</p>
 <div class="sourceCode" id="cb43"><pre class="r"><span class="co">## calculate incidence by hospital</span>
-<span class="no">i_hosp</span> <span class="kw">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/incidence/man/incidence.html">incidence</a></span>(<span class="no">linelist</span>$<span class="no">date_of_onset</span>, <span class="kw">groups</span> <span class="kw">=</span> <span class="no">linelist</span>$<span class="no">hospital</span>)
-<span class="fu"><a href="https://rdrr.io/r/graphics/plot.html">plot</a></span>(<span class="no">i_hosp</span>) +
+<span class="no">i_hosp</span> <span class="kw">&lt;-</span> <span class="fu">incidence</span>(<span class="no">linelist</span>$<span class="no">date_of_onset</span>, <span class="kw">groups</span> <span class="kw">=</span> <span class="no">linelist</span>$<span class="no">hospital</span>)
+<span class="fu"><a href="https://rdrr.io/r/base/plot.html">plot</a></span>(<span class="no">i_hosp</span>) +
   <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggtheme.html">theme_bw</a></span>() +
   <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/theme.html">theme</a></span>(<span class="kw">legend.position</span> <span class="kw">=</span> <span class="st">"bottom"</span>)</pre></div>
 <p><img src="figure/adding_forecasts-1.png" title="plot of chunk adding_forecasts" alt="plot of chunk adding_forecasts" width="80%"></p>
 <div class="sourceCode" id="cb44"><pre class="r"><span class="co">## derive predictions for each hospital</span>
-<span class="no">n_groups</span> <span class="kw">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/nrow.html">ncol</a></span>(<span class="fu"><a href="https://rdrr.io/pkg/incidence/man/get_counts.html">get_counts</a></span>(<span class="no">i_hosp</span>))
+<span class="no">n_groups</span> <span class="kw">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/nrow.html">ncol</a></span>(<span class="fu">get_counts</span>(<span class="no">i_hosp</span>))
 
 <span class="no">pred_hosp</span> <span class="kw">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/lapply.html">lapply</a></span>(
   <span class="fu"><a href="https://rdrr.io/r/base/seq.html">seq_len</a></span>(<span class="no">n_groups</span>),
@@ -488,7 +488,7 @@ $$</span><br></p>
             <span class="kw">si</span> <span class="kw">=</span> <span class="no">si</span>,
             <span class="kw">n_days</span> <span class="kw">=</span> <span class="fl">60</span>,
             <span class="kw">n_sim</span> <span class="kw">=</span> <span class="fl">500</span>))
-<span class="fu"><a href="https://rdrr.io/r/base/names.html">names</a></span>(<span class="no">pred_hosp</span>) <span class="kw">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/colnames.html">colnames</a></span>(<span class="fu"><a href="https://rdrr.io/pkg/incidence/man/get_counts.html">get_counts</a></span>(<span class="no">i_hosp</span>))
+<span class="fu"><a href="https://rdrr.io/r/base/names.html">names</a></span>(<span class="no">pred_hosp</span>) <span class="kw">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/colnames.html">colnames</a></span>(<span class="fu">get_counts</span>(<span class="no">i_hosp</span>))
 
 
 <span class="co">## we combine forecasts for Connaught and Rokupa hospitals</span>
@@ -496,25 +496,25 @@ $$</span><br></p>
 
 
 <span class="no">list_plots</span> <span class="kw">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span>(
-  <span class="fu"><a href="https://rdrr.io/r/graphics/plot.html">plot</a></span>(<span class="no">pred_hosp</span>$<span class="no">`Connaught Hospital`</span>) +
+  <span class="fu"><a href="https://rdrr.io/r/base/plot.html">plot</a></span>(<span class="no">pred_hosp</span>$<span class="no">`Connaught Hospital`</span>) +
     <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggtheme.html">theme_bw</a></span>() +
     <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/lims.html">ylim</a></span>(<span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="fl">0</span>, <span class="fl">30</span>)) +
     <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html">labs</a></span>(<span class="kw">title</span> <span class="kw">=</span> <span class="st">"Connaught hospital"</span>),
-  <span class="fu"><a href="https://rdrr.io/r/graphics/plot.html">plot</a></span>(<span class="no">pred_hosp</span>$<span class="no">`Rokupa Hospital`</span>) +
+  <span class="fu"><a href="https://rdrr.io/r/base/plot.html">plot</a></span>(<span class="no">pred_hosp</span>$<span class="no">`Rokupa Hospital`</span>) +
     <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggtheme.html">theme_bw</a></span>() +
     <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/lims.html">ylim</a></span>(<span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="fl">0</span>, <span class="fl">30</span>)) +
     <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html">labs</a></span>(<span class="kw">title</span> <span class="kw">=</span> <span class="st">"Rokupa hospital"</span>),
-  <span class="fu"><a href="https://rdrr.io/r/graphics/plot.html">plot</a></span>(<span class="no">pred_connaught_rokupa</span>) +
+  <span class="fu"><a href="https://rdrr.io/r/base/plot.html">plot</a></span>(<span class="no">pred_connaught_rokupa</span>) +
     <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggtheme.html">theme_bw</a></span>() +
     <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/lims.html">ylim</a></span>(<span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="fl">0</span>, <span class="fl">30</span>)) +
     <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html">labs</a></span>(<span class="kw">title</span> <span class="kw">=</span> <span class="st">"Connaught + Rokupa"</span>)
 )
 
-<span class="fu"><a href="https://rdrr.io/pkg/cowplot/man/plot_grid.html">plot_grid</a></span>(<span class="kw">plotlist</span> <span class="kw">=</span> <span class="no">list_plots</span>,
+<span class="fu">plot_grid</span>(<span class="kw">plotlist</span> <span class="kw">=</span> <span class="no">list_plots</span>,
           <span class="kw">ncol</span> <span class="kw">=</span> <span class="fl">1</span>)</pre></div>
 <p><img src="figure/adding_forecasts-2.png" title="plot of chunk adding_forecasts" alt="plot of chunk adding_forecasts" width="80%"></p>
 <p>Note that to add more than 2 <code>projections</code> objects, one can use <code>merge_add_projections</code>. Also note that the <code><a href="https://rdrr.io/r/base/Arithmetic.html">+</a></code> operator can also be used with a <code>numeric</code>, e.g. for adding an offset. For instance:</p>
-<div class="sourceCode" id="cb45"><pre class="r"><span class="fu"><a href="https://rdrr.io/r/graphics/plot.html">plot</a></span>(<span class="no">pred_connaught_rokupa</span> + <span class="fl">1000</span>) +
+<div class="sourceCode" id="cb45"><pre class="r"><span class="fu"><a href="https://rdrr.io/r/base/plot.html">plot</a></span>(<span class="no">pred_connaught_rokupa</span> + <span class="fl">1000</span>) +
   <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggtheme.html">theme_bw</a></span>() +
   <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html">labs</a></span>(<span class="kw">title</span> <span class="kw">=</span> <span class="st">"Connaught + Rokupa with 1000 added cases"</span>)</pre></div>
 <p><img src="figure/offset-1.png" title="plot of chunk offset" alt="plot of chunk offset" width="80%"></p>
@@ -577,6 +577,7 @@ $$</span><br></p>
 <li><a href="https://ci.appveyor.com/project/thibautjombart/projections/branch/master"><img src="https://ci.appveyor.com/api/projects/status/265h2el4y9popan9/branch/master?svg=true" alt="Build status"></a></li>
 <li><a href="https://codecov.io/github/reconhub/projections?branch=master"><img src="https://codecov.io/github/reconhub/projections/coverage.svg?branch=master" alt="codecov.io"></a></li>
 <li><a href="https://cran.r-project.org/package=projections"><img src="http://www.r-pkg.org/badges/version/projections" alt="CRAN_Status_Badge"></a></li>
+<li><a href="https://doi.org/10.5281/zenodo.3923626"><img src="https://zenodo.org/badge/DOI/10.5281/zenodo.3923626.svg" alt="DOI"></a></li>
 </ul>
 </div>
 </div>
