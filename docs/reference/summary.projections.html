@@ -125,15 +125,15 @@ user-specified quantiles for each day.</p>
     </div>
 
     <pre class="usage"><span class='co'># S3 method for projections</span>
-<span class='fu'><a href='https://rdrr.io/r/base/summary.html'>summary</a></span>(
-  <span class='no'>object</span>,
-  <span class='kw'>quantiles</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>0.025</span>, <span class='fl'>0.25</span>, <span class='fl'>0.5</span>, <span class='fl'>0.75</span>, <span class='fl'>0.975</span>),
-  <span class='kw'>mean</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
-  <span class='kw'>sd</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
-  <span class='kw'>min</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
-  <span class='kw'>max</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
-  <span class='no'>...</span>
-)</pre>
+<span class='fu'><a href='https://rdrr.io/r/base/summary.html'>summary</a></span><span class='op'>(</span>
+  <span class='va'>object</span>,
+  quantiles <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>0.025</span>, <span class='fl'>0.25</span>, <span class='fl'>0.5</span>, <span class='fl'>0.75</span>, <span class='fl'>0.975</span><span class='op'>)</span>,
+  mean <span class='op'>=</span> <span class='cn'>TRUE</span>,
+  sd <span class='op'>=</span> <span class='cn'>TRUE</span>,
+  min <span class='op'>=</span> <span class='cn'>TRUE</span>,
+  max <span class='op'>=</span> <span class='cn'>TRUE</span>,
+  <span class='va'>...</span>
+<span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -184,6 +184,9 @@ computed; ignored if `FALSE` or of length 0</p></td>
     </tr>
     </table>
 
+    <h2 class="hasAnchor" id="author"><a class="anchor" href="#author"></a>Author</h2>
+
+    <p>Thibaut Jombart</p>
 
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
@@ -200,7 +203,7 @@ computed; ignored if `FALSE` or of length 0</p></td>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1.</p>
 </div>
 
       </footer>

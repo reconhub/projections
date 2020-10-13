@@ -150,40 +150,44 @@ operator.</p>
     </tr>
     </table>
 
+    <h2 class="hasAnchor" id="author"><a class="anchor" href="#author"></a>Author</h2>
+
+    <p>Thibaut Jombart</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'>
-<span class='kw'>if</span> (<span class='fu'><a href='https://rdrr.io/r/base/library.html'>require</a></span>(<span class='no'>incidence2</span>)) {
+<span class='kw'>if</span> <span class='op'>(</span><span class='kw'><a href='https://rdrr.io/r/base/library.html'>require</a></span><span class='op'>(</span><span class='va'><a href='https://github.com/reconhub/incidence2'>incidence2</a></span><span class='op'>)</span><span class='op'>)</span> <span class='op'>{</span>
 
   <span class='co'>## make toy data and projections</span>
-  <span class='fu'><a href='https://rdrr.io/r/base/Random.html'>set.seed</a></span>(<span class='fl'>1</span>)
-  <span class='no'>i</span> <span class='kw'>&lt;-</span> <span class='kw pkg'>incidence2</span><span class='kw ns'>::</span><span class='fu'><a href='https://rdrr.io/pkg/incidence2/man/incidence.html'>incidence</a></span>(
-    <span class='fu'><a href='https://rdrr.io/r/base/data.frame.html'>data.frame</a></span>(<span class='kw'>dates</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/as.Date.html'>as.Date</a></span>(<span class='st'>'2020-01-01'</span>) + <span class='fu'><a href='https://rdrr.io/r/base/sample.html'>sample</a></span>(<span class='fl'>1</span>:<span class='fl'>20</span>, <span class='fl'>50</span>, <span class='kw'>replace</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)),
-    <span class='kw'>date_index</span> <span class='kw'>=</span> <span class='no'>dates</span>
-  )
+  <span class='fu'><a href='https://rdrr.io/r/base/Random.html'>set.seed</a></span><span class='op'>(</span><span class='fl'>1</span><span class='op'>)</span>
+  <span class='va'>i</span> <span class='op'>&lt;-</span> <span class='fu'>incidence2</span><span class='fu'>::</span><span class='fu'><a href='https://rdrr.io/pkg/incidence2/man/incidence.html'>incidence</a></span><span class='op'>(</span>
+    <span class='fu'><a href='https://rdrr.io/r/base/data.frame.html'>data.frame</a></span><span class='op'>(</span>dates <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/as.Date.html'>as.Date</a></span><span class='op'>(</span><span class='st'>'2020-01-01'</span><span class='op'>)</span> <span class='op'>+</span> <span class='fu'><a href='https://rdrr.io/r/base/sample.html'>sample</a></span><span class='op'>(</span><span class='fl'>1</span><span class='op'>:</span><span class='fl'>20</span>, <span class='fl'>50</span>, replace <span class='op'>=</span> <span class='cn'>TRUE</span><span class='op'>)</span><span class='op'>)</span>,
+    date_index <span class='op'>=</span> <span class='va'>dates</span>
+  <span class='op'>)</span>
 
-  <span class='no'>si</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>0.2</span>, <span class='fl'>0.5</span>, <span class='fl'>0.2</span>, <span class='fl'>0.1</span>)
+  <span class='va'>si</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>0.2</span>, <span class='fl'>0.5</span>, <span class='fl'>0.2</span>, <span class='fl'>0.1</span><span class='op'>)</span>
 
-  <span class='no'>x_1</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='project.html'>project</a></span>(<span class='kw'>x</span> <span class='kw'>=</span> <span class='no'>i</span>[<span class='fl'>1</span>:<span class='fl'>10</span>, ],
-                 <span class='kw'>si</span> <span class='kw'>=</span> <span class='no'>si</span>,
-                 <span class='kw'>R</span> <span class='kw'>=</span> <span class='fl'>3.5</span>,
-                 <span class='kw'>n_sim</span> <span class='kw'>=</span> <span class='fl'>200</span>,
-                 <span class='kw'>n_days</span> <span class='kw'>=</span> <span class='fl'>5</span>)
+  <span class='va'>x_1</span> <span class='op'>&lt;-</span> <span class='fu'><a href='project.html'>project</a></span><span class='op'>(</span>x <span class='op'>=</span> <span class='va'>i</span><span class='op'>[</span><span class='fl'>1</span><span class='op'>:</span><span class='fl'>10</span>, <span class='op'>]</span>,
+                 si <span class='op'>=</span> <span class='va'>si</span>,
+                 R <span class='op'>=</span> <span class='fl'>3.5</span>,
+                 n_sim <span class='op'>=</span> <span class='fl'>200</span>,
+                 n_days <span class='op'>=</span> <span class='fl'>5</span><span class='op'>)</span>
 
-  <span class='no'>x_2</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='project.html'>project</a></span>(<span class='kw'>x</span> <span class='kw'>=</span> <span class='no'>i</span>[<span class='fl'>11</span>:<span class='fl'>20</span>, ],
-                 <span class='kw'>si</span> <span class='kw'>=</span> <span class='no'>si</span>,
-                 <span class='kw'>R</span> <span class='kw'>=</span> <span class='fl'>1.8</span>,
-                 <span class='kw'>n_sim</span> <span class='kw'>=</span> <span class='fl'>300</span>,
-                 <span class='kw'>n_days</span> <span class='kw'>=</span> <span class='fl'>10</span>
-                 )
+  <span class='va'>x_2</span> <span class='op'>&lt;-</span> <span class='fu'><a href='project.html'>project</a></span><span class='op'>(</span>x <span class='op'>=</span> <span class='va'>i</span><span class='op'>[</span><span class='fl'>11</span><span class='op'>:</span><span class='fl'>20</span>, <span class='op'>]</span>,
+                 si <span class='op'>=</span> <span class='va'>si</span>,
+                 R <span class='op'>=</span> <span class='fl'>1.8</span>,
+                 n_sim <span class='op'>=</span> <span class='fl'>300</span>,
+                 n_days <span class='op'>=</span> <span class='fl'>10</span>
+                 <span class='op'>)</span>
 
   <span class='co'>## check simulations</span>
-  <span class='no'>x_1</span> <span class='co'># first type</span>
-  <span class='no'>x_2</span> <span class='co'># other simulations</span>
-  <span class='no'>y</span> <span class='kw'>&lt;-</span> <span class='no'>x_1</span> + <span class='no'>x_2</span> <span class='co'># add simulations</span>
-  <span class='fu'><a href='https://rdrr.io/r/base/plot.html'>plot</a></span>(<span class='no'>y</span>)
+  <span class='va'>x_1</span> <span class='co'># first type</span>
+  <span class='va'>x_2</span> <span class='co'># other simulations</span>
+  <span class='va'>y</span> <span class='op'>&lt;-</span> <span class='va'>x_1</span> <span class='op'>+</span> <span class='va'>x_2</span> <span class='co'># add simulations</span>
+  <span class='fu'><a href='https://rdrr.io/r/graphics/plot.default.html'>plot</a></span><span class='op'>(</span><span class='va'>y</span><span class='op'>)</span>
 
-}</div><div class='img'><img src='merge_add_projections-1.png' alt='' width='700' height='433' /></div></pre>
+<span class='op'>}</span>
+</div><div class='output co'>#&gt; <span class='message'>Loading required package: incidence2</span></div><div class='output co'>#&gt; <span class='error'>Error in project(x = i[1:10, ], si = si, R = 3.5, n_sim = 200, n_days = 5): x is not an incidence object</span></div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">
@@ -199,7 +203,7 @@ operator.</p>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1.</p>
 </div>
 
       </footer>

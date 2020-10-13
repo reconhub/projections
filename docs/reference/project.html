@@ -124,17 +124,17 @@ selection of plausible reproduction numbers (R), and the distribution of the
 serial interval (time from primary onset to secondary onset).</p>
     </div>
 
-    <pre class="usage"><span class='fu'>project</span>(
-  <span class='no'>x</span>,
-  <span class='no'>R</span>,
-  <span class='no'>si</span>,
-  <span class='kw'>n_sim</span> <span class='kw'>=</span> <span class='fl'>100</span>,
-  <span class='kw'>n_days</span> <span class='kw'>=</span> <span class='fl'>7</span>,
-  <span class='kw'>R_fix_within</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
-  <span class='kw'>model</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"poisson"</span>, <span class='st'>"negbin"</span>),
-  <span class='kw'>size</span> <span class='kw'>=</span> <span class='fl'>0.03</span>,
-  <span class='kw'>time_change</span> <span class='kw'>=</span> <span class='kw'>NULL</span>
-)</pre>
+    <pre class="usage"><span class='fu'>project</span><span class='op'>(</span>
+  <span class='va'>x</span>,
+  <span class='va'>R</span>,
+  <span class='va'>si</span>,
+  n_sim <span class='op'>=</span> <span class='fl'>100</span>,
+  n_days <span class='op'>=</span> <span class='fl'>7</span>,
+  R_fix_within <span class='op'>=</span> <span class='cn'>FALSE</span>,
+  model <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"poisson"</span>, <span class='st'>"negbin"</span><span class='op'>)</span>,
+  size <span class='op'>=</span> <span class='fl'>0.03</span>,
+  time_change <span class='op'>=</span> <span class='cn'>NULL</span>
+<span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -208,87 +208,90 @@ into the simulation (so that day '1' is the first day after the input
   set to <code>TRUE</code>), R is treated as a fixed parameter, and the uncertainty
   is merely a consequence of the estimation of R. In other words, the first
   view is rather Bayesian, while the second is more frequentist.</p>
+    <h2 class="hasAnchor" id="author"><a class="anchor" href="#author"></a>Author</h2>
+
+    <p>Pierre Nouvellet (original model), Thibaut Jombart (bulk of the
+  code), Sangeeta Bhatia (Negative Binomial model), Stephane Ghozzi (bug fixes
+  time varying R)</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'>
 <span class='co'>## example using simulated Ebola outbreak</span>
-<span class='kw'>if</span> (<span class='fu'><a href='https://rdrr.io/r/base/library.html'>require</a></span>(<span class='no'>outbreaks</span>) <span class='kw'>&amp;&amp;</span>
-    <span class='fu'><a href='https://rdrr.io/r/base/library.html'>require</a></span>(<span class='no'>distcrete</span>) <span class='kw'>&amp;&amp;</span>
-    <span class='fu'><a href='https://rdrr.io/r/base/library.html'>require</a></span>(<span class='no'>incidence2</span>) <span class='kw'>&amp;&amp;</span>
-    <span class='fu'><a href='https://rdrr.io/r/base/library.html'>require</a></span>(<span class='no'>magrittr</span>)) {
+<span class='kw'>if</span> <span class='op'>(</span><span class='kw'><a href='https://rdrr.io/r/base/library.html'>require</a></span><span class='op'>(</span><span class='va'><a href='https://github.com/reconhub/outbreaks'>outbreaks</a></span><span class='op'>)</span> <span class='op'>&amp;&amp;</span>
+    <span class='kw'><a href='https://rdrr.io/r/base/library.html'>require</a></span><span class='op'>(</span><span class='va'>distcrete</span><span class='op'>)</span> <span class='op'>&amp;&amp;</span>
+    <span class='kw'><a href='https://rdrr.io/r/base/library.html'>require</a></span><span class='op'>(</span><span class='va'><a href='https://github.com/reconhub/incidence2'>incidence2</a></span><span class='op'>)</span> <span class='op'>&amp;&amp;</span>
+    <span class='kw'><a href='https://rdrr.io/r/base/library.html'>require</a></span><span class='op'>(</span><span class='va'>magrittr</span><span class='op'>)</span><span class='op'>)</span> <span class='op'>{</span>
 
-<span class='no'>si</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/pkg/distcrete/man/distcrete.html'>distcrete</a></span>(<span class='st'>"gamma"</span>, <span class='kw'>interval</span> <span class='kw'>=</span> <span class='fl'>1L</span>,
-                 <span class='kw'>shape</span> <span class='kw'>=</span> <span class='fl'>2.4</span>,
-                 <span class='kw'>scale</span> <span class='kw'>=</span> <span class='fl'>4.7</span>,
-                 <span class='kw'>w</span> <span class='kw'>=</span> <span class='fl'>0.5</span>)
+<span class='va'>si</span> <span class='op'>&lt;-</span> <span class='fu'>distcrete</span><span class='op'>(</span><span class='st'>"gamma"</span>, interval <span class='op'>=</span> <span class='fl'>1L</span>,
+                 shape <span class='op'>=</span> <span class='fl'>2.4</span>,
+                 scale <span class='op'>=</span> <span class='fl'>4.7</span>,
+                 w <span class='op'>=</span> <span class='fl'>0.5</span><span class='op'>)</span>
 
-<span class='no'>i</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/pkg/incidence2/man/incidence.html'>incidence</a></span>(
-  <span class='fu'><a href='https://rdrr.io/r/base/data.frame.html'>data.frame</a></span>(<span class='kw'>dates</span> <span class='kw'>=</span> <span class='no'>ebola_sim</span>$<span class='no'>linelist</span>$<span class='no'>date_of_onset</span>),
-  <span class='kw'>date_index</span> <span class='kw'>=</span> <span class='no'>dates</span>
-)
-<span class='fu'><a href='https://rdrr.io/r/base/plot.html'>plot</a></span>(<span class='no'>i</span>)
+<span class='va'>i</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/pkg/incidence2/man/incidence.html'>incidence</a></span><span class='op'>(</span>
+  <span class='fu'><a href='https://rdrr.io/r/base/data.frame.html'>data.frame</a></span><span class='op'>(</span>dates <span class='op'>=</span> <span class='va'>ebola_sim</span><span class='op'>$</span><span class='va'>linelist</span><span class='op'>$</span><span class='va'>date_of_onset</span><span class='op'>)</span>,
+  date_index <span class='op'>=</span> <span class='va'>dates</span>
+<span class='op'>)</span>
+<span class='fu'><a href='https://rdrr.io/r/graphics/plot.default.html'>plot</a></span><span class='op'>(</span><span class='va'>i</span><span class='op'>)</span>
 
 
 <span class='co'>## projections after the first 100 days, over 60 days, fixed R to 2.1</span>
 
-<span class='fu'><a href='https://rdrr.io/r/base/Random.html'>set.seed</a></span>(<span class='fl'>1</span>)
-<span class='no'>proj_1</span> <span class='kw'>&lt;-</span> <span class='fu'>project</span>(<span class='kw'>x</span> <span class='kw'>=</span> <span class='no'>i</span>[<span class='fl'>1</span>:<span class='fl'>100</span>,], <span class='kw'>R</span> <span class='kw'>=</span> <span class='fl'>2.1</span>, <span class='kw'>si</span> <span class='kw'>=</span> <span class='no'>si</span>, <span class='kw'>n_days</span> <span class='kw'>=</span> <span class='fl'>60</span>)
-<span class='fu'><a href='https://rdrr.io/r/base/plot.html'>plot</a></span>(<span class='no'>proj_1</span>)
+<span class='fu'><a href='https://rdrr.io/r/base/Random.html'>set.seed</a></span><span class='op'>(</span><span class='fl'>1</span><span class='op'>)</span>
+<span class='va'>proj_1</span> <span class='op'>&lt;-</span> <span class='fu'>project</span><span class='op'>(</span>x <span class='op'>=</span> <span class='va'>i</span><span class='op'>[</span><span class='fl'>1</span><span class='op'>:</span><span class='fl'>100</span>,<span class='op'>]</span>, R <span class='op'>=</span> <span class='fl'>2.1</span>, si <span class='op'>=</span> <span class='va'>si</span>, n_days <span class='op'>=</span> <span class='fl'>60</span><span class='op'>)</span>
+<span class='fu'><a href='https://rdrr.io/r/graphics/plot.default.html'>plot</a></span><span class='op'>(</span><span class='va'>proj_1</span><span class='op'>)</span>
 
 <span class='co'>## add projections to incidence plot</span>
-<span class='fu'><a href='https://rdrr.io/r/base/plot.html'>plot</a></span>(<span class='no'>i</span>[<span class='fl'>1</span>:<span class='fl'>160</span>, ]) <span class='kw'>%&gt;%</span> <span class='fu'><a href='plot.projections.html'>add_projections</a></span>(<span class='no'>proj_1</span>)
+<span class='fu'><a href='https://rdrr.io/r/graphics/plot.default.html'>plot</a></span><span class='op'>(</span><span class='va'>i</span><span class='op'>[</span><span class='fl'>1</span><span class='op'>:</span><span class='fl'>160</span>, <span class='op'>]</span><span class='op'>)</span> <span class='op'>%&gt;%</span> <span class='fu'><a href='plot.projections.html'>add_projections</a></span><span class='op'>(</span><span class='va'>proj_1</span><span class='op'>)</span>
 
 
 <span class='co'>## projections after the first 100 days, over 60 days,</span>
 <span class='co'>## using a sample of R</span>
 
-<span class='fu'><a href='https://rdrr.io/r/base/Random.html'>set.seed</a></span>(<span class='fl'>1</span>)
-<span class='no'>R</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/stats/Normal.html'>rnorm</a></span>(<span class='fl'>100</span>, <span class='fl'>1.8</span>, <span class='fl'>0.2</span>)
-<span class='fu'><a href='https://rdrr.io/r/graphics/hist.html'>hist</a></span>(<span class='no'>R</span>, <span class='kw'>col</span> <span class='kw'>=</span> <span class='st'>"grey"</span>, <span class='kw'>border</span> <span class='kw'>=</span> <span class='st'>"white"</span>, <span class='kw'>main</span> <span class='kw'>=</span> <span class='st'>"Distribution of R"</span>)
-<span class='no'>proj_2</span> <span class='kw'>&lt;-</span> <span class='fu'>project</span>(<span class='kw'>x</span> <span class='kw'>=</span> <span class='no'>i</span>[<span class='fl'>1</span>:<span class='fl'>100</span>, ], <span class='kw'>R</span> <span class='kw'>=</span> <span class='no'>R</span>, <span class='kw'>si</span> <span class='kw'>=</span> <span class='no'>si</span>, <span class='kw'>n_days</span> <span class='kw'>=</span> <span class='fl'>60</span>)
+<span class='fu'><a href='https://rdrr.io/r/base/Random.html'>set.seed</a></span><span class='op'>(</span><span class='fl'>1</span><span class='op'>)</span>
+<span class='va'>R</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/stats/Normal.html'>rnorm</a></span><span class='op'>(</span><span class='fl'>100</span>, <span class='fl'>1.8</span>, <span class='fl'>0.2</span><span class='op'>)</span>
+<span class='fu'><a href='https://rdrr.io/r/graphics/hist.html'>hist</a></span><span class='op'>(</span><span class='va'>R</span>, col <span class='op'>=</span> <span class='st'>"grey"</span>, border <span class='op'>=</span> <span class='st'>"white"</span>, main <span class='op'>=</span> <span class='st'>"Distribution of R"</span><span class='op'>)</span>
+<span class='va'>proj_2</span> <span class='op'>&lt;-</span> <span class='fu'>project</span><span class='op'>(</span>x <span class='op'>=</span> <span class='va'>i</span><span class='op'>[</span><span class='fl'>1</span><span class='op'>:</span><span class='fl'>100</span>, <span class='op'>]</span>, R <span class='op'>=</span> <span class='va'>R</span>, si <span class='op'>=</span> <span class='va'>si</span>, n_days <span class='op'>=</span> <span class='fl'>60</span><span class='op'>)</span>
 
 <span class='co'>## add projections to incidence plot</span>
-<span class='fu'><a href='https://rdrr.io/r/base/plot.html'>plot</a></span>(<span class='no'>i</span>[<span class='fl'>1</span>:<span class='fl'>160</span>, ]) <span class='kw'>%&gt;%</span> <span class='fu'><a href='plot.projections.html'>add_projections</a></span>(<span class='no'>proj_2</span>)
+<span class='fu'><a href='https://rdrr.io/r/graphics/plot.default.html'>plot</a></span><span class='op'>(</span><span class='va'>i</span><span class='op'>[</span><span class='fl'>1</span><span class='op'>:</span><span class='fl'>160</span>, <span class='op'>]</span><span class='op'>)</span> <span class='op'>%&gt;%</span> <span class='fu'><a href='plot.projections.html'>add_projections</a></span><span class='op'>(</span><span class='va'>proj_2</span><span class='op'>)</span>
 
 
 <span class='co'>## same with R constant per simulation (more variability)</span>
 
-<span class='fu'><a href='https://rdrr.io/r/base/Random.html'>set.seed</a></span>(<span class='fl'>1</span>)
-<span class='no'>proj_3</span> <span class='kw'>&lt;-</span> <span class='fu'>project</span>(<span class='kw'>x</span> <span class='kw'>=</span> <span class='no'>i</span>[<span class='fl'>1</span>:<span class='fl'>100</span>, ], <span class='kw'>R</span> <span class='kw'>=</span> <span class='no'>R</span>, <span class='kw'>si</span> <span class='kw'>=</span> <span class='no'>si</span>, <span class='kw'>n_days</span> <span class='kw'>=</span> <span class='fl'>60</span>,
-                  <span class='kw'>R_fix_within</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)
+<span class='fu'><a href='https://rdrr.io/r/base/Random.html'>set.seed</a></span><span class='op'>(</span><span class='fl'>1</span><span class='op'>)</span>
+<span class='va'>proj_3</span> <span class='op'>&lt;-</span> <span class='fu'>project</span><span class='op'>(</span>x <span class='op'>=</span> <span class='va'>i</span><span class='op'>[</span><span class='fl'>1</span><span class='op'>:</span><span class='fl'>100</span>, <span class='op'>]</span>, R <span class='op'>=</span> <span class='va'>R</span>, si <span class='op'>=</span> <span class='va'>si</span>, n_days <span class='op'>=</span> <span class='fl'>60</span>,
+                  R_fix_within <span class='op'>=</span> <span class='cn'>TRUE</span><span class='op'>)</span>
 
 <span class='co'>## add projections to incidence plot</span>
-<span class='fu'><a href='https://rdrr.io/r/base/plot.html'>plot</a></span>(<span class='no'>i</span>[<span class='fl'>1</span>:<span class='fl'>160</span>, ]) <span class='kw'>%&gt;%</span> <span class='fu'><a href='plot.projections.html'>add_projections</a></span>(<span class='no'>proj_3</span>)
+<span class='fu'><a href='https://rdrr.io/r/graphics/plot.default.html'>plot</a></span><span class='op'>(</span><span class='va'>i</span><span class='op'>[</span><span class='fl'>1</span><span class='op'>:</span><span class='fl'>160</span>, <span class='op'>]</span><span class='op'>)</span> <span class='op'>%&gt;%</span> <span class='fu'><a href='plot.projections.html'>add_projections</a></span><span class='op'>(</span><span class='va'>proj_3</span><span class='op'>)</span>
 
 
 <span class='co'>## time-varying R, 2 periods, R is 2.1 then 0.5</span>
-<span class='fu'><a href='https://rdrr.io/r/base/Random.html'>set.seed</a></span>(<span class='fl'>1</span>)
-<span class='no'>proj_4</span> <span class='kw'>&lt;-</span> <span class='fu'>project</span>(<span class='no'>i</span>,
-                  <span class='kw'>R</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>2.1</span>, <span class='fl'>0.5</span>),
-                  <span class='kw'>si</span> <span class='kw'>=</span> <span class='no'>si</span>,
-                  <span class='kw'>n_days</span> <span class='kw'>=</span> <span class='fl'>60</span>,
-                  <span class='kw'>time_change</span> <span class='kw'>=</span> <span class='fl'>40</span>,
-                  <span class='kw'>n_sim</span> <span class='kw'>=</span> <span class='fl'>100</span>)
-<span class='fu'><a href='https://rdrr.io/r/base/plot.html'>plot</a></span>(<span class='no'>proj_4</span>)
+<span class='fu'><a href='https://rdrr.io/r/base/Random.html'>set.seed</a></span><span class='op'>(</span><span class='fl'>1</span><span class='op'>)</span>
+<span class='va'>proj_4</span> <span class='op'>&lt;-</span> <span class='fu'>project</span><span class='op'>(</span><span class='va'>i</span>,
+                  R <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>2.1</span>, <span class='fl'>0.5</span><span class='op'>)</span>,
+                  si <span class='op'>=</span> <span class='va'>si</span>,
+                  n_days <span class='op'>=</span> <span class='fl'>60</span>,
+                  time_change <span class='op'>=</span> <span class='fl'>40</span>,
+                  n_sim <span class='op'>=</span> <span class='fl'>100</span><span class='op'>)</span>
+<span class='fu'><a href='https://rdrr.io/r/graphics/plot.default.html'>plot</a></span><span class='op'>(</span><span class='va'>proj_4</span><span class='op'>)</span>
 
 
 <span class='co'>## time-varying R, 2 periods, separate distributions of R for each period</span>
-<span class='fu'><a href='https://rdrr.io/r/base/Random.html'>set.seed</a></span>(<span class='fl'>1</span>)
-<span class='no'>R_period_1</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/stats/Uniform.html'>runif</a></span>(<span class='fl'>100</span>, <span class='kw'>min</span> <span class='kw'>=</span> <span class='fl'>1.1</span>, <span class='kw'>max</span> <span class='kw'>=</span> <span class='fl'>3</span>)
-<span class='no'>R_period_2</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/stats/Uniform.html'>runif</a></span>(<span class='fl'>100</span>, <span class='kw'>min</span> <span class='kw'>=</span> <span class='fl'>0.6</span>, <span class='kw'>max</span> <span class='kw'>=</span> <span class='fl'>.9</span>)
+<span class='fu'><a href='https://rdrr.io/r/base/Random.html'>set.seed</a></span><span class='op'>(</span><span class='fl'>1</span><span class='op'>)</span>
+<span class='va'>R_period_1</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/stats/Uniform.html'>runif</a></span><span class='op'>(</span><span class='fl'>100</span>, min <span class='op'>=</span> <span class='fl'>1.1</span>, max <span class='op'>=</span> <span class='fl'>3</span><span class='op'>)</span>
+<span class='va'>R_period_2</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/stats/Uniform.html'>runif</a></span><span class='op'>(</span><span class='fl'>100</span>, min <span class='op'>=</span> <span class='fl'>0.6</span>, max <span class='op'>=</span> <span class='fl'>.9</span><span class='op'>)</span>
 
-<span class='no'>proj_5</span> <span class='kw'>&lt;-</span> <span class='fu'>project</span>(<span class='no'>i</span>,
-                  <span class='kw'>R</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span>(<span class='no'>R_period_1</span>, <span class='no'>R_period_2</span>),
-                  <span class='kw'>si</span> <span class='kw'>=</span> <span class='no'>si</span>,
-                  <span class='kw'>n_days</span> <span class='kw'>=</span> <span class='fl'>60</span>,
-                  <span class='kw'>time_change</span> <span class='kw'>=</span> <span class='fl'>20</span>,
-                  <span class='kw'>n_sim</span> <span class='kw'>=</span> <span class='fl'>100</span>)
-<span class='fu'><a href='https://rdrr.io/r/base/plot.html'>plot</a></span>(<span class='no'>proj_5</span>)
+<span class='va'>proj_5</span> <span class='op'>&lt;-</span> <span class='fu'>project</span><span class='op'>(</span><span class='va'>i</span>,
+                  R <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span><span class='op'>(</span><span class='va'>R_period_1</span>, <span class='va'>R_period_2</span><span class='op'>)</span>,
+                  si <span class='op'>=</span> <span class='va'>si</span>,
+                  n_days <span class='op'>=</span> <span class='fl'>60</span>,
+                  time_change <span class='op'>=</span> <span class='fl'>20</span>,
+                  n_sim <span class='op'>=</span> <span class='fl'>100</span><span class='op'>)</span>
+<span class='fu'><a href='https://rdrr.io/r/graphics/plot.default.html'>plot</a></span><span class='op'>(</span><span class='va'>proj_5</span><span class='op'>)</span>
 
-}</div><div class='output co'>#&gt; <span class='message'>Scale for 'x' is already present. Adding another scale for 'x', which will</span>
-#&gt; <span class='message'>replace the existing scale.</span></div><div class='output co'>#&gt; <span class='message'>Scale for 'x' is already present. Adding another scale for 'x', which will</span>
-#&gt; <span class='message'>replace the existing scale.</span></div><div class='output co'>#&gt; <span class='message'>Scale for 'x' is already present. Adding another scale for 'x', which will</span>
-#&gt; <span class='message'>replace the existing scale.</span></div><div class='img'><img src='project-1.png' alt='' width='700' height='433' /></div><div class='img'><img src='project-2.png' alt='' width='700' height='433' /></div><div class='input'>
+<span class='op'>}</span>
+</div><div class='output co'>#&gt; <span class='message'>Loading required package: distcrete</span></div><div class='output co'>#&gt; <span class='warning'>Warning: there is no package called ‘distcrete’</span></div><div class='input'>
 </div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
@@ -305,7 +308,7 @@ into the simulation (so that day '1' is the first day after the input
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1.</p>
 </div>
 
       </footer>

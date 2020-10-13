@@ -148,8 +148,8 @@ project <- function(x, R, si, n_sim = 100, n_days = 7,
 
   model <- match.arg(model)
 
-  if (!inherits(x, "incidence")) {
-    msg <- "x is not an incidence object"
+  if (!inherits(x, "incidence2")) {
+    msg <- "x is not an incidence2 object"
     stop(msg)
   }
 

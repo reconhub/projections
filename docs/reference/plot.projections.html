@@ -129,26 +129,26 @@ examples).</p>
     </div>
 
     <pre class="usage"><span class='co'># S3 method for projections</span>
-<span class='fu'><a href='https://rdrr.io/r/base/plot.html'>plot</a></span>(<span class='no'>x</span>, <span class='kw'>ylab</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>title</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='no'>...</span>)
+<span class='fu'><a href='https://rdrr.io/r/graphics/plot.default.html'>plot</a></span><span class='op'>(</span><span class='va'>x</span>, ylab <span class='op'>=</span> <span class='cn'>NULL</span>, title <span class='op'>=</span> <span class='cn'>NULL</span>, <span class='va'>...</span><span class='op'>)</span>
 
-<span class='fu'>add_projections</span>(
-  <span class='no'>p</span>,
-  <span class='no'>x</span>,
-  <span class='kw'>quantiles</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>0.01</span>, <span class='fl'>0.05</span>, <span class='fl'>0.1</span>, <span class='fl'>0.5</span>),
-  <span class='kw'>ribbon</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
-  <span class='kw'>boxplots</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
-  <span class='kw'>palette</span> <span class='kw'>=</span> <span class='no'>quantile_pal</span>,
-  <span class='kw'>quantiles_alpha</span> <span class='kw'>=</span> <span class='fl'>1</span>,
-  <span class='kw'>linetype</span> <span class='kw'>=</span> <span class='fl'>1</span>,
-  <span class='kw'>linesize</span> <span class='kw'>=</span> <span class='fl'>0.5</span>,
-  <span class='kw'>ribbon_quantiles</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='kw'>ribbon_color</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='kw'>ribbon_alpha</span> <span class='kw'>=</span> <span class='fl'>0.3</span>,
-  <span class='kw'>boxplots_color</span> <span class='kw'>=</span> <span class='st'>"#47476b"</span>,
-  <span class='kw'>boxplots_fill</span> <span class='kw'>=</span> <span class='st'>"grey"</span>,
-  <span class='kw'>boxplots_alpha</span> <span class='kw'>=</span> <span class='fl'>0.8</span>,
-  <span class='kw'>outliers</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>
-)</pre>
+<span class='fu'>add_projections</span><span class='op'>(</span>
+  <span class='va'>p</span>,
+  <span class='va'>x</span>,
+  quantiles <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>0.01</span>, <span class='fl'>0.05</span>, <span class='fl'>0.1</span>, <span class='fl'>0.5</span><span class='op'>)</span>,
+  ribbon <span class='op'>=</span> <span class='cn'>TRUE</span>,
+  boxplots <span class='op'>=</span> <span class='cn'>FALSE</span>,
+  palette <span class='op'>=</span> <span class='va'>quantile_pal</span>,
+  quantiles_alpha <span class='op'>=</span> <span class='fl'>1</span>,
+  linetype <span class='op'>=</span> <span class='fl'>1</span>,
+  linesize <span class='op'>=</span> <span class='fl'>0.5</span>,
+  ribbon_quantiles <span class='op'>=</span> <span class='cn'>NULL</span>,
+  ribbon_color <span class='op'>=</span> <span class='cn'>NULL</span>,
+  ribbon_alpha <span class='op'>=</span> <span class='fl'>0.3</span>,
+  boxplots_color <span class='op'>=</span> <span class='st'>"#47476b"</span>,
+  boxplots_fill <span class='op'>=</span> <span class='st'>"grey"</span>,
+  boxplots_alpha <span class='op'>=</span> <span class='fl'>0.8</span>,
+  outliers <span class='op'>=</span> <span class='cn'>TRUE</span>
+<span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -247,59 +247,58 @@ alongside the boxplots; defaults to <code>TRUE</code>.</p></td>
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
     <div class='dont-index'><p><code><a href='project.html'>project</a></code> to generate projections</p></div>
+    <h2 class="hasAnchor" id="author"><a class="anchor" href="#author"></a>Author</h2>
+
+    <p>Thibaut Jombart <a href='mailto:thibautjombart@gmail.com'>thibautjombart@gmail.com</a></p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'>
-<span class='kw'>if</span> (<span class='fu'><a href='https://rdrr.io/r/base/library.html'>require</a></span>(<span class='no'>outbreaks</span>) <span class='kw'>&amp;&amp;</span>
-    <span class='fu'><a href='https://rdrr.io/r/base/library.html'>require</a></span>(<span class='no'>distcrete</span>) <span class='kw'>&amp;&amp;</span>
-    <span class='fu'><a href='https://rdrr.io/r/base/library.html'>require</a></span>(<span class='no'>incidence2</span>) <span class='kw'>&amp;&amp;</span>
-    <span class='fu'><a href='https://rdrr.io/r/base/library.html'>require</a></span>(<span class='no'>magrittr</span>)) {
+<span class='kw'>if</span> <span class='op'>(</span><span class='kw'><a href='https://rdrr.io/r/base/library.html'>require</a></span><span class='op'>(</span><span class='va'><a href='https://github.com/reconhub/outbreaks'>outbreaks</a></span><span class='op'>)</span> <span class='op'>&amp;&amp;</span>
+    <span class='kw'><a href='https://rdrr.io/r/base/library.html'>require</a></span><span class='op'>(</span><span class='va'>distcrete</span><span class='op'>)</span> <span class='op'>&amp;&amp;</span>
+    <span class='kw'><a href='https://rdrr.io/r/base/library.html'>require</a></span><span class='op'>(</span><span class='va'><a href='https://github.com/reconhub/incidence2'>incidence2</a></span><span class='op'>)</span> <span class='op'>&amp;&amp;</span>
+    <span class='kw'><a href='https://rdrr.io/r/base/library.html'>require</a></span><span class='op'>(</span><span class='va'>magrittr</span><span class='op'>)</span><span class='op'>)</span> <span class='op'>{</span>
 
-<span class='no'>si</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/pkg/distcrete/man/distcrete.html'>distcrete</a></span>(<span class='st'>"gamma"</span>,
-                 <span class='kw'>interval</span> <span class='kw'>=</span> <span class='fl'>1L</span>,
-                 <span class='kw'>shape</span> <span class='kw'>=</span> <span class='fl'>2.4</span>,
-                 <span class='kw'>scale</span> <span class='kw'>=</span> <span class='fl'>4.7</span>,
-                 <span class='kw'>w</span> <span class='kw'>=</span> <span class='fl'>0.5</span>)
+<span class='va'>si</span> <span class='op'>&lt;-</span> <span class='fu'>distcrete</span><span class='op'>(</span><span class='st'>"gamma"</span>,
+                 interval <span class='op'>=</span> <span class='fl'>1L</span>,
+                 shape <span class='op'>=</span> <span class='fl'>2.4</span>,
+                 scale <span class='op'>=</span> <span class='fl'>4.7</span>,
+                 w <span class='op'>=</span> <span class='fl'>0.5</span><span class='op'>)</span>
 
-<span class='no'>i</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/pkg/incidence2/man/incidence.html'>incidence</a></span>(
-  <span class='fu'><a href='https://rdrr.io/r/base/data.frame.html'>data.frame</a></span>(<span class='kw'>dates</span> <span class='kw'>=</span> <span class='no'>ebola_sim</span>$<span class='no'>linelist</span>$<span class='no'>date_of_onset</span>),
-  <span class='kw'>date_index</span> <span class='kw'>=</span> <span class='no'>dates</span>
-)
-<span class='fu'><a href='https://rdrr.io/r/base/plot.html'>plot</a></span>(<span class='no'>i</span>)
+<span class='va'>i</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/pkg/incidence2/man/incidence.html'>incidence</a></span><span class='op'>(</span>
+  <span class='fu'><a href='https://rdrr.io/r/base/data.frame.html'>data.frame</a></span><span class='op'>(</span>dates <span class='op'>=</span> <span class='va'>ebola_sim</span><span class='op'>$</span><span class='va'>linelist</span><span class='op'>$</span><span class='va'>date_of_onset</span><span class='op'>)</span>,
+  date_index <span class='op'>=</span> <span class='va'>dates</span>
+<span class='op'>)</span>
+<span class='fu'><a href='https://rdrr.io/r/graphics/plot.default.html'>plot</a></span><span class='op'>(</span><span class='va'>i</span><span class='op'>)</span>
 
 <span class='co'>## add projections after the first 100 days, over 60 days</span>
-<span class='fu'><a href='https://rdrr.io/r/base/Random.html'>set.seed</a></span>(<span class='fl'>1</span>)
-<span class='no'>proj</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='project.html'>project</a></span>(<span class='kw'>x</span> <span class='kw'>=</span> <span class='no'>i</span>[<span class='fl'>1</span>:<span class='fl'>100</span>, ], <span class='kw'>R</span> <span class='kw'>=</span> <span class='fl'>1.4</span>, <span class='kw'>si</span> <span class='kw'>=</span> <span class='no'>si</span>, <span class='kw'>n_days</span> <span class='kw'>=</span> <span class='fl'>60</span>)
+<span class='fu'><a href='https://rdrr.io/r/base/Random.html'>set.seed</a></span><span class='op'>(</span><span class='fl'>1</span><span class='op'>)</span>
+<span class='va'>proj</span> <span class='op'>&lt;-</span> <span class='fu'><a href='project.html'>project</a></span><span class='op'>(</span>x <span class='op'>=</span> <span class='va'>i</span><span class='op'>[</span><span class='fl'>1</span><span class='op'>:</span><span class='fl'>100</span>, <span class='op'>]</span>, R <span class='op'>=</span> <span class='fl'>1.4</span>, si <span class='op'>=</span> <span class='va'>si</span>, n_days <span class='op'>=</span> <span class='fl'>60</span><span class='op'>)</span>
 
 <span class='co'>## plotting projections: different options</span>
-<span class='fu'><a href='https://rdrr.io/r/base/plot.html'>plot</a></span>(<span class='no'>proj</span>)
-<span class='fu'><a href='https://rdrr.io/r/base/plot.html'>plot</a></span>(<span class='no'>proj</span>, <span class='kw'>quantiles</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>.025</span>, <span class='fl'>.5</span>)) <span class='co'># 95% CI</span>
-<span class='fu'><a href='https://rdrr.io/r/base/plot.html'>plot</a></span>(<span class='no'>proj</span>, <span class='kw'>ribbon_color</span> <span class='kw'>=</span> <span class='st'>"red"</span>, <span class='kw'>quantiles</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>) <span class='co'># range</span>
-<span class='fu'><a href='https://rdrr.io/r/base/plot.html'>plot</a></span>(<span class='no'>proj</span>, <span class='kw'>ribbon_color</span> <span class='kw'>=</span> <span class='st'>"red"</span>, <span class='kw'>quantiles</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
-     <span class='kw'>ribbon_quantiles</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>.025</span>, <span class='fl'>.5</span>))
-<span class='fu'><a href='https://rdrr.io/r/base/plot.html'>plot</a></span>(<span class='no'>proj</span>, <span class='kw'>boxplots</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>quantiles</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>ribbon</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)
-<span class='fu'><a href='https://rdrr.io/r/base/plot.html'>plot</a></span>(<span class='no'>proj</span>, <span class='kw'>boxplots</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>quantiles</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>outliers</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)
-<span class='fu'><a href='https://rdrr.io/r/base/plot.html'>plot</a></span>(<span class='no'>proj</span>, <span class='kw'>linetype</span> <span class='kw'>=</span> <span class='fl'>3</span>)
+<span class='fu'><a href='https://rdrr.io/r/graphics/plot.default.html'>plot</a></span><span class='op'>(</span><span class='va'>proj</span><span class='op'>)</span>
+<span class='fu'><a href='https://rdrr.io/r/graphics/plot.default.html'>plot</a></span><span class='op'>(</span><span class='va'>proj</span>, quantiles <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>.025</span>, <span class='fl'>.5</span><span class='op'>)</span><span class='op'>)</span> <span class='co'># 95% CI</span>
+<span class='fu'><a href='https://rdrr.io/r/graphics/plot.default.html'>plot</a></span><span class='op'>(</span><span class='va'>proj</span>, ribbon_color <span class='op'>=</span> <span class='st'>"red"</span>, quantiles <span class='op'>=</span> <span class='cn'>FALSE</span><span class='op'>)</span> <span class='co'># range</span>
+<span class='fu'><a href='https://rdrr.io/r/graphics/plot.default.html'>plot</a></span><span class='op'>(</span><span class='va'>proj</span>, ribbon_color <span class='op'>=</span> <span class='st'>"red"</span>, quantiles <span class='op'>=</span> <span class='cn'>FALSE</span>,
+     ribbon_quantiles <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>.025</span>, <span class='fl'>.5</span><span class='op'>)</span><span class='op'>)</span>
+<span class='fu'><a href='https://rdrr.io/r/graphics/plot.default.html'>plot</a></span><span class='op'>(</span><span class='va'>proj</span>, boxplots <span class='op'>=</span> <span class='cn'>TRUE</span>, quantiles <span class='op'>=</span> <span class='cn'>FALSE</span>, ribbon <span class='op'>=</span> <span class='cn'>FALSE</span><span class='op'>)</span>
+<span class='fu'><a href='https://rdrr.io/r/graphics/plot.default.html'>plot</a></span><span class='op'>(</span><span class='va'>proj</span>, boxplots <span class='op'>=</span> <span class='cn'>TRUE</span>, quantiles <span class='op'>=</span> <span class='cn'>FALSE</span>, outliers <span class='op'>=</span> <span class='cn'>FALSE</span><span class='op'>)</span>
+<span class='fu'><a href='https://rdrr.io/r/graphics/plot.default.html'>plot</a></span><span class='op'>(</span><span class='va'>proj</span>, linetype <span class='op'>=</span> <span class='fl'>3</span><span class='op'>)</span>
 
 <span class='co'>## adding them to incidence plot</span>
-<span class='fu'><a href='https://rdrr.io/r/base/plot.html'>plot</a></span>(<span class='no'>i</span>) <span class='kw'>%&gt;%</span> <span class='fu'>add_projections</span>(<span class='no'>proj</span>)
-<span class='fu'><a href='https://rdrr.io/r/base/plot.html'>plot</a></span>(<span class='no'>i</span>[<span class='fl'>1</span>:<span class='fl'>160</span>, ]) <span class='kw'>%&gt;%</span> <span class='fu'>add_projections</span>(<span class='no'>proj</span>)
-<span class='fu'><a href='https://rdrr.io/r/base/plot.html'>plot</a></span>(<span class='no'>i</span>[<span class='fl'>1</span>:<span class='fl'>160</span>, ]) <span class='kw'>%&gt;%</span> <span class='fu'>add_projections</span>(<span class='no'>proj</span>, <span class='kw'>boxplots</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)
-<span class='fu'><a href='https://rdrr.io/r/base/plot.html'>plot</a></span>(<span class='no'>i</span>[<span class='fl'>1</span>:<span class='fl'>160</span>, ]) <span class='kw'>%&gt;%</span>
-  <span class='fu'>add_projections</span>(<span class='no'>proj</span>, <span class='kw'>boxplots_alpha</span> <span class='kw'>=</span> <span class='fl'>.3</span>, <span class='kw'>boxplots_color</span> <span class='kw'>=</span> <span class='st'>"red"</span>)
+<span class='fu'><a href='https://rdrr.io/r/graphics/plot.default.html'>plot</a></span><span class='op'>(</span><span class='va'>i</span><span class='op'>)</span> <span class='op'>%&gt;%</span> <span class='fu'>add_projections</span><span class='op'>(</span><span class='va'>proj</span><span class='op'>)</span>
+<span class='fu'><a href='https://rdrr.io/r/graphics/plot.default.html'>plot</a></span><span class='op'>(</span><span class='va'>i</span><span class='op'>[</span><span class='fl'>1</span><span class='op'>:</span><span class='fl'>160</span>, <span class='op'>]</span><span class='op'>)</span> <span class='op'>%&gt;%</span> <span class='fu'>add_projections</span><span class='op'>(</span><span class='va'>proj</span><span class='op'>)</span>
+<span class='fu'><a href='https://rdrr.io/r/graphics/plot.default.html'>plot</a></span><span class='op'>(</span><span class='va'>i</span><span class='op'>[</span><span class='fl'>1</span><span class='op'>:</span><span class='fl'>160</span>, <span class='op'>]</span><span class='op'>)</span> <span class='op'>%&gt;%</span> <span class='fu'>add_projections</span><span class='op'>(</span><span class='va'>proj</span>, boxplots <span class='op'>=</span> <span class='cn'>FALSE</span><span class='op'>)</span>
+<span class='fu'><a href='https://rdrr.io/r/graphics/plot.default.html'>plot</a></span><span class='op'>(</span><span class='va'>i</span><span class='op'>[</span><span class='fl'>1</span><span class='op'>:</span><span class='fl'>160</span>, <span class='op'>]</span><span class='op'>)</span> <span class='op'>%&gt;%</span>
+  <span class='fu'>add_projections</span><span class='op'>(</span><span class='va'>proj</span>, boxplots_alpha <span class='op'>=</span> <span class='fl'>.3</span>, boxplots_color <span class='op'>=</span> <span class='st'>"red"</span><span class='op'>)</span>
 
 <span class='co'>## same, with customised quantiles and colors</span>
-<span class='no'>quantiles</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>.001</span>, <span class='fl'>.01</span>, <span class='fl'>0.05</span>, <span class='fl'>.1</span>, <span class='fl'>.2</span>, <span class='fl'>.3</span>, <span class='fl'>.4</span>, <span class='fl'>.5</span>)
-<span class='no'>pal</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/grDevices/colorRamp.html'>colorRampPalette</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"#b3c6ff"</span>, <span class='st'>"#00e64d"</span>, <span class='st'>"#cc0066"</span>))
-<span class='fu'><a href='https://rdrr.io/r/base/plot.html'>plot</a></span>(<span class='no'>i</span>[<span class='fl'>1</span>:<span class='fl'>200</span>, ]) <span class='kw'>%&gt;%</span>
-  <span class='fu'>add_projections</span>(<span class='no'>proj</span>, <span class='no'>quantiles</span>, <span class='kw'>palette</span> <span class='kw'>=</span> <span class='no'>pal</span>)
+<span class='va'>quantiles</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>.001</span>, <span class='fl'>.01</span>, <span class='fl'>0.05</span>, <span class='fl'>.1</span>, <span class='fl'>.2</span>, <span class='fl'>.3</span>, <span class='fl'>.4</span>, <span class='fl'>.5</span><span class='op'>)</span>
+<span class='va'>pal</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/grDevices/colorRamp.html'>colorRampPalette</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"#b3c6ff"</span>, <span class='st'>"#00e64d"</span>, <span class='st'>"#cc0066"</span><span class='op'>)</span><span class='op'>)</span>
+<span class='fu'><a href='https://rdrr.io/r/graphics/plot.default.html'>plot</a></span><span class='op'>(</span><span class='va'>i</span><span class='op'>[</span><span class='fl'>1</span><span class='op'>:</span><span class='fl'>200</span>, <span class='op'>]</span><span class='op'>)</span> <span class='op'>%&gt;%</span>
+  <span class='fu'>add_projections</span><span class='op'>(</span><span class='va'>proj</span>, <span class='va'>quantiles</span>, palette <span class='op'>=</span> <span class='va'>pal</span><span class='op'>)</span>
 
-}</div><div class='output co'>#&gt; <span class='message'>Loading required package: outbreaks</span></div><div class='output co'>#&gt; <span class='message'>Loading required package: magrittr</span></div><div class='output co'>#&gt; <span class='message'>Scale for 'x' is already present. Adding another scale for 'x', which will</span>
-#&gt; <span class='message'>replace the existing scale.</span></div><div class='output co'>#&gt; <span class='message'>Scale for 'x' is already present. Adding another scale for 'x', which will</span>
-#&gt; <span class='message'>replace the existing scale.</span></div><div class='output co'>#&gt; <span class='message'>Scale for 'x' is already present. Adding another scale for 'x', which will</span>
-#&gt; <span class='message'>replace the existing scale.</span></div><div class='output co'>#&gt; <span class='message'>Scale for 'x' is already present. Adding another scale for 'x', which will</span>
-#&gt; <span class='message'>replace the existing scale.</span></div><div class='output co'>#&gt; <span class='message'>Scale for 'x' is already present. Adding another scale for 'x', which will</span>
-#&gt; <span class='message'>replace the existing scale.</span></div><div class='img'><img src='plot.projections-1.png' alt='' width='700' height='433' /></div><div class='input'>
+<span class='op'>}</span>
+</div><div class='output co'>#&gt; <span class='message'>Loading required package: outbreaks</span></div><div class='output co'>#&gt; <span class='message'>Loading required package: distcrete</span></div><div class='output co'>#&gt; <span class='warning'>Warning: there is no package called ‘distcrete’</span></div><div class='input'>
 </div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
@@ -316,7 +315,7 @@ alongside the boxplots; defaults to <code>TRUE</code>.</p></td>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1.</p>
 </div>
 
       </footer>

@@ -92,7 +92,7 @@ test_that("Test that dates start when needed", {
 
   set.seed(1)
   pred_1 <- project(i, runif(100, 0.8, 1.9), si, n_days = 30)
-  expect_equal(max(i$bin_date) + 1, min(get_dates(pred_1)))
+  expect_equal(max(i$date) + 1, min(get_dates(pred_1)))
 
 })
 
@@ -102,7 +102,7 @@ test_that("Test that dates start when needed", {
 
 test_that("Errors are thrown when they should", {
   expect_error(project(NULL),
-               "x is not an incidence object")
+               "x is not an incidence2 object")
 
   i <- incidence2::incidence(
     data.frame(dates = 1:10),
