@@ -1,5 +1,3 @@
-context("Test subset")
-
 test_that("Test subsetting with numeric dates inputs", {
     skip_on_cran()
 

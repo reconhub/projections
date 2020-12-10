@@ -1,5 +1,3 @@
-context("Test accessors")
-
 test_that("Accessors return the right thing", {
     skip_on_cran()
 

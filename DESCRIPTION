@@ -13,7 +13,7 @@ Depends: R (>= 3.5.0)
 License: MIT + file LICENSE
 Encoding: UTF-8
 LazyData: true
-Suggests: testthat, vdiffr, roxygen2, knitr, rmarkdown, outbreaks, magrittr, distcrete
+Suggests: testthat, roxygen2, knitr, rmarkdown, outbreaks, magrittr, distcrete
 Imports: 
     stats,
     utils,
@@ -23,3 +23,4 @@ Imports:
 RoxygenNote: 7.1.1
 URL: http://www.repidemicsconsortium.org/projections
 BugReports: http://github.com/reconhub/projections/issues
+Config/testthat/edition: 3
