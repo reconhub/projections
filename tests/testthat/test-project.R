@@ -148,8 +148,8 @@ test_that("Test against reference results - Poisson model", {
 
   set.seed(1)
   pred_1 <- project(i, runif(100, 0.8, 1.9), si, n_days = 30)
-  expect_equal_to_reference(pred_1, file = "rds/pred_1.rds", update = FALSE)
-
+  expect_snapshot_value(pred_1, style = "serialize")
+  
 
   ## time-varying R (fixed within time windows)
   set.seed(1)
@@ -159,7 +159,7 @@ test_that("Test against reference results - Poisson model", {
                     n_days = 60,
                     time_change = c(10, 15, 20, 30),
                     n_sim = 100)
-  expect_equal_to_reference(pred_2, file = "rds/pred_2.rds", update = FALSE)
+  expect_snapshot_value(pred_2, style = "serialize")
 
 
   ## time-varying R, 2 periods, R is 2.1 then 0.5
@@ -171,7 +171,7 @@ test_that("Test against reference results - Poisson model", {
                     n_days = 60,
                     time_change = 40,
                     n_sim = 100)
-  expect_equal_to_reference(pred_3, file = "rds/pred_3.rds", update = FALSE)
+  expect_snapshot_value(pred_3, style = "serialize")
 
   ## time-varying R, 2 periods, separate distributions of R for each period
   set.seed(1)
@@ -184,7 +184,7 @@ test_that("Test against reference results - Poisson model", {
                     n_days = 60,
                     time_change = 20,
                     n_sim = 100)
-  expect_equal_to_reference(pred_4, file = "rds/pred_4.rds", update = FALSE)
+  expect_snapshot_value(pred_4, style = "serialize")
 
 })
 
@@ -207,7 +207,7 @@ test_that("Test against reference results - NegBin model", {
 
   set.seed(1)
   pred_5 <- project(i, runif(100, 0.8, 1.9), si, n_days = 30, model = "negbin")
-  expect_equal_to_reference(pred_5, file = "rds/pred_5.rds", update = FALSE)
+  expect_snapshot_value(pred_5, style = "serialize")
 
 
   ## time-varying R (fixed within time windows)
@@ -219,7 +219,7 @@ test_that("Test against reference results - NegBin model", {
                     time_change = c(10, 15, 20, 30),
                     n_sim = 100,
                     model = "negbin")
-  expect_equal_to_reference(pred_6, file = "rds/pred_6.rds", update = FALSE)
+  expect_snapshot_value(pred_6, style = "serialize")
 
 
   ## time-varying R, 2 periods, R is 2.1 then 0.5
@@ -232,7 +232,7 @@ test_that("Test against reference results - NegBin model", {
                     time_change = 40,
                     n_sim = 100,
                     model = "negbin")
-  expect_equal_to_reference(pred_7, file = "rds/pred_7.rds", update = FALSE)
+  expect_snapshot_value(pred_7, style = "serialize")
 
   ## time-varying R, 2 periods, separate distributions of R for each period
   set.seed(1)
@@ -246,7 +246,7 @@ test_that("Test against reference results - NegBin model", {
                     time_change = 20,
                     n_sim = 100,
                     model = "negbin")
-  expect_equal_to_reference(pred_8, file = "rds/pred_8.rds", update = FALSE)
+  expect_snapshot_value(pred_8, style = "serialize")
 
 })
 
