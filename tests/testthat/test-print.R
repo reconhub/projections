@@ -1,5 +1,3 @@
-context("Test printing")
-
 test_that("Printing as planned", {
   skip_on_cran()
 

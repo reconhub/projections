@@ -1,5 +1,3 @@
-context("Test merge_add_projections")
-
 test_that("Merging works", {
 
   set.seed(1)

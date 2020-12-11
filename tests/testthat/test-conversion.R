@@ -1,5 +1,3 @@
-context("Test conversion")
-
 test_that("Test against reference results", {
     skip_on_cran()
 

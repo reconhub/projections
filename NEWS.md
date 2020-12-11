@@ -1,3 +1,10 @@
+# projections 0.5.2
+
+## Fixes and improvements
+
+- now using 3rd edition of testthat for checks.
+
+
 # projections 0.5.1
 
 ## Fixes and improvements

@@ -1,5 +1,3 @@
-context("Test merge_projections")
-
 test_that("Merging works", {
   i <- incidence::incidence(as.Date('2020-01-23'))
   si <- c(0.2, 0.5, 0.2, 0.1)

@@ -1,5 +1,3 @@
-context("Test build_projections")
-
 test_that("Test round trip", {
     skip_on_cran()
 

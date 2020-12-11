@@ -1,6 +1,6 @@
 Package: projections
 Title: Project Future Case Incidence
-Version: 0.5.1
+Version: 0.5.2
 Authors@R: c(person("Thibaut", "Jombart", email = "thibautjombart@gmail.com", role = c("aut", "cre")), 
     person("Pierre", "Nouvellet", email = "p.nouvellet@imperial.ac.uk", role = c("aut")), 
     person("Sangeeta", "Bhatia", role = "ctb", email = "sangeetabhatia03@gmail.com"),
@@ -13,7 +13,15 @@ Depends: R (>= 3.5.0)
 License: MIT + file LICENSE
 Encoding: UTF-8
 LazyData: true
-Suggests: testthat, vdiffr, roxygen2, knitr, rmarkdown, outbreaks, magrittr, distcrete
+Suggests: 
+    testthat,
+    roxygen2,
+    knitr,
+    rmarkdown,
+    outbreaks,
+    magrittr,
+    distcrete,
+    svglite
 Imports: 
     stats,
     utils,
@@ -21,5 +29,6 @@ Imports:
     ggplot2,
     methods
 RoxygenNote: 7.1.1
-URL: http://www.repidemicsconsortium.org/projections
-BugReports: http://github.com/reconhub/projections/issues
+URL: https://www.repidemicsconsortium.org/projections/
+BugReports: https://github.com/reconhub/projections/issues
+Config/testthat/edition: 3

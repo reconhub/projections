@@ -1,5 +1,3 @@
-context("Test internals")
-
 test_that("Errors are thrown when they should", {
     skip_on_cran()
     

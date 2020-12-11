@@ -13,3 +13,4 @@
 ^docs*
 .*tar.gz$
 
+^\.github$

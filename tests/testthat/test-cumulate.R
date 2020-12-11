@@ -1,5 +1,3 @@
-context("Test cumulative incidence")
-
 test_that("Test cumulate()", {
   skip_on_cran()
 
