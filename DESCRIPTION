@@ -5,7 +5,7 @@ Authors@R:
     c(person(given = "Thibaut",
              family = "Jombart",
              role = c("aut", "cre"),
-             email = "tim.taylor@hiddenelephants.co.uk"),
+             email = "thibautjombart@gmail.com"),
       person(given = "Pierre",
              family = "Nouvellet",
              role = "aut",
