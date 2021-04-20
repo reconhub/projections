@@ -149,6 +149,6 @@ plot(proj_5)
 }
 \author{
 Pierre Nouvellet (original model), Thibaut Jombart (bulk of the
-  code), Sangeeta Bhatia (Negative Binomial model), Stephane Ghozzi (bug fixes 
+  code), Sangeeta Bhatia (Negative Binomial model), Stephane Ghozzi (bug fixes
   time varying R)
 }

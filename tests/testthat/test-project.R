@@ -2,7 +2,7 @@ test_that("Projections can be performed for a single day", {
   i <- incidence::incidence(as.Date('2020-01-23'))
   si <- c(0.2, 0.5, 0.2, 0.1)
   R0 <- 2
-  
+
   p <- project(x = i,
                si = si,
                R = R0,
@@ -23,7 +23,7 @@ test_that("Projections can be performed for a single day", {
   i <- incidence::incidence(as.Date('2020-01-23'))
   si <- c(0.2, 0.5, 0.2, 0.1)
   R0 <- 2
-  
+
   p <- project(x = i,
                si = si,
                R = R0,
@@ -45,7 +45,7 @@ test_that("Projections can be performed for a single day and single simulation",
   i <- incidence::incidence(as.Date('2020-01-23'))
   si <- c(0.2, 0.5, 0.2, 0.1)
   R0 <- 2
-  
+
   p <- project(x = i,
                si = si,
                R = R0,
@@ -126,7 +126,7 @@ test_that("Errors are thrown when they should", {
   expect_error(project(i, si = si, time_change = 2, R = matrix(1.2)),
                msg,
                fixed = TRUE)
-  
+
 })
 
 
@@ -149,7 +149,7 @@ test_that("Test against reference results - Poisson model", {
   set.seed(1)
   pred_1 <- project(i, runif(100, 0.8, 1.9), si, n_days = 30)
   expect_snapshot_value(pred_1, style = "serialize")
-  
+
 
   ## time-varying R (fixed within time windows)
   set.seed(1)
@@ -255,15 +255,15 @@ test_that("Test against reference results - NegBin model", {
 
 
 test_that("Test R_fix_within", {
-  
+
   ## The rationale of this test is to check that the variance of trajectories
   ## when fixing R within a given simulation is larger than when drawing
   ## systematically from the distribution. On the provided example, fixing R
   ## will lead to many more trajectories growing fast, and greater average
   ## incidence (> x10 for the last time steps).
-  
+
   skip_on_cran()
-  
+
   ## simulate basic epicurve
   dat <- c(0, 2, 2, 3, 3, 5, 5, 5, 6, 6, 6, 6)
   i <- incidence::incidence(dat)
@@ -282,5 +282,27 @@ test_that("Test R_fix_within", {
                      n_sim = 1000,
                      R_fix_within = TRUE)
   expect_true(all(tail(rowSums(x_fixed) / rowSums(x_base), 5) > 10))
-  
+
+})
+
+
+
+
+
+test_that("Projections throw warning if si[1] = 0", {
+  i <- incidence::incidence(as.Date('2020-01-23'))
+  si <- c(0, 0.2, 0.5, 0.2, 0.1)
+  R0 <- 2
+
+  msg <- "si[1] is 0. Did you accidentally input the serial interval"
+
+  expect_warning(project(x = i,
+               si = si,
+               R = R0,
+               n_sim = 2,
+               R_fix_within = TRUE,
+               n_days = 1,
+               model = "poisson"),
+               msg, fixed = TRUE)
+
 })
