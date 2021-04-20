@@ -39,7 +39,8 @@ Suggests:
     outbreaks,
     magrittr,
     distcrete,
-    svglite
+    svglite,
+    EpiEstim
 Imports: 
     stats,
     utils,
