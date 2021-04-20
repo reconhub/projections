@@ -7,7 +7,7 @@
 #' @export
 #'
 #' @author Pierre Nouvellet (original model), Thibaut Jombart (bulk of the
-#'   code), Sangeeta Bhatia (Negative Binomial model), Stephane Ghozzi (bug fixes 
+#'   code), Sangeeta Bhatia (Negative Binomial model), Stephane Ghozzi (bug fixes
 #'   time varying R)
 #'
 #' @param x An \code{incidence} object containing daily incidence; other time
@@ -47,6 +47,19 @@
 #'   `incidence` object); if provided, `n` dates in `time_change` will produce
 #'   `n+1` time windows, in which case `R` should be a list of vectors of `n+1`
 #'   `R` values, one per each time window.
+#'
+#' @param instantaneous_R a boolean specifying whether to assume `R` is the case
+#'   reproduction number (`instantaneous_R = FALSE`, the default), or the
+#'   instantaneous reproduction number (`instantaneous_R = TRUE`).
+#'   If `instantaneous_R = FALSE` then values of `R` at time `t` will govern the
+#'   mean number of secondary cases of all cases infected at time `t`,
+#'   even if those secondary cases appear after `t`. In other words, `R`
+#'   will characterise onwards transmission from infectors depending on their
+#'   date of infection.
+#'   If `instantaneous_R = TRUE` then values of `R` at time `t` will govern the
+#'   mean number of secondary cases made at time `t` by all cases infected
+#'   before `t`. In other words, `R` will characterise onwards transmission at
+#'   a given time.
 #'
 #' @details The decision to fix R values within simulations
 #'   (\code{R_fix_within}) reflects two alternative views of the uncertainty
@@ -118,12 +131,12 @@
 #'                   n_sim = 100)
 #' plot(proj_4)
 #'
-#' 
+#'
 #' ## time-varying R, 2 periods, separate distributions of R for each period
 #' set.seed(1)
 #' R_period_1 <- runif(100, min = 1.1, max = 3)
 #' R_period_2 <- runif(100, min = 0.6, max = .9)
-#' 
+#'
 #' proj_5 <- project(i,
 #'                   R = list(R_period_1, R_period_2),
 #'                   si = si,
@@ -131,7 +144,7 @@
 #'                   time_change = 20,
 #'                   n_sim = 100)
 #' plot(proj_5)
-#' 
+#'
 #' }
 #'
 
@@ -139,7 +152,8 @@ project <- function(x, R, si, n_sim = 100, n_days = 7,
   R_fix_within = FALSE,
   model = c("poisson", "negbin"),
   size = 0.03,
-  time_change = NULL) {
+  time_change = NULL,
+  instantaneous_R = FALSE) {
 
   ## Various checks on inputs
 
@@ -196,7 +210,7 @@ project <- function(x, R, si, n_sim = 100, n_days = 7,
   n_dates_x <- nrow(incidence::get_counts(x))
   t_max <- n_days + n_dates_x - 1
 
-  # si is the the pmf of the serial interval starting at day 1, i.e. one day 
+  # si is the the pmf of the serial interval starting at day 1, i.e. one day
   # after symptom onset
   if (inherits(si, "distcrete")) {
     if (as.integer(si$interval) != 1L) {
@@ -233,9 +247,9 @@ project <- function(x, R, si, n_sim = 100, n_days = 7,
   ## forces of infection. The individual force of infection is computed as the
   ## R0 multiplied by the pmf of the serial interval si for the corresponding day:
 
-  ## lambda_{i,t} = R0(t_i) si(t - t_i) 
+  ## lambda_{i,t} = R0(t_i) si(t - t_i)
 
-  ## where 'si' is the PMF of the serial interval, 'ws' it's reverse, and 
+  ## where 'si' is the PMF of the serial interval, 'ws' it's reverse, and
   ## 't_i' is the date of onset of case 'i'.
 
 
@@ -277,7 +291,7 @@ project <- function(x, R, si, n_sim = 100, n_days = 7,
   ## On the drawing of R values: either these are constant within simulations,
   ## so drawn once for all simulations, or they need drawing at every time step
   ## for every simulations.
-  
+
   ## On the handling of reporting: reporting first affects the force of
   ## infection lambda, with the underlying assumption that the true epicurve
   ## multiplied by the (constant) reporting results in the observed one. Then,
@@ -296,7 +310,7 @@ project <- function(x, R, si, n_sim = 100, n_days = 7,
       R_time_period <- sample_(R[[time_period]], n_sim, replace = TRUE)
       period_duration <- time_change_boundaries[time_period+1] - time_change_boundaries[time_period]
       current_R_t <- do.call(
-        'rbind', 
+        'rbind',
         replicate(period_duration, R_time_period, simplify = FALSE)
       )
       R_t <- rbind(R_t, current_R_t)
@@ -316,7 +330,7 @@ project <- function(x, R, si, n_sim = 100, n_days = 7,
 
   for (i in t_sim) {
 
-    lambda <- compute_force_infection(si, out, R_t, i)
+    lambda <- compute_force_infection(si, out, R_t, i, instantaneous_R)
     ## lambda <- lambda / reporting
     if (model == "poisson") {
       out <- rbind(out, stats::rpois(n_sim, lambda))

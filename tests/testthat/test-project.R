@@ -2,7 +2,7 @@ test_that("Projections can be performed for a single day", {
   i <- incidence::incidence(as.Date('2020-01-23'))
   si <- c(0.2, 0.5, 0.2, 0.1)
   R0 <- 2
-  
+
   p <- project(x = i,
                si = si,
                R = R0,
@@ -10,7 +10,7 @@ test_that("Projections can be performed for a single day", {
                R_fix_within = TRUE,
                n_days = 1, # doing 2 days as project function currently not working with one day - will only use first day though
                model = "poisson"
-               )
+  )
 
   expect_identical(get_dates(p), as.Date("2020-01-24"))
 })
@@ -23,7 +23,7 @@ test_that("Projections can be performed for a single day", {
   i <- incidence::incidence(as.Date('2020-01-23'))
   si <- c(0.2, 0.5, 0.2, 0.1)
   R0 <- 2
-  
+
   p <- project(x = i,
                si = si,
                R = R0,
@@ -31,7 +31,7 @@ test_that("Projections can be performed for a single day", {
                R_fix_within = TRUE,
                n_days = 2, # doing 2 days as project function currently not working with one day - will only use first day though
                model = "poisson"
-               )
+  )
 
   expect_identical(get_dates(p), as.Date("2020-01-24") + 0:1)
   expect_identical(ncol(p), 1L)
@@ -45,7 +45,7 @@ test_that("Projections can be performed for a single day and single simulation",
   i <- incidence::incidence(as.Date('2020-01-23'))
   si <- c(0.2, 0.5, 0.2, 0.1)
   R0 <- 2
-  
+
   p <- project(x = i,
                si = si,
                R = R0,
@@ -53,7 +53,7 @@ test_that("Projections can be performed for a single day and single simulation",
                R_fix_within = TRUE,
                n_days = 1, # doing 2 days as project function currently not working with one day - will only use first day though
                model = "poisson"
-               )
+  )
 
   expect_identical(get_dates(p), as.Date("2020-01-24"))
   expect_identical(ncol(p), 1L)
@@ -126,7 +126,7 @@ test_that("Errors are thrown when they should", {
   expect_error(project(i, si = si, time_change = 2, R = matrix(1.2)),
                msg,
                fixed = TRUE)
-  
+
 })
 
 
@@ -149,7 +149,7 @@ test_that("Test against reference results - Poisson model", {
   set.seed(1)
   pred_1 <- project(i, runif(100, 0.8, 1.9), si, n_days = 30)
   expect_snapshot_value(pred_1, style = "serialize")
-  
+
 
   ## time-varying R (fixed within time windows)
   set.seed(1)
@@ -255,15 +255,15 @@ test_that("Test against reference results - NegBin model", {
 
 
 test_that("Test R_fix_within", {
-  
+
   ## The rationale of this test is to check that the variance of trajectories
   ## when fixing R within a given simulation is larger than when drawing
   ## systematically from the distribution. On the provided example, fixing R
   ## will lead to many more trajectories growing fast, and greater average
   ## incidence (> x10 for the last time steps).
-  
+
   skip_on_cran()
-  
+
   ## simulate basic epicurve
   dat <- c(0, 2, 2, 3, 3, 5, 5, 5, 6, 6, 6, 6)
   i <- incidence::incidence(dat)
@@ -282,5 +282,51 @@ test_that("Test R_fix_within", {
                      n_sim = 1000,
                      R_fix_within = TRUE)
   expect_true(all(tail(rowSums(x_fixed) / rowSums(x_base), 5) > 10))
-  
+
+})
+
+
+
+
+
+test_that("Test instantaneous_R", {
+
+  ## Check that when projecting with instantaneous_R = TRUE, and then
+  ## reestimating R with EpiEstim, we recover the correct R over time
+
+  ## Define R over time with two successive values:
+  R <- c(rep(1.4, 25), rep(1.1, 25))
+
+  ## Serial interval distribution
+  si <- rep(0.25, 4)
+
+  ## simulate basic epicurve
+  dat <- rep(0, 10000) # start with high incidence --> good power to estimate R
+  initial <- incidence::incidence(dat)
+
+  set.seed(1)
+  incid <- project(initial,
+                   si = si,
+                   R = R,
+                   n_days = 50,
+                   n_sim = 1,
+                   time_change = seq_len(length(R) - 1) - 1,
+                   instantaneous_R = TRUE)
+  ## convert to vector and pre-apend initial cases
+  incid <- as.numeric(rbind(initial$counts, as.matrix(incid)))
+
+  ## reestimate R using EpiEstim
+  windows <- seq(2, length(incid), 1)
+  daily_R <- EpiEstim::estimate_R(incid = incid,
+                        method = "non_parametric_si",
+                        config = EpiEstim::make_config(list(si_distr = c(0, si),
+                                                  t_start = windows,
+                                                  t_end = windows,
+                                                  mean_prior = 1,
+                                                  std_prior = 1)))$R
+
+  ## Expect we were able to reasonably accurately reestimate R
+  ## excluding first time step as EpiEstim start estimation on 2nd time step
+  expect_true(all(abs(daily_R$`Mean(R)`[-1] - R[-1]) < 0.05))
+
 })
