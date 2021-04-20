@@ -1,6 +1,6 @@
 Package: projections
 Title: Project Future Case Incidence
-Version: 0.5.2
+Version: 0.5.4
 Authors@R: 
     c(person(given = "Thibaut",
              family = "Jombart",

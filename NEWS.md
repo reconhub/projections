@@ -1,3 +1,9 @@
+# projections 0.5.4
+
+## Fixes and improvements
+
+- add option to use instantaneous R rather than the default case R in project
+
 # projections 0.5.2
 
 ## Fixes and improvements
