@@ -13,7 +13,8 @@ project(
   R_fix_within = FALSE,
   model = c("poisson", "negbin"),
   size = 0.03,
-  time_change = NULL
+  time_change = NULL,
+  instantaneous_R = FALSE
 )
 }
 \arguments{
@@ -54,6 +55,19 @@ into the simulation (so that day '1' is the first day after the input
 `incidence` object); if provided, `n` dates in `time_change` will produce
 `n+1` time windows, in which case `R` should be a list of vectors of `n+1`
 `R` values, one per each time window.}
+
+\item{instantaneous_R}{a boolean specifying whether to assume `R` is the case
+reproduction number (`instantaneous_R = FALSE`, the default), or the
+instantaneous reproduction number (`instantaneous_R = TRUE`).
+If `instantaneous_R = FALSE` then values of `R` at time `t` will govern the
+mean number of secondary cases of all cases infected at time `t`,
+even if those secondary cases appear after `t`. In other words, `R`
+will characterise onwards transmission from infectors depending on their
+date of infection.
+If `instantaneous_R = TRUE` then values of `R` at time `t` will govern the
+mean number of secondary cases made at time `t` by all cases infected
+before `t`. In other words, `R` will characterise onwards transmission at
+a given time.}
 }
 \description{
 This function simulates future incidence based on past incidence data, a
@@ -149,6 +163,6 @@ plot(proj_5)
 }
 \author{
 Pierre Nouvellet (original model), Thibaut Jombart (bulk of the
-  code), Sangeeta Bhatia (Negative Binomial model), Stephane Ghozzi (bug fixes 
+  code), Sangeeta Bhatia (Negative Binomial model), Stephane Ghozzi (bug fixes
   time varying R)
 }

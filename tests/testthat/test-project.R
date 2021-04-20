@@ -289,10 +289,11 @@ test_that("Test R_fix_within", {
 
 
 
-test_that("Test instantaneous_R", {
+test_that("Test instantaneous_R = TRUE", {
 
   ## Check that when projecting with instantaneous_R = TRUE, and then
-  ## reestimating R with EpiEstim, we recover the correct R over time
+  ## reestimating R with EpiEstim::estimate_R,
+  ## we recover the correct R over time
 
   ## Define R over time with two successive values:
   R <- c(rep(1.4, 25), rep(1.1, 25))
@@ -318,12 +319,12 @@ test_that("Test instantaneous_R", {
   ## reestimate R using EpiEstim
   windows <- seq(2, length(incid), 1)
   daily_R <- EpiEstim::estimate_R(incid = incid,
-                        method = "non_parametric_si",
-                        config = EpiEstim::make_config(list(si_distr = c(0, si),
-                                                  t_start = windows,
-                                                  t_end = windows,
-                                                  mean_prior = 1,
-                                                  std_prior = 1)))$R
+                                  method = "non_parametric_si",
+                                  config = EpiEstim::make_config(list(si_distr = c(0, si),
+                                                                      t_start = windows,
+                                                                      t_end = windows,
+                                                                      mean_prior = 1,
+                                                                      std_prior = 1)))$R
 
   ## Expect we were able to reasonably accurately reestimate R
   ## excluding first time step as EpiEstim start estimation on 2nd time step
