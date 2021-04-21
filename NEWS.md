@@ -1,3 +1,9 @@
+# projections 0.5.3
+
+## Fixes and improvements
+
+- harmonise si definition with EpiEstim.
+
 # projections 0.5.2
 
 ## Fixes and improvements

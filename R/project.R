@@ -7,7 +7,7 @@
 #' @export
 #'
 #' @author Pierre Nouvellet (original model), Thibaut Jombart (bulk of the
-#'   code), Sangeeta Bhatia (Negative Binomial model), Stephane Ghozzi (bug fixes 
+#'   code), Sangeeta Bhatia (Negative Binomial model), Stephane Ghozzi (bug fixes
 #'   time varying R)
 #'
 #' @param x An \code{incidence} object containing daily incidence; other time
@@ -118,12 +118,12 @@
 #'                   n_sim = 100)
 #' plot(proj_4)
 #'
-#' 
+#'
 #' ## time-varying R, 2 periods, separate distributions of R for each period
 #' set.seed(1)
 #' R_period_1 <- runif(100, min = 1.1, max = 3)
 #' R_period_2 <- runif(100, min = 0.6, max = .9)
-#' 
+#'
 #' proj_5 <- project(i,
 #'                   R = list(R_period_1, R_period_2),
 #'                   si = si,
@@ -131,7 +131,7 @@
 #'                   time_change = 20,
 #'                   n_sim = 100)
 #' plot(proj_5)
-#' 
+#'
 #' }
 #'
 
@@ -196,7 +196,7 @@ project <- function(x, R, si, n_sim = 100, n_days = 7,
   n_dates_x <- nrow(incidence::get_counts(x))
   t_max <- n_days + n_dates_x - 1
 
-  # si is the the pmf of the serial interval starting at day 1, i.e. one day 
+  # si is the the pmf of the serial interval starting at day 1, i.e. one day
   # after symptom onset
   if (inherits(si, "distcrete")) {
     if (as.integer(si$interval) != 1L) {
@@ -217,6 +217,12 @@ project <- function(x, R, si, n_sim = 100, n_days = 7,
     si <- si$d(1:t_max)
     si <- si / sum(si)
   } else {
+    if(si[1] == 0) {
+      msg1 <- "si[1] is 0. Did you accidentally input the serial interval"
+      msg2 <- "distribution starting at time 0 instead of 1? If so, rerun with"
+      msg3 <- "a new si where si[1] is the PMF for serial interval of 1."
+      warning(paste(msg1, msg2, msg3))
+    }
     si <- si / sum(si)
     si <- c(si, rep(0, t_max-1))
   }
@@ -233,9 +239,9 @@ project <- function(x, R, si, n_sim = 100, n_days = 7,
   ## forces of infection. The individual force of infection is computed as the
   ## R0 multiplied by the pmf of the serial interval si for the corresponding day:
 
-  ## lambda_{i,t} = R0(t_i) si(t - t_i) 
+  ## lambda_{i,t} = R0(t_i) si(t - t_i)
 
-  ## where 'si' is the PMF of the serial interval, 'ws' it's reverse, and 
+  ## where 'si' is the PMF of the serial interval, 'ws' it's reverse, and
   ## 't_i' is the date of onset of case 'i'.
 
 
@@ -277,7 +283,7 @@ project <- function(x, R, si, n_sim = 100, n_days = 7,
   ## On the drawing of R values: either these are constant within simulations,
   ## so drawn once for all simulations, or they need drawing at every time step
   ## for every simulations.
-  
+
   ## On the handling of reporting: reporting first affects the force of
   ## infection lambda, with the underlying assumption that the true epicurve
   ## multiplied by the (constant) reporting results in the observed one. Then,
@@ -296,7 +302,7 @@ project <- function(x, R, si, n_sim = 100, n_days = 7,
       R_time_period <- sample_(R[[time_period]], n_sim, replace = TRUE)
       period_duration <- time_change_boundaries[time_period+1] - time_change_boundaries[time_period]
       current_R_t <- do.call(
-        'rbind', 
+        'rbind',
         replicate(period_duration, R_time_period, simplify = FALSE)
       )
       R_t <- rbind(R_t, current_R_t)
