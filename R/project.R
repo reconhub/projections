@@ -48,6 +48,19 @@
 #'   `n+1` time windows, in which case `R` should be a list of vectors of `n+1`
 #'   `R` values, one per each time window.
 #'
+#' @param instantaneous_R a boolean specifying whether to assume `R` is the case
+#'   reproduction number (`instantaneous_R = FALSE`, the default), or the
+#'   instantaneous reproduction number (`instantaneous_R = TRUE`).
+#'   If `instantaneous_R = FALSE` then values of `R` at time `t` will govern the
+#'   mean number of secondary cases of all cases infected at time `t`,
+#'   even if those secondary cases appear after `t`. In other words, `R`
+#'   will characterise onwards transmission from infectors depending on their
+#'   date of infection.
+#'   If `instantaneous_R = TRUE` then values of `R` at time `t` will govern the
+#'   mean number of secondary cases made at time `t` by all cases infected
+#'   before `t`. In other words, `R` will characterise onwards transmission at
+#'   a given time.
+#'
 #' @details The decision to fix R values within simulations
 #'   (\code{R_fix_within}) reflects two alternative views of the uncertainty
 #'   associated with R. When drawing R values at random from the provided
@@ -139,7 +152,8 @@ project <- function(x, R, si, n_sim = 100, n_days = 7,
   R_fix_within = FALSE,
   model = c("poisson", "negbin"),
   size = 0.03,
-  time_change = NULL) {
+  time_change = NULL,
+  instantaneous_R = FALSE) {
 
   ## Various checks on inputs
 
@@ -322,7 +336,7 @@ project <- function(x, R, si, n_sim = 100, n_days = 7,
 
   for (i in t_sim) {
 
-    lambda <- compute_force_infection(si, out, R_t, i)
+    lambda <- compute_force_infection(si, out, R_t, i, instantaneous_R)
     ## lambda <- lambda / reporting
     if (model == "poisson") {
       out <- rbind(out, stats::rpois(n_sim, lambda))

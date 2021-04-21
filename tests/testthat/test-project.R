@@ -10,7 +10,7 @@ test_that("Projections can be performed for a single day", {
                R_fix_within = TRUE,
                n_days = 1, # doing 2 days as project function currently not working with one day - will only use first day though
                model = "poisson"
-               )
+  )
 
   expect_identical(get_dates(p), as.Date("2020-01-24"))
 })
@@ -31,7 +31,7 @@ test_that("Projections can be performed for a single day", {
                R_fix_within = TRUE,
                n_days = 2, # doing 2 days as project function currently not working with one day - will only use first day though
                model = "poisson"
-               )
+  )
 
   expect_identical(get_dates(p), as.Date("2020-01-24") + 0:1)
   expect_identical(ncol(p), 1L)
@@ -53,7 +53,7 @@ test_that("Projections can be performed for a single day and single simulation",
                R_fix_within = TRUE,
                n_days = 1, # doing 2 days as project function currently not working with one day - will only use first day though
                model = "poisson"
-               )
+  )
 
   expect_identical(get_dates(p), as.Date("2020-01-24"))
   expect_identical(ncol(p), 1L)
@@ -289,6 +289,52 @@ test_that("Test R_fix_within", {
 
 
 
+test_that("Test instantaneous_R = TRUE", {
+
+  ## Check that when projecting with instantaneous_R = TRUE, and then
+  ## reestimating R with EpiEstim::estimate_R,
+  ## we recover the correct R over time
+
+  ## Define R over time with two successive values:
+  R <- c(rep(1.4, 25), rep(1.1, 25))
+
+  ## Serial interval distribution
+  si <- rep(0.25, 4)
+
+  ## simulate basic epicurve
+  dat <- rep(0, 10000) # start with high incidence --> good power to estimate R
+  initial <- incidence::incidence(dat)
+
+  set.seed(1)
+  incid <- project(initial,
+                   si = si,
+                   R = R,
+                   n_days = 50,
+                   n_sim = 1,
+                   time_change = seq_len(length(R) - 1) - 1,
+                   instantaneous_R = TRUE)
+  ## convert to vector and pre-apend initial cases
+  incid <- as.numeric(rbind(initial$counts, as.matrix(incid)))
+
+  ## reestimate R using EpiEstim
+  windows <- seq(2, length(incid), 1)
+  daily_R <- EpiEstim::estimate_R(incid = incid,
+                                  method = "non_parametric_si",
+                                  config = EpiEstim::make_config(list(si_distr = c(0, si),
+                                                                      t_start = windows,
+                                                                      t_end = windows,
+                                                                      mean_prior = 1,
+                                                                      std_prior = 1)))$R
+
+  ## Expect we were able to reasonably accurately reestimate R
+  ## excluding first time step as EpiEstim start estimation on 2nd time step
+  expect_true(all(abs(daily_R$`Mean(R)`[-1] - R[-1]) < 0.05))
+})
+
+
+
+
+
 test_that("Projections throw warning if si[1] = 0", {
   i <- incidence::incidence(as.Date('2020-01-23'))
   si <- c(0, 0.2, 0.5, 0.2, 0.1)
@@ -304,5 +350,4 @@ test_that("Projections throw warning if si[1] = 0", {
                n_days = 1,
                model = "poisson"),
                msg, fixed = TRUE)
-
 })

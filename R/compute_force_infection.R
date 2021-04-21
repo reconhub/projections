@@ -18,19 +18,36 @@
 #'   `n_sim` columns (each column is a separate simulation) indicating the
 #'   reproduction number on a given day, in a given simulation
 #'
-#' @param t an `integer` indicating the simulation step: incidence will then be 
+#' @param t an `integer` indicating the simulation step: incidence will then be
 #'   computed for `t+1` taking into account past cases and R from time point `1`
 #'   until `t`
 #'
-#' @noRd 
+#' @param instantaneous_R a boolean specifying whether to assume `R` is the case
+#'   reproduction number (`instantaneous_R = FALSE`), or the
+#'   instantaneous reproduction number (`instantaneous_R = TRUE`).
+#'   If `instantaneous_R = FALSE` then values of `R` at time `t` will govern the
+#'   mean number of secondary cases of all cases infected at time `t`,
+#'   even if those secondary cases appear after `t`. In other words, `R`
+#'   will characterise onwards transmission from infectors depending on their
+#'   date of infection.
+#'   If `instantaneous_R = TRUE` then values of `R` at time `t` will govern the
+#'   mean number of secondary cases made at time `t` by all cases infected
+#'   before `t`. In other words, `R` will characterise onwards transmission at
+#'   a given time.
+#'
+#' @noRd
 
-compute_force_infection <- function(w, cases, R, t) {
+compute_force_infection <- function(w, cases, R, t, instantaneous_R) {
   rev_w <- rev(w)
   ws <- utils::tail(rev_w, t)
 
   cases <- cases[seq_len(t), , drop = FALSE]
   R <- R[seq_len(t), , drop = FALSE]
-  
-  lambda <- ws %*% (cases * R)
+
+  if(!instantaneous_R) {
+    lambda <- ws %*% (cases * R)
+  } else {
+    lambda <- (ws %*% cases) * R[nrow(R)]
+  }
   as.vector(lambda)
 }
