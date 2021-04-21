@@ -231,6 +231,12 @@ project <- function(x, R, si, n_sim = 100, n_days = 7,
     si <- si$d(1:t_max)
     si <- si / sum(si)
   } else {
+    if(si[1] == 0) {
+      msg1 <- "si[1] is 0. Did you accidentally input the serial interval"
+      msg2 <- "distribution starting at time 0 instead of 1? If so, rerun with"
+      msg3 <- "a new si where si[1] is the PMF for serial interval of 1."
+      warning(paste(msg1, msg2, msg3))
+    }
     si <- si / sum(si)
     si <- c(si, rep(0, t_max-1))
   }

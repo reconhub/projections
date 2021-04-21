@@ -329,5 +329,25 @@ test_that("Test instantaneous_R = TRUE", {
   ## Expect we were able to reasonably accurately reestimate R
   ## excluding first time step as EpiEstim start estimation on 2nd time step
   expect_true(all(abs(daily_R$`Mean(R)`[-1] - R[-1]) < 0.05))
+})
 
+
+
+
+
+test_that("Projections throw warning if si[1] = 0", {
+  i <- incidence::incidence(as.Date('2020-01-23'))
+  si <- c(0, 0.2, 0.5, 0.2, 0.1)
+  R0 <- 2
+
+  msg <- "si[1] is 0. Did you accidentally input the serial interval"
+
+  expect_warning(project(x = i,
+               si = si,
+               R = R0,
+               n_sim = 2,
+               R_fix_within = TRUE,
+               n_days = 1,
+               model = "poisson"),
+               msg, fixed = TRUE)
 })
