@@ -74,7 +74,7 @@ serial interval (time from primary onset to secondary onset)." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">projections</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.5.3</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.5.4</span>
       </span>
     </div>
 
@@ -133,7 +133,8 @@ serial interval (time from primary onset to secondary onset).</p>
   R_fix_within <span class='op'>=</span> <span class='cn'>FALSE</span>,
   model <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"poisson"</span>, <span class='st'>"negbin"</span><span class='op'>)</span>,
   size <span class='op'>=</span> <span class='fl'>0.03</span>,
-  time_change <span class='op'>=</span> <span class='cn'>NULL</span>
+  time_change <span class='op'>=</span> <span class='cn'>NULL</span>,
+  instantaneous_R <span class='op'>=</span> <span class='cn'>FALSE</span>
 <span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
@@ -194,6 +195,21 @@ into the simulation (so that day '1' is the first day after the input
 `incidence` object); if provided, `n` dates in `time_change` will produce
 `n+1` time windows, in which case `R` should be a list of vectors of `n+1`
 `R` values, one per each time window.</p></td>
+    </tr>
+    <tr>
+      <th>instantaneous_R</th>
+      <td><p>a boolean specifying whether to assume `R` is the case
+reproduction number (`instantaneous_R = FALSE`, the default), or the
+instantaneous reproduction number (`instantaneous_R = TRUE`).
+If `instantaneous_R = FALSE` then values of `R` at time `t` will govern the
+mean number of secondary cases of all cases infected at time `t`,
+even if those secondary cases appear after `t`. In other words, `R`
+will characterise onwards transmission from infectors depending on their
+date of infection.
+If `instantaneous_R = TRUE` then values of `R` at time `t` will govern the
+mean number of secondary cases made at time `t` by all cases infected
+before `t`. In other words, `R` will characterise onwards transmission at
+a given time.</p></td>
     </tr>
     </table>
 
