@@ -30,7 +30,6 @@ Description: Provides functions and graphics for projecting daily incidence base
 Depends: R (>= 3.5.0)
 License: MIT + file LICENSE
 Encoding: UTF-8
-LazyData: true
 Suggests: 
     testthat,
     roxygen2,
