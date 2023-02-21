@@ -346,7 +346,7 @@ project <- function(x, R, si, n_sim = 100, n_days = 7,
       ## mu will be 0 if lambda is 0. But that will make size 0 which
       ## will make rnbinom spit NAs. Workaround is: if lambda is 0
       ## set size to a non-trivial value.
-      size_adj <- lambda * size
+      size_adj <- (lambda / R_t[nrow(R_t)]) * size
       idx <- which(lambda == 0)
       size_adj[idx] <- 1
       out <- rbind(out, stats::rnbinom(n_sim, size = size_adj, mu = lambda))
