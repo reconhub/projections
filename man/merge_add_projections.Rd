@@ -10,17 +10,17 @@ merge_add_projections(x)
 \method{+}{projections}(a, b)
 }
 \arguments{
-\item{x}{A `list` of `projections` objects to be added.}
+\item{x}{A \code{list} of \code{projections} objects to be added.}
 
-\item{a}{A  `projections` object.}
+\item{a}{A  \code{projections} object.}
 
-\item{b}{A  `projections` object.}
+\item{b}{A  \code{projections} object.}
 }
 \description{
-This function adds counts from several `projections` objects, making sure
+This function adds counts from several \code{projections} objects, making sure
 that they all use the same dates, adding rows of '0' where
 needed. Simulations (columns) are recycled when needed if some objects have
-less simulations than others. The same operation is implemented by the `+`
+less simulations than others. The same operation is implemented by the \code{+}
 operator.
 }
 \examples{

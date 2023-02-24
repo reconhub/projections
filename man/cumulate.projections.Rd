@@ -42,7 +42,7 @@ if (require(distcrete) &&
 }
 \seealso{
 The \code{\link{project}} function to generate the
-  \code{projections} objects.
+\code{projections} objects.
 }
 \author{
 Thibaut Jombart \email{thibautjombart@gmail.com}

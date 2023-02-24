@@ -15,41 +15,41 @@
 )
 }
 \arguments{
-\item{object}{A `projections` object to summarise}
+\item{object}{A \code{projections} object to summarise}
 
-\item{quantiles}{A `numeric` vector indicating which quantiles should be
-computed; ignored if `FALSE` or of length 0}
+\item{quantiles}{A \code{numeric} vector indicating which quantiles should be
+computed; ignored if \code{FALSE} or of length 0}
 
-\item{mean}{a `logical` indicating of the mean should be computed}
+\item{mean}{a \code{logical} indicating of the mean should be computed}
 
-\item{sd}{a `logical` indicating of the standard deviation should be computed}
+\item{sd}{a \code{logical} indicating of the standard deviation should be computed}
 
-\item{min}{a `logical` indicating of the minimum should be computed}
+\item{min}{a \code{logical} indicating of the minimum should be computed}
 
-\item{max}{a `logical` indicating of the maximum should be computed}
+\item{max}{a \code{logical} indicating of the maximum should be computed}
 
 \item{...}{only preesnt for compatibility with the generic
 
 if (require(incidence)) {
-  i <- incidence::incidence(as.Date('2020-01-23'))
-  si <- c(0.2, 0.5, 0.2, 0.1)
-  R0 <- 2
+i <- incidence::incidence(as.Date('2020-01-23'))
+si <- c(0.2, 0.5, 0.2, 0.1)
+R0 <- 2
 
-  p <- project(x = i,
-               si = si,
-               R = R0,
-               n_sim = 2, 
-               R_fix_within = TRUE,
-               n_days = 10,
-               model = "poisson"
-               )
-  summary(p)
+p <- project(x = i,
+si = si,
+R = R0,
+n_sim = 2,
+R_fix_within = TRUE,
+n_days = 10,
+model = "poisson"
+)
+summary(p)
 
 }}
 }
 \description{
 This method summarises predicted epidemic trajectories contained in a
-`projections` object by days, deriving the mean, standard deviation, and
+\code{projections} object by days, deriving the mean, standard deviation, and
 user-specified quantiles for each day.
 }
 \author{

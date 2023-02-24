@@ -29,7 +29,7 @@ add_projections(
 \arguments{
 \item{x}{A \code{projections} object.}
 
-\item{ylab}{An optional label for the y-axis. If missing will default to 
+\item{ylab}{An optional label for the y-axis. If missing will default to
 "predicted incidence" or, if cumulative, "predicted cumulative incidence"}
 
 \item{title}{An optional title.}

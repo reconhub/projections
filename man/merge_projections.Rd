@@ -7,10 +7,10 @@
 merge_projections(x)
 }
 \arguments{
-\item{x}{A `list` of `projections` objects to be merged.}
+\item{x}{A \code{list} of \code{projections} objects to be merged.}
 }
 \description{
-This function merges `projections` objects, binding them by columns, making
+This function merges \code{projections} objects, binding them by columns, making
 sure that they all use the same dates, adding rows of '0' where needed.
 }
 \examples{

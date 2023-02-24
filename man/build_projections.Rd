@@ -19,7 +19,7 @@ NULL, the time steps will be counted, with the first dates corresponding to
 incidence; defaults to \code{FALSE}.}
 
 \item{order_dates}{A logical indicating whether the dates should be ordered,
-from the oldest to the most recent one; `TRUE` by default.}
+from the oldest to the most recent one; \code{TRUE} by default.}
 }
 \description{
 This function builds a valid \code{projections} object from some input
@@ -27,7 +27,7 @@ simulations and dates.
 }
 \seealso{
 the \code{\link{project}} function to generate the 'projections'
-  objects.
+objects.
 }
 \author{
 Thibaut Jombart \email{thibautjombart@gmail.com}

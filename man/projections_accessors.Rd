@@ -18,7 +18,7 @@ objects. They currently include:
 }
 \details{
 \itemize{
- \item \code{get_dates}: get dates of the predictions.
+\item \code{get_dates}: get dates of the predictions.
 
 }
 }

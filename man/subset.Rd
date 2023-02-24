@@ -35,7 +35,7 @@ of dates, and 'j' is a subset of simulations.
 }
 \seealso{
 The \code{\link{project}} function to generate the 'projections'
-  objects.
+objects.
 }
 \author{
 Thibaut Jombart \email{thibautjombart@gmail.com}
