@@ -51,3 +51,4 @@ RoxygenNote: 7.1.1
 URL: https://www.repidemicsconsortium.org/projections/
 BugReports: https://github.com/reconhub/projections/issues
 Config/testthat/edition: 3
+Roxygen: list(markdown = TRUE)
