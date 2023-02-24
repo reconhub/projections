@@ -53,5 +53,4 @@ compute_relative_infectivity <- function(w, cases, t) {
   cases <- cases[seq_len(t), , drop = FALSE]
   out <- ws %*% cases
   out
-
 }

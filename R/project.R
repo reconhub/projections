@@ -336,8 +336,10 @@ project <- function(x, R, si, n_sim = 100, n_days = 7,
 
   for (i in t_sim) {
 
+    ## lambda is the force of infection, i.e. the average number of new cases
+    ## produced at a given time
     lambda <- compute_force_infection(si, out, R_t, i, instantaneous_R)
-    ## lambda <- lambda / reporting
+
     if (model == "poisson") {
       out <- rbind(out, stats::rpois(n_sim, lambda))
     } else {
@@ -346,12 +348,11 @@ project <- function(x, R, si, n_sim = 100, n_days = 7,
       ## mu will be 0 if lambda is 0. But that will make size 0 which
       ## will make rnbinom spit NAs. Workaround is: if lambda is 0
       ## set size to a non-trivial value.
-      size_adj <- (lambda / R_t[i, ]) * size
+      size_adj <- compute_relative_infectivity(w = si, cases = out, t = i)
       idx <- which(lambda == 0)
       size_adj[idx] <- 1
       out <- rbind(out, stats::rnbinom(n_sim, size = size_adj, mu = lambda))
     }
-    ## out <- rbind(out, stats::rbinom(ncol(out), true_I, prob = reporting))
   }
 
 
