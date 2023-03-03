@@ -15,8 +15,8 @@ opts_chunk$set(fig.width = 10, fig.height = 6, out.width = "80%")
 This package uses data on *daily incidence*, the *serial interval* (time between
 onsets of infectors and infectees) and the *reproduction number* to simulate
 plausible epidemic trajectories and project future incidence. It relies on a
-branching process where daily incidence follows a Poisson process determined by
-a daily infectiousness, computed as:
+branching process where daily incidence follows a Poisson or a Negative Binomial
+distribution governed by a force of infection computed (FOI) as:
 
 $$
 \lambda_t = \sum_{s = 1}^{t - 1} R_s y_s w(t - s)
@@ -28,6 +28,15 @@ where:
 * $y_s$ is the incidence (by date of onset) at time $s$
 * $R_s$ is the effective reproduction number (average number of secondary cases
   by infected case) at time $s$
+
+
+Alternatively, the FOI can use the instantaneous reproduction number $R_t$
+([Cori *et al.* 2013](https://academic.oup.com/aje/article/178/9/1505/89262))
+instead of the effective reproduction number:
+
+$$
+\lambda_t = R_t \sum_{s = 1}^{t - 1} y_s w(t - s)
+$$
 
 
 ## Installing the package
