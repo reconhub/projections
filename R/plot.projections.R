@@ -250,7 +250,7 @@ add_projections <- function(p, x, quantiles = c(0.01, 0.05, 0.1, 0.5),
                        y = .data[["value"]],
                        color = .data[["quantile"]]),
           linetype = linetype,
-          size = linesize
+          linewidth = linesize
         ) +
         ggplot2::scale_color_manual(values = colors)
     )
