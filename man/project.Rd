@@ -29,10 +29,10 @@ vectors (for separate distributions of R per time window), with one element
 more than the number of dates in \code{time_change}.}
 
 \item{si}{A function computing the serial interval, or a \code{numeric} vector
-providing its mass function, starting a day 1, so that si\link{i} is the PMF for
-serial interval of \code{i}. The model implicitly assumes that \code{si[0] = 0}. For
-functions, we strongly recommend using the RECON package \code{distcrete}
-to obtain such distribution (see example).}
+providing its mass function, starting a day 1, so that \code{si[i]} is the PMF
+for serial interval of \code{i}. The model implicitly assumes that \code{si[0] = 0}.
+For functions, we strongly recommend using the RECON package
+\code{distcrete} to obtain such distribution (see example).}
 
 \item{n_sim}{The number of epicurves to simulate. Defaults to 100.}
 

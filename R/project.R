@@ -21,10 +21,10 @@
 #'   more than the number of dates in `time_change`.
 #'
 #' @param si A function computing the serial interval, or a `numeric` vector
-#'   providing its mass function, starting a day 1, so that si[i] is the PMF for
-#'   serial interval of `i`. The model implicitly assumes that `si[0] = 0`. For
-#'   functions, we strongly recommend using the RECON package \code{distcrete}
-#'   to obtain such distribution (see example).
+#'   providing its mass function, starting a day 1, so that `si[i]` is the PMF
+#'   for serial interval of `i`. The model implicitly assumes that `si[0] = 0`.
+#'   For functions, we strongly recommend using the RECON package
+#'   \code{distcrete} to obtain such distribution (see example).
 #'
 #' @param n_sim The number of epicurves to simulate. Defaults to 100.
 #'
@@ -149,11 +149,11 @@
 #'
 
 project <- function(x, R, si, n_sim = 100, n_days = 7,
-  R_fix_within = FALSE,
-  model = c("poisson", "negbin"),
-  size = 0.03,
-  time_change = NULL,
-  instantaneous_R = FALSE) {
+                    R_fix_within = FALSE,
+                    model = c("poisson", "negbin"),
+                    size = 0.03,
+                    time_change = NULL,
+                    instantaneous_R = FALSE) {
 
   ## Various checks on inputs
 
