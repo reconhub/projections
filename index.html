@@ -19,6 +19,8 @@
 <![endif]-->
 </head>
 <body data-spy="scroll" data-target="#toc">
+    
+
     <div class="container template-home">
       <header><div class="navbar navbar-default navbar-fixed-top" role="navigation">
   <div class="container">
@@ -31,18 +33,12 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="index.html">projections</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.5.4</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.6.0</span>
       </span>
     </div>
 
     <div id="navbar" class="navbar-collapse collapse">
       <ul class="nav navbar-nav">
-<li>
-  <a href="index.html">
-    <span class="fas fa-home fa-lg"></span>
-     
-  </a>
-</li>
 <li>
   <a href="reference/index.html">Reference</a>
 </li>
@@ -52,7 +48,7 @@
       </ul>
 <ul class="nav navbar-nav navbar-right">
 <li>
-  <a href="https://github.com/reconhub/projections/">
+  <a href="https://github.com/reconhub/projections/" class="external-link">
     <span class="fab fa-github fa-lg"></span>
      
   </a>
@@ -71,9 +67,9 @@
   <div class="contents col-md-9">
 
 
-<div id="welcome-to-the-projections-package" class="section level1">
-<div class="page-header"><h1 class="hasAnchor">
-<a href="#welcome-to-the-projections-package" class="anchor"></a>Welcome to the <em>projections</em> package!</h1></div>
+<div class="section level1">
+<div class="page-header"><h1 id="welcome-to-the-projections-package">Welcome to the <em>projections</em> package!<a class="anchor" aria-label="anchor" href="#welcome-to-the-projections-package"></a>
+</h1></div>
 <p>This package uses data on <em>daily incidence</em>, the <em>serial interval</em> (time between onsets of infectors and infectees) and the <em>reproduction number</em> to simulate plausible epidemic trajectories and project future incidence. It relies on a branching process where daily incidence follows a Poisson process determined by a daily infectiousness, computed as:</p>
 <p><br><span class="math display">$$
 \lambda_t = \sum_{s = 1}^{t - 1} R_s y_s w(t - s)
@@ -89,21 +85,21 @@ $$</span><br></p>
 <span class="math inline"><em>R</em><sub><em>s</em></sub></span> is the effective reproduction number (average number of secondary cases by infected case) at time <span class="math inline"><em>s</em></span>
 </li>
 </ul>
-<div id="installing-the-package" class="section level2">
-<h2 class="hasAnchor">
-<a href="#installing-the-package" class="anchor"></a>Installing the package</h2>
+<div class="section level2">
+<h2 id="installing-the-package">Installing the package<a class="anchor" aria-label="anchor" href="#installing-the-package"></a>
+</h2>
 <p>To install the current stable, CRAN version of the package, type:</p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html">install.packages</a></span><span class="op">(</span><span class="st">"projections"</span><span class="op">)</span></code></pre></div>
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html" class="external-link">install.packages</a></span><span class="op">(</span><span class="st">"projections"</span><span class="op">)</span></span></code></pre></div>
 <p>To benefit from the latest features and bug fixes, install the development, <em>github</em> version of the package using:</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu">devtools</span><span class="fu">::</span><span class="fu">install_github</span><span class="op">(</span><span class="st">"reconhub/projections"</span><span class="op">)</span></code></pre></div>
+<code class="sourceCode R"><span><span class="fu">devtools</span><span class="fu">::</span><span class="fu">install_github</span><span class="op">(</span><span class="st">"reconhub/projections"</span><span class="op">)</span></span></code></pre></div>
 <p>Note that this requires the package <em>devtools</em> installed.</p>
 </div>
 </div>
-<div id="what-does-it-do" class="section level1">
-<h1 class="hasAnchor">
-<a href="#what-does-it-do" class="anchor"></a>What does it do?</h1>
+<div class="section level1">
+<h1 id="what-does-it-do">What does it do?<a class="anchor" aria-label="anchor" href="#what-does-it-do"></a>
+</h1>
 <p>The main features of the package include:</p>
 <ul>
 <li><p><strong><code>project</code></strong>: a function generating projections from an existing <code>incidence</code> object, a serial interval distribution, and a set of plausible reproduction numbers (<em>R</em>); returns a <code>projections</code> object; two models are implemented: Poisson, and Negative Binomial; both models can either use a constant distribution for <em>R</em>, or use time-varying distributions</p></li>
@@ -112,22 +108,22 @@ $$</span><br></p>
 <li><p><strong><code>get_dates</code></strong>: accessors for <code>projections</code> objects</p></li>
 <li><p><strong><code>cumulate</code></strong>: cumulate predicted incidence over time</p></li>
 <li><p><strong><code>as.data.frame</code></strong>: conversion from <code>projections</code> objects to <code>data.frame</code></p></li>
-<li><p><strong><code><a href="https://rdrr.io/r/base/Extract.html">[</a></code></strong>: subsetting operator for <code>projections</code> objects, permiting to specify which dates and simulations to retain; uses a syntax similar to matrices, i.e. <code>x[i, j]</code>, where <code>x</code> is the <code>projections</code> object, <code>i</code> a subset of dates, and <code>j</code> a subset of simulations</p></li>
+<li><p><strong><code>[</code></strong>: subsetting operator for <code>projections</code> objects, permiting to specify which dates and simulations to retain; uses a syntax similar to matrices, i.e. <code>x[i, j]</code>, where <code>x</code> is the <code>projections</code> object, <code>i</code> a subset of dates, and <code>j</code> a subset of simulations</p></li>
 <li><p><strong><code>subset</code></strong>: subset a <code>projections</code> object by specifying a time window</p></li>
 <li><p><strong><code>build_projections</code></strong>: build a <code>projections</code> object from an input matrix and optional dates</p></li>
 <li><p><strong><code>merge_projections</code></strong>: merge several <code>projections</code> objects into one, putting them on a common time frame; useful to combine runs from different simulations and/or perform model averaging</p></li>
 <li><p><strong><code>merge_add_projections</code></strong>: puts several <code>projections</code> on the same time frame, and adds incidences to form a new object; objects having less simulations are recycled to match the largest number of simulations; useful to combine cases simulated from different processes</p></li>
 </ul>
 </div>
-<div id="resources" class="section level1">
-<h1 class="hasAnchor">
-<a href="#resources" class="anchor"></a>Resources</h1>
-<div id="worked-example" class="section level2">
-<h2 class="hasAnchor">
-<a href="#worked-example" class="anchor"></a>Worked example</h2>
-<div id="simulated-ebola-outbreak" class="section level3">
-<h3 class="hasAnchor">
-<a href="#simulated-ebola-outbreak" class="anchor"></a>Simulated Ebola outbreak</h3>
+<div class="section level1">
+<h1 id="resources">Resources<a class="anchor" aria-label="anchor" href="#resources"></a>
+</h1>
+<div class="section level2">
+<h2 id="worked-example">Worked example<a class="anchor" aria-label="anchor" href="#worked-example"></a>
+</h2>
+<div class="section level3">
+<h3 id="simulated-ebola-outbreak">Simulated Ebola outbreak<a class="anchor" aria-label="anchor" href="#simulated-ebola-outbreak"></a>
+</h3>
 <p>In this example, we use the simulated Ebola outbreak <code>ebola_sim_clean</code> from the <code>outbreaks</code> package to illustrate the package’s functionalities. We will:</p>
 <ul>
 <li>first calculate case incidence</li>
@@ -138,432 +134,432 @@ $$</span><br></p>
 </li>
 <li>showcase advanced handling of <code>projections</code> objects (merging/adding projections)</li>
 </ul>
-<div id="computing-case-incidence" class="section level4">
-<h4 class="hasAnchor">
-<a href="#computing-case-incidence" class="anchor"></a>Computing case incidence</h4>
+<div class="section level4">
+<h4 id="computing-case-incidence">Computing case incidence<a class="anchor" aria-label="anchor" href="#computing-case-incidence"></a>
+</h4>
 <p>Here we use <code>incidence</code> (from the similarly named package) to calculate daily counts of new cases by date of onset:</p>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/reconhub/outbreaks">outbreaks</a></span><span class="op">)</span>
-<span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://www.repidemicsconsortium.org/incidence/">incidence</a></span><span class="op">)</span>
-<span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://ggplot2.tidyverse.org">ggplot2</a></span><span class="op">)</span>
-
-<span class="va">linelist</span> <span class="op">&lt;-</span> <span class="va">ebola_sim_clean</span><span class="op">$</span><span class="va">linelist</span>
-<span class="va">i</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://www.repidemicsconsortium.org/incidence/reference/incidence.html">incidence</a></span><span class="op">(</span><span class="va">linelist</span><span class="op">$</span><span class="va">date_of_onset</span><span class="op">)</span>
-<span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html">plot</a></span><span class="op">(</span><span class="va">i</span><span class="op">)</span> <span class="op">+</span>
-  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggtheme.html">theme_bw</a></span><span class="op">(</span><span class="op">)</span> <span class="co"># full outbreak</span></code></pre></div>
+<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/reconhub/outbreaks" class="external-link">outbreaks</a></span><span class="op">)</span></span>
+<span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://www.repidemicsconsortium.org/incidence/" class="external-link">incidence</a></span><span class="op">)</span></span>
+<span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://ggplot2.tidyverse.org" class="external-link">ggplot2</a></span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">linelist</span> <span class="op">&lt;-</span> <span class="va">ebola_sim_clean</span><span class="op">$</span><span class="va">linelist</span></span>
+<span><span class="va">i</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://www.repidemicsconsortium.org/incidence/reference/incidence.html" class="external-link">incidence</a></span><span class="op">(</span><span class="va">linelist</span><span class="op">$</span><span class="va">date_of_onset</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">i</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggtheme.html" class="external-link">theme_bw</a></span><span class="op">(</span><span class="op">)</span> <span class="co"># full outbreak</span></span></code></pre></div>
 <p><img src="figure/onset-1.png" title="plot of chunk onset" alt="plot of chunk onset" width="80%"></p>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html">plot</a></span><span class="op">(</span><span class="va">i</span><span class="op">[</span><span class="fl">1</span><span class="op">:</span><span class="fl">160</span><span class="op">]</span><span class="op">)</span> <span class="op">+</span>
-  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggtheme.html">theme_bw</a></span><span class="op">(</span><span class="op">)</span> <span class="co"># first 160 days</span></code></pre></div>
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">i</span><span class="op">[</span><span class="fl">1</span><span class="op">:</span><span class="fl">160</span><span class="op">]</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggtheme.html" class="external-link">theme_bw</a></span><span class="op">(</span><span class="op">)</span> <span class="co"># first 160 days</span></span></code></pre></div>
 <p><img src="figure/onset-2.png" title="plot of chunk onset" alt="plot of chunk onset" width="80%"></p>
 </div>
-<div id="creating-a-serial-interval" class="section level4">
-<h4 class="hasAnchor">
-<a href="#creating-a-serial-interval" class="anchor"></a>Creating a serial interval</h4>
+<div class="section level4">
+<h4 id="creating-a-serial-interval">Creating a serial interval<a class="anchor" aria-label="anchor" href="#creating-a-serial-interval"></a>
+</h4>
 <p>We create a serial interval distribution using <code>distcrete</code> (from the similarly named package); we use published values of the Serial Interval for Ebola with a mean of 15.3 days and a standard deviation of 9.3 days), to build a discretised Gamma distribution. Because the Gamma implementation in R uses shape and scale as parameters, we first need to convert the mean and coefficient of variation into shape and scale, using <code>gamma_mucv2shapescale</code> from the <em>epitrix</em> package.</p>
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/reconhub/distcrete">distcrete</a></span><span class="op">)</span>
-<span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va">epitrix</span><span class="op">)</span>
-<span class="va">mu</span> <span class="op">&lt;-</span> <span class="fl">15.3</span>
-<span class="va">sigma</span> <span class="op">&lt;-</span> <span class="fl">9.3</span>
-<span class="va">cv</span> <span class="op">&lt;-</span> <span class="va">sigma</span> <span class="op">/</span> <span class="va">mu</span>
-<span class="va">params</span> <span class="op">&lt;-</span> <span class="fu">gamma_mucv2shapescale</span><span class="op">(</span><span class="va">mu</span>, <span class="va">cv</span><span class="op">)</span>
-<span class="va">params</span></code></pre></div>
-<pre><code>## $shape
-## [1] 2.706556
-## 
-## $scale
-## [1] 5.652941</code></pre>
+<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/reconhub/distcrete" class="external-link">distcrete</a></span><span class="op">)</span></span>
+<span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="http://www.repidemicsconsortium.org/epitrix/" class="external-link">epitrix</a></span><span class="op">)</span></span>
+<span><span class="va">mu</span> <span class="op">&lt;-</span> <span class="fl">15.3</span></span>
+<span><span class="va">sigma</span> <span class="op">&lt;-</span> <span class="fl">9.3</span></span>
+<span><span class="va">cv</span> <span class="op">&lt;-</span> <span class="va">sigma</span> <span class="op">/</span> <span class="va">mu</span></span>
+<span><span class="va">params</span> <span class="op">&lt;-</span> <span class="fu">gamma_mucv2shapescale</span><span class="op">(</span><span class="va">mu</span>, <span class="va">cv</span><span class="op">)</span></span>
+<span><span class="va">params</span></span></code></pre></div>
+<pre><code><span><span class="co">## $shape</span></span>
+<span><span class="co">## [1] 2.706556</span></span>
+<span><span class="co">## </span></span>
+<span><span class="co">## $scale</span></span>
+<span><span class="co">## [1] 5.652941</span></span></code></pre>
 <div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">si</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/distcrete/man/distcrete.html">distcrete</a></span><span class="op">(</span><span class="st">"gamma"</span>, shape <span class="op">=</span> <span class="va">params</span><span class="op">$</span><span class="va">shape</span>,
-                scale <span class="op">=</span> <span class="va">params</span><span class="op">$</span><span class="va">scale</span>,
-                interval <span class="op">=</span> <span class="fl">1</span>, w <span class="op">=</span> <span class="fl">0.5</span><span class="op">)</span>
-<span class="va">si</span></code></pre></div>
-<pre><code>## A discrete distribution
-##   name: gamma
-##   parameters:
-##     shape: 2.70655567117586
-##     scale: 5.65294117647059</code></pre>
+<code class="sourceCode R"><span><span class="va">si</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/distcrete/man/distcrete.html" class="external-link">distcrete</a></span><span class="op">(</span><span class="st">"gamma"</span>, shape <span class="op">=</span> <span class="va">params</span><span class="op">$</span><span class="va">shape</span>,</span>
+<span>                scale <span class="op">=</span> <span class="va">params</span><span class="op">$</span><span class="va">scale</span>,</span>
+<span>                interval <span class="op">=</span> <span class="fl">1</span>, w <span class="op">=</span> <span class="fl">0.5</span><span class="op">)</span></span>
+<span><span class="va">si</span></span></code></pre></div>
+<pre><code><span><span class="co">## A discrete distribution</span></span>
+<span><span class="co">##   name: gamma</span></span>
+<span><span class="co">##   parameters:</span></span>
+<span><span class="co">##     shape: 2.70655567117586</span></span>
+<span><span class="co">##     scale: 5.65294117647059</span></span></code></pre>
 <div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">si_df</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html">data.frame</a></span><span class="op">(</span>t <span class="op">=</span> <span class="fl">1</span><span class="op">:</span><span class="fl">50</span>,
-                    p <span class="op">=</span> <span class="va">si</span><span class="op">$</span><span class="fu">d</span><span class="op">(</span><span class="fl">1</span><span class="op">:</span><span class="fl">50</span><span class="op">)</span><span class="op">)</span>
-<span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html">ggplot</a></span><span class="op">(</span><span class="va">si_df</span>, <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">t</span>, y <span class="op">=</span> <span class="va">p</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span>
-  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggtheme.html">theme_bw</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span>
-  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_bar.html">geom_col</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span>
-  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html">labs</a></span><span class="op">(</span>title <span class="op">=</span> <span class="st">"Serial interval"</span>,
-       x <span class="op">=</span> <span class="st">"Days after onset"</span>,
-       y <span class="op">=</span> <span class="st">"Probability"</span><span class="op">)</span></code></pre></div>
+<code class="sourceCode R"><span><span class="va">si_df</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a></span><span class="op">(</span>t <span class="op">=</span> <span class="fl">1</span><span class="op">:</span><span class="fl">50</span>,</span>
+<span>                    p <span class="op">=</span> <span class="va">si</span><span class="op">$</span><span class="fu">d</span><span class="op">(</span><span class="fl">1</span><span class="op">:</span><span class="fl">50</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html" class="external-link">ggplot</a></span><span class="op">(</span><span class="va">si_df</span>, <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">aes</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">t</span>, y <span class="op">=</span> <span class="va">p</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggtheme.html" class="external-link">theme_bw</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_bar.html" class="external-link">geom_col</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html" class="external-link">labs</a></span><span class="op">(</span>title <span class="op">=</span> <span class="st">"Serial interval"</span>,</span>
+<span>       x <span class="op">=</span> <span class="st">"Days after onset"</span>,</span>
+<span>       y <span class="op">=</span> <span class="st">"Probability"</span><span class="op">)</span></span></code></pre></div>
 <p><img src="figure/si-1.png" title="plot of chunk si" alt="plot of chunk si" width="80%"></p>
 </div>
-<div id="projecting-future-incidence" class="section level4">
-<h4 class="hasAnchor">
-<a href="#projecting-future-incidence" class="anchor"></a>Projecting future incidence</h4>
+<div class="section level4">
+<h4 id="projecting-future-incidence">Projecting future incidence<a class="anchor" aria-label="anchor" href="#projecting-future-incidence"></a>
+</h4>
 <p>We forecast future incidence based on the incidence data and the serial interval, assuming a reproduction number of 1.5; for the sake of illustration, we start use the first 100 days of data to determine the force of infection, and derive forecasts for 30 days (in practice, forecasts can only be reliable for short term predictions, typically 3 weeks maximum):</p>
 <div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://www.repidemicsconsortium.org/projections/">projections</a></span><span class="op">)</span>
-<span class="fu"><a href="https://rdrr.io/r/base/Random.html">set.seed</a></span><span class="op">(</span><span class="fl">1</span><span class="op">)</span>
-<span class="va">pred_1</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/project.html">project</a></span><span class="op">(</span><span class="va">i</span><span class="op">[</span><span class="fl">1</span><span class="op">:</span><span class="fl">100</span><span class="op">]</span>, R <span class="op">=</span> <span class="fl">1.5</span>, si <span class="op">=</span> <span class="va">si</span>, n_days <span class="op">=</span> <span class="fl">30</span>, n_sim <span class="op">=</span> <span class="fl">1000</span><span class="op">)</span>
-<span class="va">pred_1</span></code></pre></div>
-<pre><code>## 
-## /// Incidence projections //
-## 
-##   // class: projections, matrix
-##   // 30 dates (rows); 1,000 simulations (columns)
-## 
-##  // first rows/columns:
-##            [,1] [,2] [,3] [,4] [,5] [,6]
-## 2014-07-16    4    7    7    7    7   12
-## 2014-07-17    9    4    8   10    4   10
-## 2014-07-18    8    8    4    3   10    4
-## 2014-07-19    8    8   11    6   10    8
-##  .
-##  .
-##  .
-## 
-##  // dates:
-##  [1] "2014-07-16" "2014-07-17" "2014-07-18" "2014-07-19" "2014-07-20"
-##  [6] "2014-07-21" "2014-07-22" "2014-07-23" "2014-07-24" "2014-07-25"
-## [11] "2014-07-26" "2014-07-27" "2014-07-28" "2014-07-29" "2014-07-30"
-## [16] "2014-07-31" "2014-08-01" "2014-08-02" "2014-08-03" "2014-08-04"
-## [21] "2014-08-05" "2014-08-06" "2014-08-07" "2014-08-08" "2014-08-09"
-## [26] "2014-08-10" "2014-08-11" "2014-08-12" "2014-08-13" "2014-08-14"</code></pre>
+<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://www.repidemicsconsortium.org/projections/" class="external-link">projections</a></span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/Random.html" class="external-link">set.seed</a></span><span class="op">(</span><span class="fl">1</span><span class="op">)</span></span>
+<span><span class="va">pred_1</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/project.html">project</a></span><span class="op">(</span><span class="va">i</span><span class="op">[</span><span class="fl">1</span><span class="op">:</span><span class="fl">100</span><span class="op">]</span>, R <span class="op">=</span> <span class="fl">1.5</span>, si <span class="op">=</span> <span class="va">si</span>, n_days <span class="op">=</span> <span class="fl">30</span>, n_sim <span class="op">=</span> <span class="fl">1000</span><span class="op">)</span></span>
+<span><span class="va">pred_1</span></span></code></pre></div>
+<pre><code><span><span class="co">## </span></span>
+<span><span class="co">## /// Incidence projections //</span></span>
+<span><span class="co">## </span></span>
+<span><span class="co">##   // class: projections, matrix</span></span>
+<span><span class="co">##   // 30 dates (rows); 1,000 simulations (columns)</span></span>
+<span><span class="co">## </span></span>
+<span><span class="co">##  // first rows/columns:</span></span>
+<span><span class="co">##            [,1] [,2] [,3] [,4] [,5] [,6]</span></span>
+<span><span class="co">## 2014-07-16    4    7    7    7    7   12</span></span>
+<span><span class="co">## 2014-07-17    9    4    8   10    4   10</span></span>
+<span><span class="co">## 2014-07-18    8    8    4    3   10    4</span></span>
+<span><span class="co">## 2014-07-19    8    8   11    6   10    8</span></span>
+<span><span class="co">##  .</span></span>
+<span><span class="co">##  .</span></span>
+<span><span class="co">##  .</span></span>
+<span><span class="co">## </span></span>
+<span><span class="co">##  // dates:</span></span>
+<span><span class="co">##  [1] "2014-07-16" "2014-07-17" "2014-07-18" "2014-07-19" "2014-07-20"</span></span>
+<span><span class="co">##  [6] "2014-07-21" "2014-07-22" "2014-07-23" "2014-07-24" "2014-07-25"</span></span>
+<span><span class="co">## [11] "2014-07-26" "2014-07-27" "2014-07-28" "2014-07-29" "2014-07-30"</span></span>
+<span><span class="co">## [16] "2014-07-31" "2014-08-01" "2014-08-02" "2014-08-03" "2014-08-04"</span></span>
+<span><span class="co">## [21] "2014-08-05" "2014-08-06" "2014-08-07" "2014-08-08" "2014-08-09"</span></span>
+<span><span class="co">## [26] "2014-08-10" "2014-08-11" "2014-08-12" "2014-08-13" "2014-08-14"</span></span></code></pre>
 <div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html">plot</a></span><span class="op">(</span><span class="va">pred_1</span><span class="op">)</span> <span class="op">+</span>
-  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggtheme.html">theme_bw</a></span><span class="op">(</span><span class="op">)</span> <span class="co"># default plot</span></code></pre></div>
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">pred_1</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggtheme.html" class="external-link">theme_bw</a></span><span class="op">(</span><span class="op">)</span> <span class="co"># default plot</span></span></code></pre></div>
 <p><img src="figure/predictions-1.png" title="plot of chunk predictions" alt="plot of chunk predictions" width="80%"></p>
 <div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">pred_1_cum</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://www.repidemicsconsortium.org/incidence/reference/cumulate.html">cumulate</a></span><span class="op">(</span><span class="va">pred_1</span><span class="op">)</span> <span class="co"># cumulative predictions</span>
-<span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html">plot</a></span><span class="op">(</span><span class="va">pred_1_cum</span><span class="op">)</span> <span class="op">+</span>
-  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggtheme.html">theme_bw</a></span><span class="op">(</span><span class="op">)</span> <span class="co"># plot cumulative predictions</span></code></pre></div>
+<code class="sourceCode R"><span><span class="va">pred_1_cum</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://www.repidemicsconsortium.org/incidence/reference/cumulate.html" class="external-link">cumulate</a></span><span class="op">(</span><span class="va">pred_1</span><span class="op">)</span> <span class="co"># cumulative predictions</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">pred_1_cum</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggtheme.html" class="external-link">theme_bw</a></span><span class="op">(</span><span class="op">)</span> <span class="co"># plot cumulative predictions</span></span></code></pre></div>
 <p><img src="figure/predictions-2.png" title="plot of chunk predictions" alt="plot of chunk predictions" width="80%"></p>
-<p>Forecasts stored in a <code>projections</code> object can also be added to an <code>incidence</code> plot using <code>add_projections</code>, which admits the same options as the <code>plot</code> method. This function is best used with a pipe <code><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></code>:</p>
+<p>Forecasts stored in a <code>projections</code> object can also be added to an <code>incidence</code> plot using <code>add_projections</code>, which admits the same options as the <code>plot</code> method. This function is best used with a pipe <code>%&gt;%</code>:</p>
 <div class="sourceCode" id="cb14"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://magrittr.tidyverse.org">magrittr</a></span><span class="op">)</span>
-<span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html">plot</a></span><span class="op">(</span><span class="va">i</span><span class="op">[</span><span class="fl">20</span><span class="op">:</span><span class="fl">160</span><span class="op">]</span>, alpha <span class="op">=</span> <span class="fl">0.5</span><span class="op">)</span> <span class="op">%&gt;%</span> 
-  <span class="fu"><a href="reference/plot.projections.html">add_projections</a></span><span class="op">(</span><span class="va">pred_1</span>, boxplots <span class="op">=</span> <span class="cn">FALSE</span>, quantiles <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">0.025</span>, <span class="fl">0.5</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span>
-  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggtheme.html">theme_bw</a></span><span class="op">(</span><span class="op">)</span></code></pre></div>
-<pre><code>## Scale for 'x' is already present. Adding another scale for 'x', which will
-## replace the existing scale.</code></pre>
+<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://magrittr.tidyverse.org" class="external-link">magrittr</a></span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">i</span><span class="op">[</span><span class="fl">20</span><span class="op">:</span><span class="fl">160</span><span class="op">]</span>, alpha <span class="op">=</span> <span class="fl">0.5</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> </span>
+<span>  <span class="fu"><a href="reference/plot.projections.html">add_projections</a></span><span class="op">(</span><span class="va">pred_1</span>, boxplots <span class="op">=</span> <span class="cn">FALSE</span>, quantiles <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0.025</span>, <span class="fl">0.5</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggtheme.html" class="external-link">theme_bw</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
+<pre><code><span><span class="co">## Scale for 'x' is already present. Adding another scale for 'x', which will</span></span>
+<span><span class="co">## replace the existing scale.</span></span></code></pre>
 <p><img src="figure/plot_with_incidence-1.png" title="plot of chunk plot_with_incidence" alt="plot of chunk plot_with_incidence" width="80%"></p>
 </div>
-<div id="summarising-forecasts" class="section level4">
-<h4 class="hasAnchor">
-<a href="#summarising-forecasts" class="anchor"></a>Summarising forecasts</h4>
+<div class="section level4">
+<h4 id="summarising-forecasts">Summarising forecasts<a class="anchor" aria-label="anchor" href="#summarising-forecasts"></a>
+</h4>
 <p>The <code>summary</code> function will summarise simulations using several statistics for each day of the forecast, allowing the user to switch off some of the summaries, and specify quantiles. Several options are illustrated below, but more information will be found at <code><a href="reference/summary.projections.html">?summary.projections</a></code>:</p>
 <div class="sourceCode" id="cb16"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="co">## default summary</span>
-<span class="fu"><a href="https://rdrr.io/r/utils/head.html">head</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/summary.html">summary</a></span><span class="op">(</span><span class="va">pred_1</span><span class="op">)</span><span class="op">)</span></code></pre></div>
-<pre><code>##        dates  mean       sd min max quantiles.2.5% quantiles.25% quantiles.50%
-## 1 2014-07-16 6.705 2.580821   1  16              2             5           6.5
-## 2 2014-07-17 6.975 2.716202   1  17              2             5           7.0
-## 3 2014-07-18 7.313 2.670236   0  17              2             5           7.0
-## 4 2014-07-19 7.702 2.712666   0  18              3             6           8.0
-## 5 2014-07-20 7.827 2.726996   0  17              3             6           8.0
-## 6 2014-07-21 8.221 2.830224   1  18              3             6           8.0
-##   quantiles.75% quantiles.97.5%
-## 1             8              12
-## 2             9              13
-## 3             9              13
-## 4             9              13
-## 5            10              13
-## 6            10              14</code></pre>
+<code class="sourceCode R"><span><span class="co">## default summary</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/summary.html" class="external-link">summary</a></span><span class="op">(</span><span class="va">pred_1</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
+<pre><code><span><span class="co">##        dates  mean       sd min max quantiles.2.5% quantiles.25% quantiles.50%</span></span>
+<span><span class="co">## 1 2014-07-16 6.705 2.580821   1  16              2             5           6.5</span></span>
+<span><span class="co">## 2 2014-07-17 6.975 2.716202   1  17              2             5           7.0</span></span>
+<span><span class="co">## 3 2014-07-18 7.313 2.670236   0  17              2             5           7.0</span></span>
+<span><span class="co">## 4 2014-07-19 7.702 2.712666   0  18              3             6           8.0</span></span>
+<span><span class="co">## 5 2014-07-20 7.827 2.726996   0  17              3             6           8.0</span></span>
+<span><span class="co">## 6 2014-07-21 8.221 2.830224   1  18              3             6           8.0</span></span>
+<span><span class="co">##   quantiles.75% quantiles.97.5%</span></span>
+<span><span class="co">## 1             8              12</span></span>
+<span><span class="co">## 2             9              13</span></span>
+<span><span class="co">## 3             9              13</span></span>
+<span><span class="co">## 4             9              13</span></span>
+<span><span class="co">## 5            10              13</span></span>
+<span><span class="co">## 6            10              14</span></span></code></pre>
 <div class="sourceCode" id="cb18"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/utils/head.html">tail</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/summary.html">summary</a></span><span class="op">(</span><span class="va">pred_1</span><span class="op">)</span><span class="op">)</span></code></pre></div>
-<pre><code>##         dates   mean       sd min max quantiles.2.5% quantiles.25%
-## 25 2014-08-09 14.020 3.897537   3  28              7         11.00
-## 26 2014-08-10 14.525 4.106853   3  28              7         12.00
-## 27 2014-08-11 14.900 4.279055   4  32              7         12.00
-## 28 2014-08-12 15.693 4.546584   4  33              8         12.75
-## 29 2014-08-13 15.821 4.408673   5  36              8         13.00
-## 30 2014-08-14 16.339 4.501593   2  33              8         13.00
-##    quantiles.50% quantiles.75% quantiles.97.5%
-## 25            14            16              22
-## 26            14            17              23
-## 27            15            18              24
-## 28            15            19              25
-## 29            15            19              25
-## 30            16            19              26</code></pre>
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">tail</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/summary.html" class="external-link">summary</a></span><span class="op">(</span><span class="va">pred_1</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
+<pre><code><span><span class="co">##         dates   mean       sd min max quantiles.2.5% quantiles.25%</span></span>
+<span><span class="co">## 25 2014-08-09 14.020 3.897537   3  28              7         11.00</span></span>
+<span><span class="co">## 26 2014-08-10 14.525 4.106853   3  28              7         12.00</span></span>
+<span><span class="co">## 27 2014-08-11 14.900 4.279055   4  32              7         12.00</span></span>
+<span><span class="co">## 28 2014-08-12 15.693 4.546584   4  33              8         12.75</span></span>
+<span><span class="co">## 29 2014-08-13 15.821 4.408673   5  36              8         13.00</span></span>
+<span><span class="co">## 30 2014-08-14 16.339 4.501593   2  33              8         13.00</span></span>
+<span><span class="co">##    quantiles.50% quantiles.75% quantiles.97.5%</span></span>
+<span><span class="co">## 25            14            16              22</span></span>
+<span><span class="co">## 26            14            17              23</span></span>
+<span><span class="co">## 27            15            18              24</span></span>
+<span><span class="co">## 28            15            19              25</span></span>
+<span><span class="co">## 29            15            19              25</span></span>
+<span><span class="co">## 30            16            19              26</span></span></code></pre>
 <div class="sourceCode" id="cb20"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="co">## keeping only mean, min and max</span>
-<span class="fu"><a href="https://rdrr.io/r/utils/head.html">head</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/summary.html">summary</a></span><span class="op">(</span><span class="va">pred_1</span>, sd <span class="op">=</span> <span class="cn">FALSE</span>, quantiles <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span><span class="op">)</span></code></pre></div>
-<pre><code>##        dates  mean min max
-## 1 2014-07-16 6.705   1  16
-## 2 2014-07-17 6.975   1  17
-## 3 2014-07-18 7.313   0  17
-## 4 2014-07-19 7.702   0  18
-## 5 2014-07-20 7.827   0  17
-## 6 2014-07-21 8.221   1  18</code></pre>
+<code class="sourceCode R"><span><span class="co">## keeping only mean, min and max</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/summary.html" class="external-link">summary</a></span><span class="op">(</span><span class="va">pred_1</span>, sd <span class="op">=</span> <span class="cn">FALSE</span>, quantiles <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
+<pre><code><span><span class="co">##        dates  mean min max</span></span>
+<span><span class="co">## 1 2014-07-16 6.705   1  16</span></span>
+<span><span class="co">## 2 2014-07-17 6.975   1  17</span></span>
+<span><span class="co">## 3 2014-07-18 7.313   0  17</span></span>
+<span><span class="co">## 4 2014-07-19 7.702   0  18</span></span>
+<span><span class="co">## 5 2014-07-20 7.827   0  17</span></span>
+<span><span class="co">## 6 2014-07-21 8.221   1  18</span></span></code></pre>
 <div class="sourceCode" id="cb22"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="co">## using 10%, 50% and 90% quantiles</span>
-<span class="fu"><a href="https://rdrr.io/r/utils/head.html">head</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/summary.html">summary</a></span><span class="op">(</span><span class="va">pred_1</span>, quantiles <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">0.1</span>, <span class="fl">0.5</span>, <span class="fl">0.9</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></code></pre></div>
-<pre><code>##        dates  mean       sd min max quantiles.10% quantiles.50% quantiles.90%
-## 1 2014-07-16 6.705 2.580821   1  16             4           6.5            10
-## 2 2014-07-17 6.975 2.716202   1  17             4           7.0            11
-## 3 2014-07-18 7.313 2.670236   0  17             4           7.0            11
-## 4 2014-07-19 7.702 2.712666   0  18             4           8.0            11
-## 5 2014-07-20 7.827 2.726996   0  17             5           8.0            12
-## 6 2014-07-21 8.221 2.830224   1  18             5           8.0            12</code></pre>
+<code class="sourceCode R"><span><span class="co">## using 10%, 50% and 90% quantiles</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/summary.html" class="external-link">summary</a></span><span class="op">(</span><span class="va">pred_1</span>, quantiles <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0.1</span>, <span class="fl">0.5</span>, <span class="fl">0.9</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
+<pre><code><span><span class="co">##        dates  mean       sd min max quantiles.10% quantiles.50% quantiles.90%</span></span>
+<span><span class="co">## 1 2014-07-16 6.705 2.580821   1  16             4           6.5            10</span></span>
+<span><span class="co">## 2 2014-07-17 6.975 2.716202   1  17             4           7.0            11</span></span>
+<span><span class="co">## 3 2014-07-18 7.313 2.670236   0  17             4           7.0            11</span></span>
+<span><span class="co">## 4 2014-07-19 7.702 2.712666   0  18             4           8.0            11</span></span>
+<span><span class="co">## 5 2014-07-20 7.827 2.726996   0  17             5           8.0            12</span></span>
+<span><span class="co">## 6 2014-07-21 8.221 2.830224   1  18             5           8.0            12</span></span></code></pre>
 <p>To derive your own summary for each day, you can use <code>apply</code> with custom functions; for instance, to calculate the geometric mean for each day:</p>
 <div class="sourceCode" id="cb24"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="co">## function to calculate geometric mean</span>
-<span class="va">geo_mean</span> <span class="op">=</span> <span class="kw">function</span><span class="op">(</span><span class="va">x</span>, <span class="va">na.rm</span> <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span><span class="op">{</span>
-  <span class="fu"><a href="https://rdrr.io/r/base/Log.html">exp</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/sum.html">sum</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/Log.html">log</a></span><span class="op">(</span><span class="va">x</span><span class="op">[</span><span class="va">x</span> <span class="op">&gt;</span> <span class="fl">0</span><span class="op">]</span><span class="op">)</span>, na.rm <span class="op">=</span> <span class="va">na.rm</span><span class="op">)</span> <span class="op">/</span> <span class="fu"><a href="https://rdrr.io/r/base/length.html">length</a></span><span class="op">(</span><span class="va">x</span><span class="op">)</span><span class="op">)</span>
-<span class="op">}</span>
-
-<span class="co">## raw output</span>
-<span class="fu"><a href="https://rdrr.io/r/base/apply.html">apply</a></span><span class="op">(</span><span class="va">pred_1</span>, <span class="fl">1</span>, <span class="va">geo_mean</span><span class="op">)</span></code></pre></div>
-<pre><code>## 2014-07-16 2014-07-17 2014-07-18 2014-07-19 2014-07-20 2014-07-21 2014-07-22 
-##   6.163843   6.392041   6.759438   7.172451   7.295941   7.674789   7.671474 
-## 2014-07-23 2014-07-24 2014-07-25 2014-07-26 2014-07-27 2014-07-28 2014-07-29 
-##   8.026384   8.522398   8.618595   8.849186   9.182769   9.602397   9.960910 
-## 2014-07-30 2014-07-31 2014-08-01 2014-08-02 2014-08-03 2014-08-04 2014-08-05 
-##  10.244793  10.343175  10.746244  10.945269  11.274515  11.762397  11.945831 
-## 2014-08-06 2014-08-07 2014-08-08 2014-08-09 2014-08-10 2014-08-11 2014-08-12 
-##  12.588968  12.623958  12.924687  13.449257  13.900736  14.261928  15.006552 
-## 2014-08-13 2014-08-14 
-##  15.194230  15.679589</code></pre>
+<code class="sourceCode R"><span><span class="co">## function to calculate geometric mean</span></span>
+<span><span class="va">geo_mean</span> <span class="op">=</span> <span class="kw">function</span><span class="op">(</span><span class="va">x</span>, <span class="va">na.rm</span> <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span><span class="op">{</span></span>
+<span>  <span class="fu"><a href="https://rdrr.io/r/base/Log.html" class="external-link">exp</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/sum.html" class="external-link">sum</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/Log.html" class="external-link">log</a></span><span class="op">(</span><span class="va">x</span><span class="op">[</span><span class="va">x</span> <span class="op">&gt;</span> <span class="fl">0</span><span class="op">]</span><span class="op">)</span>, na.rm <span class="op">=</span> <span class="va">na.rm</span><span class="op">)</span> <span class="op">/</span> <span class="fu"><a href="https://rdrr.io/r/base/length.html" class="external-link">length</a></span><span class="op">(</span><span class="va">x</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="op">}</span></span>
+<span></span>
+<span><span class="co">## raw output</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/apply.html" class="external-link">apply</a></span><span class="op">(</span><span class="va">pred_1</span>, <span class="fl">1</span>, <span class="va">geo_mean</span><span class="op">)</span></span></code></pre></div>
+<pre><code><span><span class="co">## 2014-07-16 2014-07-17 2014-07-18 2014-07-19 2014-07-20 2014-07-21 2014-07-22 </span></span>
+<span><span class="co">##   6.163843   6.392041   6.759438   7.172451   7.295941   7.674789   7.671474 </span></span>
+<span><span class="co">## 2014-07-23 2014-07-24 2014-07-25 2014-07-26 2014-07-27 2014-07-28 2014-07-29 </span></span>
+<span><span class="co">##   8.026384   8.522398   8.618595   8.849186   9.182769   9.602397   9.960910 </span></span>
+<span><span class="co">## 2014-07-30 2014-07-31 2014-08-01 2014-08-02 2014-08-03 2014-08-04 2014-08-05 </span></span>
+<span><span class="co">##  10.244793  10.343175  10.746244  10.945269  11.274515  11.762397  11.945831 </span></span>
+<span><span class="co">## 2014-08-06 2014-08-07 2014-08-08 2014-08-09 2014-08-10 2014-08-11 2014-08-12 </span></span>
+<span><span class="co">##  12.588968  12.623958  12.924687  13.449257  13.900736  14.261928  15.006552 </span></span>
+<span><span class="co">## 2014-08-13 2014-08-14 </span></span>
+<span><span class="co">##  15.194230  15.679589</span></span></code></pre>
 <div class="sourceCode" id="cb26"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="co">## with some formatting</span>
-<span class="va">temp</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/apply.html">apply</a></span><span class="op">(</span><span class="va">pred_1</span>, <span class="fl">1</span>, <span class="va">geo_mean</span><span class="op">)</span>
-<span class="fu"><a href="https://rdrr.io/r/base/data.frame.html">data.frame</a></span><span class="op">(</span>date <span class="op">=</span> <span class="fu"><a href="reference/get_dates.html">get_dates</a></span><span class="op">(</span><span class="va">pred_1</span><span class="op">)</span>,
-           geometric_mean <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/apply.html">apply</a></span><span class="op">(</span><span class="va">pred_1</span>, <span class="fl">1</span>, <span class="va">geo_mean</span><span class="op">)</span>,
-           row.names <span class="op">=</span> <span class="cn">NULL</span><span class="op">)</span></code></pre></div>
-<pre><code>##          date geometric_mean
-## 1  2014-07-16       6.163843
-## 2  2014-07-17       6.392041
-## 3  2014-07-18       6.759438
-## 4  2014-07-19       7.172451
-## 5  2014-07-20       7.295941
-## 6  2014-07-21       7.674789
-## 7  2014-07-22       7.671474
-## 8  2014-07-23       8.026384
-## 9  2014-07-24       8.522398
-## 10 2014-07-25       8.618595
-## 11 2014-07-26       8.849186
-## 12 2014-07-27       9.182769
-## 13 2014-07-28       9.602397
-## 14 2014-07-29       9.960910
-## 15 2014-07-30      10.244793
-## 16 2014-07-31      10.343175
-## 17 2014-08-01      10.746244
-## 18 2014-08-02      10.945269
-## 19 2014-08-03      11.274515
-## 20 2014-08-04      11.762397
-## 21 2014-08-05      11.945831
-## 22 2014-08-06      12.588968
-## 23 2014-08-07      12.623958
-## 24 2014-08-08      12.924687
-## 25 2014-08-09      13.449257
-## 26 2014-08-10      13.900736
-## 27 2014-08-11      14.261928
-## 28 2014-08-12      15.006552
-## 29 2014-08-13      15.194230
-## 30 2014-08-14      15.679589</code></pre>
+<code class="sourceCode R"><span><span class="co">## with some formatting</span></span>
+<span><span class="va">temp</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/apply.html" class="external-link">apply</a></span><span class="op">(</span><span class="va">pred_1</span>, <span class="fl">1</span>, <span class="va">geo_mean</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a></span><span class="op">(</span>date <span class="op">=</span> <span class="fu"><a href="reference/projections_accessors.html">get_dates</a></span><span class="op">(</span><span class="va">pred_1</span><span class="op">)</span>,</span>
+<span>           geometric_mean <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/apply.html" class="external-link">apply</a></span><span class="op">(</span><span class="va">pred_1</span>, <span class="fl">1</span>, <span class="va">geo_mean</span><span class="op">)</span>,</span>
+<span>           row.names <span class="op">=</span> <span class="cn">NULL</span><span class="op">)</span></span></code></pre></div>
+<pre><code><span><span class="co">##          date geometric_mean</span></span>
+<span><span class="co">## 1  2014-07-16       6.163843</span></span>
+<span><span class="co">## 2  2014-07-17       6.392041</span></span>
+<span><span class="co">## 3  2014-07-18       6.759438</span></span>
+<span><span class="co">## 4  2014-07-19       7.172451</span></span>
+<span><span class="co">## 5  2014-07-20       7.295941</span></span>
+<span><span class="co">## 6  2014-07-21       7.674789</span></span>
+<span><span class="co">## 7  2014-07-22       7.671474</span></span>
+<span><span class="co">## 8  2014-07-23       8.026384</span></span>
+<span><span class="co">## 9  2014-07-24       8.522398</span></span>
+<span><span class="co">## 10 2014-07-25       8.618595</span></span>
+<span><span class="co">## 11 2014-07-26       8.849186</span></span>
+<span><span class="co">## 12 2014-07-27       9.182769</span></span>
+<span><span class="co">## 13 2014-07-28       9.602397</span></span>
+<span><span class="co">## 14 2014-07-29       9.960910</span></span>
+<span><span class="co">## 15 2014-07-30      10.244793</span></span>
+<span><span class="co">## 16 2014-07-31      10.343175</span></span>
+<span><span class="co">## 17 2014-08-01      10.746244</span></span>
+<span><span class="co">## 18 2014-08-02      10.945269</span></span>
+<span><span class="co">## 19 2014-08-03      11.274515</span></span>
+<span><span class="co">## 20 2014-08-04      11.762397</span></span>
+<span><span class="co">## 21 2014-08-05      11.945831</span></span>
+<span><span class="co">## 22 2014-08-06      12.588968</span></span>
+<span><span class="co">## 23 2014-08-07      12.623958</span></span>
+<span><span class="co">## 24 2014-08-08      12.924687</span></span>
+<span><span class="co">## 25 2014-08-09      13.449257</span></span>
+<span><span class="co">## 26 2014-08-10      13.900736</span></span>
+<span><span class="co">## 27 2014-08-11      14.261928</span></span>
+<span><span class="co">## 28 2014-08-12      15.006552</span></span>
+<span><span class="co">## 29 2014-08-13      15.194230</span></span>
+<span><span class="co">## 30 2014-08-14      15.679589</span></span></code></pre>
 </div>
-<div id="exporting-results" class="section level4">
-<h4 class="hasAnchor">
-<a href="#exporting-results" class="anchor"></a>Exporting results</h4>
+<div class="section level4">
+<h4 id="exporting-results">Exporting results<a class="anchor" aria-label="anchor" href="#exporting-results"></a>
+</h4>
 <p>The function <code>as.data.frame</code> can be handy for further processing of the forecast. The argument <code>long</code> in particular will be handy for further processing using <code>dplyr</code> or <code>ggplot2</code>, as it stores the ‘simulation’ as a 3rd columns, which can be used for grouping and/or aesthetics.</p>
 <p>Here is an example with <em>ggplot2</em> to produce an alternative plot:</p>
 <div class="sourceCode" id="cb28"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">df</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/as.data.frame.html">as.data.frame</a></span><span class="op">(</span><span class="va">pred_1</span>, long <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span>
-<span class="fu"><a href="https://rdrr.io/r/utils/head.html">head</a></span><span class="op">(</span><span class="va">df</span><span class="op">)</span></code></pre></div>
-<pre><code>##         date incidence sim
-## 1 2014-07-16         4   1
-## 2 2014-07-17         9   1
-## 3 2014-07-18         8   1
-## 4 2014-07-19         8   1
-## 5 2014-07-20         5   1
-## 6 2014-07-21         8   1</code></pre>
+<code class="sourceCode R"><span><span class="va">df</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/as.data.frame.html" class="external-link">as.data.frame</a></span><span class="op">(</span><span class="va">pred_1</span>, long <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">df</span><span class="op">)</span></span></code></pre></div>
+<pre><code><span><span class="co">##         date incidence sim</span></span>
+<span><span class="co">## 1 2014-07-16         4   1</span></span>
+<span><span class="co">## 2 2014-07-17         9   1</span></span>
+<span><span class="co">## 3 2014-07-18         8   1</span></span>
+<span><span class="co">## 4 2014-07-19         8   1</span></span>
+<span><span class="co">## 5 2014-07-20         5   1</span></span>
+<span><span class="co">## 6 2014-07-21         8   1</span></span></code></pre>
 <div class="sourceCode" id="cb30"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html">ggplot</a></span><span class="op">(</span><span class="va">df</span>, <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">date</span>, y <span class="op">=</span> <span class="va">incidence</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span>
-  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggtheme.html">theme_bw</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span>
-  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_jitter.html">geom_jitter</a></span><span class="op">(</span>alpha <span class="op">=</span> <span class="fl">0.05</span>, size <span class="op">=</span> <span class="fl">4</span><span class="op">)</span> <span class="op">+</span>
-  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_smooth.html">geom_smooth</a></span><span class="op">(</span><span class="op">)</span></code></pre></div>
-<pre><code>## `geom_smooth()` using method = 'gam' and formula 'y ~ s(x, bs = "cs")'</code></pre>
+<code class="sourceCode R"><span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html" class="external-link">ggplot</a></span><span class="op">(</span><span class="va">df</span>, <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">aes</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">date</span>, y <span class="op">=</span> <span class="va">incidence</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggtheme.html" class="external-link">theme_bw</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_jitter.html" class="external-link">geom_jitter</a></span><span class="op">(</span>alpha <span class="op">=</span> <span class="fl">0.05</span>, size <span class="op">=</span> <span class="fl">4</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_smooth.html" class="external-link">geom_smooth</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
+<pre><code><span><span class="co">## `geom_smooth()` using method = 'gam' and formula 'y ~ s(x, bs = "cs")'</span></span></code></pre>
 <p><img src="figure/plots-1.png" title="plot of chunk plots" alt="plot of chunk plots" width="80%"></p>
 </div>
 </div>
-<div id="advanced-handling" class="section level3">
-<h3 class="hasAnchor">
-<a href="#advanced-handling" class="anchor"></a>Advanced handling</h3>
+<div class="section level3">
+<h3 id="advanced-handling">Advanced handling<a class="anchor" aria-label="anchor" href="#advanced-handling"></a>
+</h3>
 <p><code>projections</code> objects can also be combined in two ways:</p>
-<ol>
+<ol style="list-style-type: decimal">
 <li>
 <strong>merge</strong> different sets of simulations, using <code>merge_projections</code>; this can be useful e.g. for model averaging, where different models produce separate sets of forecasts which need combining</li>
 <li>
-<strong>add</strong> forecasts from different simulation sets, using <code><a href="https://rdrr.io/r/base/Arithmetic.html">+</a></code>, or <code>merge_add_projections</code>; this can be useful for simulating cases from different, complementary processes</li>
+<strong>add</strong> forecasts from different simulation sets, using <code>+</code>, or <code>merge_add_projections</code>; this can be useful for simulating cases from different, complementary processes</li>
 </ol>
 <p>We illustrate case 1, where we produce a second set of forecasts <code>pred_2</code> using a different serial interval distribution, which we combine to <code>pred_1</code>. For the sake of example, we use a made-up serial interval which is much shorter than the one used in <code>pred_1</code>, with an average of 4 days, and a standard deviation of 2 days.</p>
 <div class="sourceCode" id="cb32"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">mu</span> <span class="op">&lt;-</span> <span class="fl">4</span>
-<span class="va">sigma</span> <span class="op">&lt;-</span> <span class="fl">2</span>
-<span class="va">cv</span> <span class="op">&lt;-</span> <span class="va">sigma</span> <span class="op">/</span> <span class="va">mu</span>
-<span class="va">params</span> <span class="op">&lt;-</span> <span class="fu">gamma_mucv2shapescale</span><span class="op">(</span><span class="va">mu</span>, <span class="va">cv</span><span class="op">)</span>
-<span class="va">params</span></code></pre></div>
-<pre><code>## $shape
-## [1] 4
-## 
-## $scale
-## [1] 1</code></pre>
+<code class="sourceCode R"><span><span class="va">mu</span> <span class="op">&lt;-</span> <span class="fl">4</span></span>
+<span><span class="va">sigma</span> <span class="op">&lt;-</span> <span class="fl">2</span></span>
+<span><span class="va">cv</span> <span class="op">&lt;-</span> <span class="va">sigma</span> <span class="op">/</span> <span class="va">mu</span></span>
+<span><span class="va">params</span> <span class="op">&lt;-</span> <span class="fu">gamma_mucv2shapescale</span><span class="op">(</span><span class="va">mu</span>, <span class="va">cv</span><span class="op">)</span></span>
+<span><span class="va">params</span></span></code></pre></div>
+<pre><code><span><span class="co">## $shape</span></span>
+<span><span class="co">## [1] 4</span></span>
+<span><span class="co">## </span></span>
+<span><span class="co">## $scale</span></span>
+<span><span class="co">## [1] 1</span></span></code></pre>
 <div class="sourceCode" id="cb34"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">si_short</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/distcrete/man/distcrete.html">distcrete</a></span><span class="op">(</span><span class="st">"gamma"</span>, shape <span class="op">=</span> <span class="va">params</span><span class="op">$</span><span class="va">shape</span>,
-                      scale <span class="op">=</span> <span class="va">params</span><span class="op">$</span><span class="va">scale</span>,
-                      interval <span class="op">=</span> <span class="fl">1</span>, w <span class="op">=</span> <span class="fl">0.5</span><span class="op">)</span>
-<span class="va">si_short</span></code></pre></div>
-<pre><code>## A discrete distribution
-##   name: gamma
-##   parameters:
-##     shape: 4
-##     scale: 1</code></pre>
+<code class="sourceCode R"><span><span class="va">si_short</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/distcrete/man/distcrete.html" class="external-link">distcrete</a></span><span class="op">(</span><span class="st">"gamma"</span>, shape <span class="op">=</span> <span class="va">params</span><span class="op">$</span><span class="va">shape</span>,</span>
+<span>                      scale <span class="op">=</span> <span class="va">params</span><span class="op">$</span><span class="va">scale</span>,</span>
+<span>                      interval <span class="op">=</span> <span class="fl">1</span>, w <span class="op">=</span> <span class="fl">0.5</span><span class="op">)</span></span>
+<span><span class="va">si_short</span></span></code></pre></div>
+<pre><code><span><span class="co">## A discrete distribution</span></span>
+<span><span class="co">##   name: gamma</span></span>
+<span><span class="co">##   parameters:</span></span>
+<span><span class="co">##     shape: 4</span></span>
+<span><span class="co">##     scale: 1</span></span></code></pre>
 <div class="sourceCode" id="cb36"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">si_short_df</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html">data.frame</a></span><span class="op">(</span>t <span class="op">=</span> <span class="fl">1</span><span class="op">:</span><span class="fl">20</span>,
-                          p <span class="op">=</span> <span class="va">si_short</span><span class="op">$</span><span class="fu">d</span><span class="op">(</span><span class="fl">1</span><span class="op">:</span><span class="fl">20</span><span class="op">)</span><span class="op">)</span>
-<span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html">ggplot</a></span><span class="op">(</span><span class="va">si_short_df</span>, <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">t</span>, y <span class="op">=</span> <span class="va">p</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span>
-  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggtheme.html">theme_bw</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span>
-  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_bar.html">geom_col</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span>
-  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html">labs</a></span><span class="op">(</span>title <span class="op">=</span> <span class="st">"Other serial interval"</span>,
-       x <span class="op">=</span> <span class="st">"Days after onset"</span>,
-       y <span class="op">=</span> <span class="st">"Probability"</span><span class="op">)</span></code></pre></div>
+<code class="sourceCode R"><span><span class="va">si_short_df</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a></span><span class="op">(</span>t <span class="op">=</span> <span class="fl">1</span><span class="op">:</span><span class="fl">20</span>,</span>
+<span>                          p <span class="op">=</span> <span class="va">si_short</span><span class="op">$</span><span class="fu">d</span><span class="op">(</span><span class="fl">1</span><span class="op">:</span><span class="fl">20</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html" class="external-link">ggplot</a></span><span class="op">(</span><span class="va">si_short_df</span>, <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">aes</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">t</span>, y <span class="op">=</span> <span class="va">p</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggtheme.html" class="external-link">theme_bw</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_bar.html" class="external-link">geom_col</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html" class="external-link">labs</a></span><span class="op">(</span>title <span class="op">=</span> <span class="st">"Other serial interval"</span>,</span>
+<span>       x <span class="op">=</span> <span class="st">"Days after onset"</span>,</span>
+<span>       y <span class="op">=</span> <span class="st">"Probability"</span><span class="op">)</span></span></code></pre></div>
 <p><img src="figure/other_si-1.png" title="plot of chunk other_si" alt="plot of chunk other_si" width="80%"></p>
 <p>We now use this serial interval to produce a second set of forecasts. We compare them to the initial one, and the combined forecasts:</p>
 <div class="sourceCode" id="cb37"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/base/Random.html">set.seed</a></span><span class="op">(</span><span class="fl">1</span><span class="op">)</span>
-<span class="va">pred_2</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/project.html">project</a></span><span class="op">(</span><span class="va">i</span><span class="op">[</span><span class="fl">1</span><span class="op">:</span><span class="fl">100</span><span class="op">]</span>, R <span class="op">=</span> <span class="fl">1.5</span>, si <span class="op">=</span> <span class="va">si_short</span>, n_days <span class="op">=</span> <span class="fl">30</span>, n_sim <span class="op">=</span> <span class="fl">1000</span><span class="op">)</span>
-<span class="va">pred_2</span> <span class="co"># 1000 simulations</span></code></pre></div>
-<pre><code>## 
-## /// Incidence projections //
-## 
-##   // class: projections, matrix
-##   // 30 dates (rows); 1,000 simulations (columns)
-## 
-##  // first rows/columns:
-##            [,1] [,2] [,3] [,4] [,5] [,6]
-## 2014-07-16    6   10   11   10   10   16
-## 2014-07-17   13   12    7   12   10   12
-## 2014-07-18   15   12   12   12   14   15
-## 2014-07-19   13   11   20    9   15   16
-##  .
-##  .
-##  .
-## 
-##  // dates:
-##  [1] "2014-07-16" "2014-07-17" "2014-07-18" "2014-07-19" "2014-07-20"
-##  [6] "2014-07-21" "2014-07-22" "2014-07-23" "2014-07-24" "2014-07-25"
-## [11] "2014-07-26" "2014-07-27" "2014-07-28" "2014-07-29" "2014-07-30"
-## [16] "2014-07-31" "2014-08-01" "2014-08-02" "2014-08-03" "2014-08-04"
-## [21] "2014-08-05" "2014-08-06" "2014-08-07" "2014-08-08" "2014-08-09"
-## [26] "2014-08-10" "2014-08-11" "2014-08-12" "2014-08-13" "2014-08-14"</code></pre>
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/Random.html" class="external-link">set.seed</a></span><span class="op">(</span><span class="fl">1</span><span class="op">)</span></span>
+<span><span class="va">pred_2</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/project.html">project</a></span><span class="op">(</span><span class="va">i</span><span class="op">[</span><span class="fl">1</span><span class="op">:</span><span class="fl">100</span><span class="op">]</span>, R <span class="op">=</span> <span class="fl">1.5</span>, si <span class="op">=</span> <span class="va">si_short</span>, n_days <span class="op">=</span> <span class="fl">30</span>, n_sim <span class="op">=</span> <span class="fl">1000</span><span class="op">)</span></span>
+<span><span class="va">pred_2</span> <span class="co"># 1000 simulations</span></span></code></pre></div>
+<pre><code><span><span class="co">## </span></span>
+<span><span class="co">## /// Incidence projections //</span></span>
+<span><span class="co">## </span></span>
+<span><span class="co">##   // class: projections, matrix</span></span>
+<span><span class="co">##   // 30 dates (rows); 1,000 simulations (columns)</span></span>
+<span><span class="co">## </span></span>
+<span><span class="co">##  // first rows/columns:</span></span>
+<span><span class="co">##            [,1] [,2] [,3] [,4] [,5] [,6]</span></span>
+<span><span class="co">## 2014-07-16    6   10   11   10   10   16</span></span>
+<span><span class="co">## 2014-07-17   13   12    7   12   10   12</span></span>
+<span><span class="co">## 2014-07-18   15   12   12   12   14   15</span></span>
+<span><span class="co">## 2014-07-19   13   11   20    9   15   16</span></span>
+<span><span class="co">##  .</span></span>
+<span><span class="co">##  .</span></span>
+<span><span class="co">##  .</span></span>
+<span><span class="co">## </span></span>
+<span><span class="co">##  // dates:</span></span>
+<span><span class="co">##  [1] "2014-07-16" "2014-07-17" "2014-07-18" "2014-07-19" "2014-07-20"</span></span>
+<span><span class="co">##  [6] "2014-07-21" "2014-07-22" "2014-07-23" "2014-07-24" "2014-07-25"</span></span>
+<span><span class="co">## [11] "2014-07-26" "2014-07-27" "2014-07-28" "2014-07-29" "2014-07-30"</span></span>
+<span><span class="co">## [16] "2014-07-31" "2014-08-01" "2014-08-02" "2014-08-03" "2014-08-04"</span></span>
+<span><span class="co">## [21] "2014-08-05" "2014-08-06" "2014-08-07" "2014-08-08" "2014-08-09"</span></span>
+<span><span class="co">## [26] "2014-08-10" "2014-08-11" "2014-08-12" "2014-08-13" "2014-08-14"</span></span></code></pre>
 <div class="sourceCode" id="cb39"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html">plot</a></span><span class="op">(</span><span class="va">pred_2</span><span class="op">)</span> <span class="op">+</span>
-  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggtheme.html">theme_bw</a></span><span class="op">(</span><span class="op">)</span> <span class="co"># default plot</span></code></pre></div>
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">pred_2</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggtheme.html" class="external-link">theme_bw</a></span><span class="op">(</span><span class="op">)</span> <span class="co"># default plot</span></span></code></pre></div>
 <p><img src="figure/pred_2-1.png" title="plot of chunk pred_2" alt="plot of chunk pred_2" width="80%"></p>
 <div class="sourceCode" id="cb40"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="co">## combine the objects; note that any number of objects can be combined</span>
-<span class="va">pred_combined</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/merge_projections.html">merge_projections</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span><span class="op">(</span><span class="va">pred_1</span>, <span class="va">pred_2</span><span class="op">)</span><span class="op">)</span>
-<span class="va">pred_combined</span> <span class="co"># 2000 simulations</span></code></pre></div>
-<pre><code>## 
-## /// Incidence projections //
-## 
-##   // class: projections, matrix
-##   // 30 dates (rows); 2,000 simulations (columns)
-## 
-##  // first rows/columns:
-##            sim_1 sim_2 sim_3 sim_4 sim_5 sim_6
-## 2014-07-16     4     7     7     7     7    12
-## 2014-07-17     9     4     8    10     4    10
-## 2014-07-18     8     8     4     3    10     4
-## 2014-07-19     8     8    11     6    10     8
-##  .
-##  .
-##  .
-## 
-##  // dates:
-##  [1] "2014-07-16" "2014-07-17" "2014-07-18" "2014-07-19" "2014-07-20"
-##  [6] "2014-07-21" "2014-07-22" "2014-07-23" "2014-07-24" "2014-07-25"
-## [11] "2014-07-26" "2014-07-27" "2014-07-28" "2014-07-29" "2014-07-30"
-## [16] "2014-07-31" "2014-08-01" "2014-08-02" "2014-08-03" "2014-08-04"
-## [21] "2014-08-05" "2014-08-06" "2014-08-07" "2014-08-08" "2014-08-09"
-## [26] "2014-08-10" "2014-08-11" "2014-08-12" "2014-08-13" "2014-08-14"</code></pre>
+<code class="sourceCode R"><span><span class="co">## combine the objects; note that any number of objects can be combined</span></span>
+<span><span class="va">pred_combined</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/merge_projections.html">merge_projections</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="va">pred_1</span>, <span class="va">pred_2</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="va">pred_combined</span> <span class="co"># 2000 simulations</span></span></code></pre></div>
+<pre><code><span><span class="co">## </span></span>
+<span><span class="co">## /// Incidence projections //</span></span>
+<span><span class="co">## </span></span>
+<span><span class="co">##   // class: projections, matrix</span></span>
+<span><span class="co">##   // 30 dates (rows); 2,000 simulations (columns)</span></span>
+<span><span class="co">## </span></span>
+<span><span class="co">##  // first rows/columns:</span></span>
+<span><span class="co">##            sim_1 sim_2 sim_3 sim_4 sim_5 sim_6</span></span>
+<span><span class="co">## 2014-07-16     4     7     7     7     7    12</span></span>
+<span><span class="co">## 2014-07-17     9     4     8    10     4    10</span></span>
+<span><span class="co">## 2014-07-18     8     8     4     3    10     4</span></span>
+<span><span class="co">## 2014-07-19     8     8    11     6    10     8</span></span>
+<span><span class="co">##  .</span></span>
+<span><span class="co">##  .</span></span>
+<span><span class="co">##  .</span></span>
+<span><span class="co">## </span></span>
+<span><span class="co">##  // dates:</span></span>
+<span><span class="co">##  [1] "2014-07-16" "2014-07-17" "2014-07-18" "2014-07-19" "2014-07-20"</span></span>
+<span><span class="co">##  [6] "2014-07-21" "2014-07-22" "2014-07-23" "2014-07-24" "2014-07-25"</span></span>
+<span><span class="co">## [11] "2014-07-26" "2014-07-27" "2014-07-28" "2014-07-29" "2014-07-30"</span></span>
+<span><span class="co">## [16] "2014-07-31" "2014-08-01" "2014-08-02" "2014-08-03" "2014-08-04"</span></span>
+<span><span class="co">## [21] "2014-08-05" "2014-08-06" "2014-08-07" "2014-08-08" "2014-08-09"</span></span>
+<span><span class="co">## [26] "2014-08-10" "2014-08-11" "2014-08-12" "2014-08-13" "2014-08-14"</span></span></code></pre>
 <div class="sourceCode" id="cb42"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">list_plots</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span><span class="op">(</span>
-  <span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html">plot</a></span><span class="op">(</span><span class="va">pred_1</span><span class="op">)</span> <span class="op">+</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggtheme.html">theme_bw</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html">labs</a></span><span class="op">(</span>title <span class="op">=</span> <span class="st">"Forecast with initial SI"</span><span class="op">)</span>,
-  <span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html">plot</a></span><span class="op">(</span><span class="va">pred_2</span>,<span class="op">)</span> <span class="op">+</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggtheme.html">theme_bw</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html">labs</a></span><span class="op">(</span>title <span class="op">=</span> <span class="st">"Forecast with short SI"</span><span class="op">)</span>,
-  <span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html">plot</a></span><span class="op">(</span><span class="va">pred_combined</span><span class="op">)</span> <span class="op">+</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggtheme.html">theme_bw</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html">labs</a></span><span class="op">(</span>title <span class="op">=</span> <span class="st">"Combined forecasts"</span><span class="op">)</span>
-<span class="op">)</span>
-
-<span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va">cowplot</span><span class="op">)</span>
-<span class="fu">plot_grid</span><span class="op">(</span>plotlist <span class="op">=</span> <span class="va">list_plots</span>,
-          ncol <span class="op">=</span> <span class="fl">1</span><span class="op">)</span></code></pre></div>
+<code class="sourceCode R"><span><span class="va">list_plots</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span></span>
+<span>  <span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">pred_1</span><span class="op">)</span> <span class="op">+</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggtheme.html" class="external-link">theme_bw</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html" class="external-link">labs</a></span><span class="op">(</span>title <span class="op">=</span> <span class="st">"Forecast with initial SI"</span><span class="op">)</span>,</span>
+<span>  <span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">pred_2</span>,<span class="op">)</span> <span class="op">+</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggtheme.html" class="external-link">theme_bw</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html" class="external-link">labs</a></span><span class="op">(</span>title <span class="op">=</span> <span class="st">"Forecast with short SI"</span><span class="op">)</span>,</span>
+<span>  <span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">pred_combined</span><span class="op">)</span> <span class="op">+</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggtheme.html" class="external-link">theme_bw</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html" class="external-link">labs</a></span><span class="op">(</span>title <span class="op">=</span> <span class="st">"Combined forecasts"</span><span class="op">)</span></span>
+<span><span class="op">)</span></span>
+<span></span>
+<span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://wilkelab.org/cowplot/" class="external-link">cowplot</a></span><span class="op">)</span></span>
+<span><span class="fu">plot_grid</span><span class="op">(</span>plotlist <span class="op">=</span> <span class="va">list_plots</span>,</span>
+<span>          ncol <span class="op">=</span> <span class="fl">1</span><span class="op">)</span></span></code></pre></div>
 <p><img src="figure/pred_2-2.png" title="plot of chunk pred_2" alt="plot of chunk pred_2" width="80%"></p>
 <p>To illustrate case 2 (not only merging, but adding <code>projections</code> objects), we artificially split the dataset by hospitals, derive separate forecasts for each, and add forecasts of two hospitals in the example below.</p>
 <div class="sourceCode" id="cb43"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="co">## calculate incidence by hospital</span>
-<span class="va">i_hosp</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://www.repidemicsconsortium.org/incidence/reference/incidence.html">incidence</a></span><span class="op">(</span><span class="va">linelist</span><span class="op">$</span><span class="va">date_of_onset</span>, groups <span class="op">=</span> <span class="va">linelist</span><span class="op">$</span><span class="va">hospital</span><span class="op">)</span>
-<span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html">plot</a></span><span class="op">(</span><span class="va">i_hosp</span><span class="op">)</span> <span class="op">+</span>
-  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggtheme.html">theme_bw</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span>
-  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/theme.html">theme</a></span><span class="op">(</span>legend.position <span class="op">=</span> <span class="st">"bottom"</span><span class="op">)</span></code></pre></div>
+<code class="sourceCode R"><span><span class="co">## calculate incidence by hospital</span></span>
+<span><span class="va">i_hosp</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://www.repidemicsconsortium.org/incidence/reference/incidence.html" class="external-link">incidence</a></span><span class="op">(</span><span class="va">linelist</span><span class="op">$</span><span class="va">date_of_onset</span>, groups <span class="op">=</span> <span class="va">linelist</span><span class="op">$</span><span class="va">hospital</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">i_hosp</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggtheme.html" class="external-link">theme_bw</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/theme.html" class="external-link">theme</a></span><span class="op">(</span>legend.position <span class="op">=</span> <span class="st">"bottom"</span><span class="op">)</span></span></code></pre></div>
 <p><img src="figure/adding_forecasts-1.png" title="plot of chunk adding_forecasts" alt="plot of chunk adding_forecasts" width="80%"></p>
 <div class="sourceCode" id="cb44"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="co">## derive predictions for each hospital</span>
-<span class="va">n_groups</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/nrow.html">ncol</a></span><span class="op">(</span><span class="fu"><a href="https://www.repidemicsconsortium.org/incidence/reference/get_counts.html">get_counts</a></span><span class="op">(</span><span class="va">i_hosp</span><span class="op">)</span><span class="op">)</span>
-
-<span class="va">pred_hosp</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/lapply.html">lapply</a></span><span class="op">(</span>
-  <span class="fu"><a href="https://rdrr.io/r/base/seq.html">seq_len</a></span><span class="op">(</span><span class="va">n_groups</span><span class="op">)</span>,
-  <span class="kw">function</span><span class="op">(</span><span class="va">j</span><span class="op">)</span>
-    <span class="fu"><a href="reference/project.html">project</a></span><span class="op">(</span><span class="va">i_hosp</span><span class="op">[</span><span class="fl">1</span><span class="op">:</span><span class="fl">100</span>, <span class="va">j</span><span class="op">]</span>,
-            R <span class="op">=</span> <span class="fl">1.5</span>,
-            si <span class="op">=</span> <span class="va">si</span>,
-            n_days <span class="op">=</span> <span class="fl">60</span>,
-            n_sim <span class="op">=</span> <span class="fl">500</span><span class="op">)</span><span class="op">)</span>
-<span class="fu"><a href="https://rdrr.io/r/base/names.html">names</a></span><span class="op">(</span><span class="va">pred_hosp</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/colnames.html">colnames</a></span><span class="op">(</span><span class="fu"><a href="https://www.repidemicsconsortium.org/incidence/reference/get_counts.html">get_counts</a></span><span class="op">(</span><span class="va">i_hosp</span><span class="op">)</span><span class="op">)</span>
-
-
-<span class="co">## we combine forecasts for Connaught and Rokupa hospitals</span>
-<span class="va">pred_connaught_rokupa</span> <span class="op">&lt;-</span> <span class="va">pred_hosp</span><span class="op">$</span><span class="va">`Connaught Hospital`</span> <span class="op">+</span> <span class="va">pred_hosp</span><span class="op">$</span><span class="va">`Rokupa Hospital`</span>
-
-
-<span class="va">list_plots</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span><span class="op">(</span>
-  <span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html">plot</a></span><span class="op">(</span><span class="va">pred_hosp</span><span class="op">$</span><span class="va">`Connaught Hospital`</span><span class="op">)</span> <span class="op">+</span>
-    <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggtheme.html">theme_bw</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span>
-    <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/lims.html">ylim</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">0</span>, <span class="fl">30</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span>
-    <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html">labs</a></span><span class="op">(</span>title <span class="op">=</span> <span class="st">"Connaught hospital"</span><span class="op">)</span>,
-  <span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html">plot</a></span><span class="op">(</span><span class="va">pred_hosp</span><span class="op">$</span><span class="va">`Rokupa Hospital`</span><span class="op">)</span> <span class="op">+</span>
-    <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggtheme.html">theme_bw</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span>
-    <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/lims.html">ylim</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">0</span>, <span class="fl">30</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span>
-    <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html">labs</a></span><span class="op">(</span>title <span class="op">=</span> <span class="st">"Rokupa hospital"</span><span class="op">)</span>,
-  <span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html">plot</a></span><span class="op">(</span><span class="va">pred_connaught_rokupa</span><span class="op">)</span> <span class="op">+</span>
-    <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggtheme.html">theme_bw</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span>
-    <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/lims.html">ylim</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">0</span>, <span class="fl">30</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span>
-    <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html">labs</a></span><span class="op">(</span>title <span class="op">=</span> <span class="st">"Connaught + Rokupa"</span><span class="op">)</span>
-<span class="op">)</span>
-
-<span class="fu">plot_grid</span><span class="op">(</span>plotlist <span class="op">=</span> <span class="va">list_plots</span>,
-          ncol <span class="op">=</span> <span class="fl">1</span><span class="op">)</span></code></pre></div>
+<code class="sourceCode R"><span><span class="co">## derive predictions for each hospital</span></span>
+<span><span class="va">n_groups</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/nrow.html" class="external-link">ncol</a></span><span class="op">(</span><span class="fu"><a href="https://www.repidemicsconsortium.org/incidence/reference/get_counts.html" class="external-link">get_counts</a></span><span class="op">(</span><span class="va">i_hosp</span><span class="op">)</span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">pred_hosp</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/lapply.html" class="external-link">lapply</a></span><span class="op">(</span></span>
+<span>  <span class="fu"><a href="https://rdrr.io/r/base/seq.html" class="external-link">seq_len</a></span><span class="op">(</span><span class="va">n_groups</span><span class="op">)</span>,</span>
+<span>  <span class="kw">function</span><span class="op">(</span><span class="va">j</span><span class="op">)</span></span>
+<span>    <span class="fu"><a href="reference/project.html">project</a></span><span class="op">(</span><span class="va">i_hosp</span><span class="op">[</span><span class="fl">1</span><span class="op">:</span><span class="fl">100</span>, <span class="va">j</span><span class="op">]</span>,</span>
+<span>            R <span class="op">=</span> <span class="fl">1.5</span>,</span>
+<span>            si <span class="op">=</span> <span class="va">si</span>,</span>
+<span>            n_days <span class="op">=</span> <span class="fl">60</span>,</span>
+<span>            n_sim <span class="op">=</span> <span class="fl">500</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/names.html" class="external-link">names</a></span><span class="op">(</span><span class="va">pred_hosp</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/colnames.html" class="external-link">colnames</a></span><span class="op">(</span><span class="fu"><a href="https://www.repidemicsconsortium.org/incidence/reference/get_counts.html" class="external-link">get_counts</a></span><span class="op">(</span><span class="va">i_hosp</span><span class="op">)</span><span class="op">)</span></span>
+<span></span>
+<span></span>
+<span><span class="co">## we combine forecasts for Connaught and Rokupa hospitals</span></span>
+<span><span class="va">pred_connaught_rokupa</span> <span class="op">&lt;-</span> <span class="va">pred_hosp</span><span class="op">$</span><span class="va">`Connaught Hospital`</span> <span class="op">+</span> <span class="va">pred_hosp</span><span class="op">$</span><span class="va">`Rokupa Hospital`</span></span>
+<span></span>
+<span></span>
+<span><span class="va">list_plots</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span></span>
+<span>  <span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">pred_hosp</span><span class="op">$</span><span class="va">`Connaught Hospital`</span><span class="op">)</span> <span class="op">+</span></span>
+<span>    <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggtheme.html" class="external-link">theme_bw</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span></span>
+<span>    <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/lims.html" class="external-link">ylim</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0</span>, <span class="fl">30</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
+<span>    <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html" class="external-link">labs</a></span><span class="op">(</span>title <span class="op">=</span> <span class="st">"Connaught hospital"</span><span class="op">)</span>,</span>
+<span>  <span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">pred_hosp</span><span class="op">$</span><span class="va">`Rokupa Hospital`</span><span class="op">)</span> <span class="op">+</span></span>
+<span>    <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggtheme.html" class="external-link">theme_bw</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span></span>
+<span>    <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/lims.html" class="external-link">ylim</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0</span>, <span class="fl">30</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
+<span>    <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html" class="external-link">labs</a></span><span class="op">(</span>title <span class="op">=</span> <span class="st">"Rokupa hospital"</span><span class="op">)</span>,</span>
+<span>  <span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">pred_connaught_rokupa</span><span class="op">)</span> <span class="op">+</span></span>
+<span>    <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggtheme.html" class="external-link">theme_bw</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span></span>
+<span>    <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/lims.html" class="external-link">ylim</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0</span>, <span class="fl">30</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
+<span>    <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html" class="external-link">labs</a></span><span class="op">(</span>title <span class="op">=</span> <span class="st">"Connaught + Rokupa"</span><span class="op">)</span></span>
+<span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu">plot_grid</span><span class="op">(</span>plotlist <span class="op">=</span> <span class="va">list_plots</span>,</span>
+<span>          ncol <span class="op">=</span> <span class="fl">1</span><span class="op">)</span></span></code></pre></div>
 <p><img src="figure/adding_forecasts-2.png" title="plot of chunk adding_forecasts" alt="plot of chunk adding_forecasts" width="80%"></p>
-<p>Note that to add more than 2 <code>projections</code> objects, one can use <code>merge_add_projections</code>. Also note that the <code><a href="https://rdrr.io/r/base/Arithmetic.html">+</a></code> operator can also be used with a <code>numeric</code>, e.g. for adding an offset. For instance:</p>
+<p>Note that to add more than 2 <code>projections</code> objects, one can use <code>merge_add_projections</code>. Also note that the <code>+</code> operator can also be used with a <code>numeric</code>, e.g. for adding an offset. For instance:</p>
 <div class="sourceCode" id="cb45"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html">plot</a></span><span class="op">(</span><span class="va">pred_connaught_rokupa</span> <span class="op">+</span> <span class="fl">1000</span><span class="op">)</span> <span class="op">+</span>
-  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggtheme.html">theme_bw</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span>
-  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html">labs</a></span><span class="op">(</span>title <span class="op">=</span> <span class="st">"Connaught + Rokupa with 1000 added cases"</span><span class="op">)</span></code></pre></div>
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">pred_connaught_rokupa</span> <span class="op">+</span> <span class="fl">1000</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggtheme.html" class="external-link">theme_bw</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html" class="external-link">labs</a></span><span class="op">(</span>title <span class="op">=</span> <span class="st">"Connaught + Rokupa with 1000 added cases"</span><span class="op">)</span></span></code></pre></div>
 <p><img src="figure/offset-1.png" title="plot of chunk offset" alt="plot of chunk offset" width="80%"></p>
 </div>
 </div>
-<div id="vignettes" class="section level2">
-<h2 class="hasAnchor">
-<a href="#vignettes" class="anchor"></a>Vignettes</h2>
+<div class="section level2">
+<h2 id="vignettes">Vignettes<a class="anchor" aria-label="anchor" href="#vignettes"></a>
+</h2>
 <p><em>projections</em> does not currently have a dedicated vignette. This <code>README</code> will eventually be converted into separate vignettes.</p>
 </div>
-<div id="websites" class="section level2">
-<h2 class="hasAnchor">
-<a href="#websites" class="anchor"></a>Websites</h2>
-<p>A dedicated website can be found at: <a href="http://www.repidemicsconsortium.org/projections">http://www.repidemicsconsortium.org/projections</a>.</p>
+<div class="section level2">
+<h2 id="websites">Websites<a class="anchor" aria-label="anchor" href="#websites"></a>
+</h2>
+<p>A dedicated website can be found at: <a href="http://www.repidemicsconsortium.org/projections" class="external-link">http://www.repidemicsconsortium.org/projections</a>.</p>
 </div>
-<div id="getting-help-online" class="section level2">
-<h2 class="hasAnchor">
-<a href="#getting-help-online" class="anchor"></a>Getting help online</h2>
-<p>Bug reports and feature requests should be posted on <em>github</em> using the <a href="http://github.com/reconhub/projections/issues"><em>issue</em></a> system. All other questions should be posted on the <strong>RECON forum</strong>: <br><a href="http://www.repidemicsconsortium.org/forum/">http://www.repidemicsconsortium.org/forum/</a></p>
-<p>Contributions are welcome via <a href="https://github.com/reconhub/projections/pulls">pull requests</a>.</p>
+<div class="section level2">
+<h2 id="getting-help-online">Getting help online<a class="anchor" aria-label="anchor" href="#getting-help-online"></a>
+</h2>
+<p>Bug reports and feature requests should be posted on <em>github</em> using the <a href="http://github.com/reconhub/projections/issues" class="external-link"><em>issue</em></a> system. All other questions should be posted on the <strong>RECON forum</strong>: <br><a href="http://www.repidemicsconsortium.org/forum/" class="external-link">http://www.repidemicsconsortium.org/forum/</a></p>
+<p>Contributions are welcome via <a href="https://github.com/reconhub/projections/pulls" class="external-link">pull requests</a>.</p>
 <p>Please note that this project is released with a <a href="CONDUCT.html">Contributor Code of Conduct</a>. By participating in this project you agree to abide by its terms.</p>
 </div>
 </div>
@@ -572,53 +568,63 @@ $$</span><br></p>
 
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <div class="links">
-<h2>Links</h2>
+<h2 data-toc-skip>Links</h2>
 <ul class="list-unstyled">
-<li>Download from CRAN at <br><a href="https://cloud.r-project.org/package=projections">https://​cloud.r-project.org/​package=projections</a>
-</li>
-<li>Browse source code at <br><a href="https://github.com/reconhub/projections/">https://​github.com/​reconhub/​projections/​</a>
-</li>
-<li>Report a bug at <br><a href="https://github.com/reconhub/projections/issues">https://​github.com/​reconhub/​projections/​issues</a>
-</li>
-</ul>
-</div>
-<div class="license">
-<h2>License</h2>
-<ul class="list-unstyled">
-<li>
-<a href="https://opensource.org/licenses/mit-license.php">MIT</a> + file <a href="LICENSE-text.html">LICENSE</a>
-</li>
-</ul>
-</div>
-<div class="developers">
-<h2>Developers</h2>
-<ul class="list-unstyled">
-<li>Thibaut Jombart <br><small class="roles"> Author, maintainer </small>  </li>
-<li>Pierre Nouvellet <br><small class="roles"> Author </small>  </li>
-<li><a href="authors.html">All authors...</a></li>
+<li><a href="https://cloud.r-project.org/package=projections" class="external-link">View on CRAN</a></li>
+<li><a href="https://github.com/reconhub/projections/" class="external-link">Browse source code</a></li>
+<li><a href="https://github.com/reconhub/projections/issues" class="external-link">Report a bug</a></li>
 </ul>
 </div>
 
-  <div class="dev-status">
-<h2>Dev status</h2>
+<div class="license">
+<h2 data-toc-skip>License</h2>
 <ul class="list-unstyled">
-<li><a href="https://travis-ci.org/reconhub/projections"><img src="https://travis-ci.org/reconhub/projections.svg?branch=master" alt="Build Status"></a></li>
-<li><a href="https://ci.appveyor.com/project/thibautjombart/projections/branch/master"><img src="https://ci.appveyor.com/api/projects/status/265h2el4y9popan9/branch/master?svg=true" alt="Build status"></a></li>
-<li><a href="https://codecov.io/github/reconhub/projections?branch=master"><img src="https://codecov.io/github/reconhub/projections/coverage.svg?branch=master" alt="codecov.io"></a></li>
-<li><a href="https://cran.r-project.org/package=projections"><img src="http://www.r-pkg.org/badges/version/projections" alt="CRAN_Status_Badge"></a></li>
-<li><a href="https://doi.org/10.5281/zenodo.3923626"><img src="https://zenodo.org/badge/DOI/10.5281/zenodo.3923626.svg" alt="DOI"></a></li>
+<li>
+<a href="https://opensource.org/licenses/mit-license.php" class="external-link">MIT</a> + file <a href="LICENSE-text.html">LICENSE</a>
+</li>
 </ul>
 </div>
+
+
+<div class="citation">
+<h2 data-toc-skip>Citation</h2>
+<ul class="list-unstyled">
+<li><a href="authors.html#citation">Citing projections</a></li>
+</ul>
 </div>
+
+<div class="developers">
+<h2 data-toc-skip>Developers</h2>
+<ul class="list-unstyled">
+<li>Thibaut Jombart <br><small class="roles"> Author, maintainer </small>  </li>
+<li>Pierre Nouvellet <br><small class="roles"> Author </small>  </li>
+<li><a href="authors.html">More about authors...</a></li>
+</ul>
+</div>
+
+<div class="dev-status">
+<h2 data-toc-skip>Dev status</h2>
+<ul class="list-unstyled">
+<li><a href="https://travis-ci.org/reconhub/projections" class="external-link"><img src="https://travis-ci.org/reconhub/projections.svg?branch=master" alt="Build Status"></a></li>
+<li><a href="https://ci.appveyor.com/project/thibautjombart/projections/branch/master" class="external-link"><img src="https://ci.appveyor.com/api/projects/status/265h2el4y9popan9/branch/master?svg=true" alt="Build status"></a></li>
+<li><a href="https://codecov.io/github/reconhub/projections?branch=master" class="external-link"><img src="https://codecov.io/github/reconhub/projections/coverage.svg?branch=master" alt="codecov.io"></a></li>
+<li><a href="https://cran.r-project.org/package=projections" class="external-link"><img src="http://www.r-pkg.org/badges/version/projections" alt="CRAN_Status_Badge"></a></li>
+<li><a href="https://doi.org/10.5281/zenodo.3923626" class="external-link"><img src="https://zenodo.org/badge/DOI/10.5281/zenodo.3923626.svg" alt="DOI"></a></li>
+</ul>
+</div>
+
+  </div>
 </div>
 
 
       <footer><div class="copyright">
-  <p>Developed by Thibaut Jombart, Pierre Nouvellet.</p>
+  <p></p>
+<p>Developed by Thibaut Jombart, Pierre Nouvellet.</p>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1.</p>
+  <p></p>
+<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.7.</p>
 </div>
 
       </footer>
@@ -626,6 +632,8 @@ $$</span><br></p>
 
   
 
+
+  
 
   </body>
 </html>
