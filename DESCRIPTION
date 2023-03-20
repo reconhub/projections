@@ -1,6 +1,6 @@
 Package: projections
 Title: Project Future Case Incidence
-Version: 0.5.4
+Version: 0.6.0
 Authors@R: 
     c(person(given = "Thibaut",
              family = "Jombart",
@@ -46,7 +46,8 @@ Imports:
     incidence (>= 1.4.1),
     ggplot2,
     methods
-RoxygenNote: 7.1.1
+RoxygenNote: 7.2.3
+Roxygen: list(markdown = TRUE)
 URL: https://www.repidemicsconsortium.org/projections/
 BugReports: https://github.com/reconhub/projections/issues
 Config/testthat/edition: 3

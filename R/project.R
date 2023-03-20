@@ -21,10 +21,10 @@
 #'   more than the number of dates in `time_change`.
 #'
 #' @param si A function computing the serial interval, or a `numeric` vector
-#'   providing its mass function, starting a day 1, so that si[i] is the PMF for
-#'   serial interval of `i`. The model implicitly assumes that `si[0] = 0`. For
-#'   functions, we strongly recommend using the RECON package \code{distcrete}
-#'   to obtain such distribution (see example).
+#'   providing its mass function, starting a day 1, so that `si[i]` is the PMF
+#'   for serial interval of `i`. The model implicitly assumes that `si[0] = 0`.
+#'   For functions, we strongly recommend using the RECON package
+#'   \code{distcrete} to obtain such distribution (see example).
 #'
 #' @param n_sim The number of epicurves to simulate. Defaults to 100.
 #'
@@ -149,11 +149,11 @@
 #'
 
 project <- function(x, R, si, n_sim = 100, n_days = 7,
-  R_fix_within = FALSE,
-  model = c("poisson", "negbin"),
-  size = 0.03,
-  time_change = NULL,
-  instantaneous_R = FALSE) {
+                    R_fix_within = FALSE,
+                    model = c("poisson", "negbin"),
+                    size = 0.03,
+                    time_change = NULL,
+                    instantaneous_R = FALSE) {
 
   ## Various checks on inputs
 
@@ -336,8 +336,10 @@ project <- function(x, R, si, n_sim = 100, n_days = 7,
 
   for (i in t_sim) {
 
+    ## lambda is the force of infection, i.e. the average number of new cases
+    ## produced at a given time
     lambda <- compute_force_infection(si, out, R_t, i, instantaneous_R)
-    ## lambda <- lambda / reporting
+
     if (model == "poisson") {
       out <- rbind(out, stats::rpois(n_sim, lambda))
     } else {
@@ -346,12 +348,11 @@ project <- function(x, R, si, n_sim = 100, n_days = 7,
       ## mu will be 0 if lambda is 0. But that will make size 0 which
       ## will make rnbinom spit NAs. Workaround is: if lambda is 0
       ## set size to a non-trivial value.
-      size_adj <- lambda * size
+      size_adj <- compute_relative_infectivity(w = si, cases = out, t = i) * size
       idx <- which(lambda == 0)
       size_adj[idx] <- 1
       out <- rbind(out, stats::rnbinom(n_sim, size = size_adj, mu = lambda))
     }
-    ## out <- rbind(out, stats::rbinom(ncol(out), true_I, prob = reporting))
   }
 
 

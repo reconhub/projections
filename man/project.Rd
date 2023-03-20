@@ -23,16 +23,16 @@ intervals will trigger an error.}
 
 \item{R}{A vector of numbers representing plausible reproduction numbers; for
 instance, these can be samples from a posterior distribution using the
-`earlyR` or `EpiEstim` packages. If `time_change` is provided, then it must
-be a `vector` (for fixed values of R per time window) or a `list` of
+\code{earlyR} or \code{EpiEstim} packages. If \code{time_change} is provided, then it must
+be a \code{vector} (for fixed values of R per time window) or a \code{list} of
 vectors (for separate distributions of R per time window), with one element
-more than the number of dates in `time_change`.}
+more than the number of dates in \code{time_change}.}
 
-\item{si}{A function computing the serial interval, or a `numeric` vector
-providing its mass function, starting a day 1, so that si[i] is the PMF for
-serial interval of `i`. The model implicitly assumes that `si[0] = 0`. For
-functions, we strongly recommend using the RECON package \code{distcrete}
-to obtain such distribution (see example).}
+\item{si}{A function computing the serial interval, or a \code{numeric} vector
+providing its mass function, starting a day 1, so that \code{si[i]} is the PMF
+for serial interval of \code{i}. The model implicitly assumes that \code{si[0] = 0}.
+For functions, we strongly recommend using the RECON package
+\code{distcrete} to obtain such distribution (see example).}
 
 \item{n_sim}{The number of epicurves to simulate. Defaults to 100.}
 
@@ -52,21 +52,21 @@ model is poisson}
 \item{time_change}{an optional vector of times at which the simulations
 should use a different sample of reproduction numbers, provided in days
 into the simulation (so that day '1' is the first day after the input
-`incidence` object); if provided, `n` dates in `time_change` will produce
-`n+1` time windows, in which case `R` should be a list of vectors of `n+1`
-`R` values, one per each time window.}
+\code{incidence} object); if provided, \code{n} dates in \code{time_change} will produce
+\code{n+1} time windows, in which case \code{R} should be a list of vectors of \code{n+1}
+\code{R} values, one per each time window.}
 
-\item{instantaneous_R}{a boolean specifying whether to assume `R` is the case
-reproduction number (`instantaneous_R = FALSE`, the default), or the
-instantaneous reproduction number (`instantaneous_R = TRUE`).
-If `instantaneous_R = FALSE` then values of `R` at time `t` will govern the
-mean number of secondary cases of all cases infected at time `t`,
-even if those secondary cases appear after `t`. In other words, `R`
+\item{instantaneous_R}{a boolean specifying whether to assume \code{R} is the case
+reproduction number (\code{instantaneous_R = FALSE}, the default), or the
+instantaneous reproduction number (\code{instantaneous_R = TRUE}).
+If \code{instantaneous_R = FALSE} then values of \code{R} at time \code{t} will govern the
+mean number of secondary cases of all cases infected at time \code{t},
+even if those secondary cases appear after \code{t}. In other words, \code{R}
 will characterise onwards transmission from infectors depending on their
 date of infection.
-If `instantaneous_R = TRUE` then values of `R` at time `t` will govern the
-mean number of secondary cases made at time `t` by all cases infected
-before `t`. In other words, `R` will characterise onwards transmission at
+If \code{instantaneous_R = TRUE} then values of \code{R} at time \code{t} will govern the
+mean number of secondary cases made at time \code{t} by all cases infected
+before \code{t}. In other words, \code{R} will characterise onwards transmission at
 a given time.}
 }
 \description{
@@ -76,14 +76,14 @@ serial interval (time from primary onset to secondary onset).
 }
 \details{
 The decision to fix R values within simulations
-  (\code{R_fix_within}) reflects two alternative views of the uncertainty
-  associated with R. When drawing R values at random from the provided
-  sample, (\code{R_fix_within} set to \code{FALSE}), it is assumed that R
-  varies naturally, and can be treated as a random variable with a given
-  distribution. When fixing values within simulations (\code{R_fix_within}
-  set to \code{TRUE}), R is treated as a fixed parameter, and the uncertainty
-  is merely a consequence of the estimation of R. In other words, the first
-  view is rather Bayesian, while the second is more frequentist.
+(\code{R_fix_within}) reflects two alternative views of the uncertainty
+associated with R. When drawing R values at random from the provided
+sample, (\code{R_fix_within} set to \code{FALSE}), it is assumed that R
+varies naturally, and can be treated as a random variable with a given
+distribution. When fixing values within simulations (\code{R_fix_within}
+set to \code{TRUE}), R is treated as a fixed parameter, and the uncertainty
+is merely a consequence of the estimation of R. In other words, the first
+view is rather Bayesian, while the second is more frequentist.
 }
 \examples{
 
@@ -163,6 +163,6 @@ plot(proj_5)
 }
 \author{
 Pierre Nouvellet (original model), Thibaut Jombart (bulk of the
-  code), Sangeeta Bhatia (Negative Binomial model), Stephane Ghozzi (bug fixes
-  time varying R)
+code), Sangeeta Bhatia (Negative Binomial model), Stephane Ghozzi (bug fixes
+time varying R)
 }

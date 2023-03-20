@@ -198,7 +198,9 @@ add_projections <- function(p, x, quantiles = c(0.01, 0.05, 0.1, 0.5),
     out <- out +
       ggplot2::geom_ribbon(
         data = df,
-        ggplot2::aes_string(x = "dates", ymin = "ymin", ymax = "ymax"),
+        ggplot2::aes(x = .data[["dates"]],
+                     ymin = .data[["ymin"]],
+                     ymax = .data[["ymax"]]),
         fill = ribbon_color)
   }
 
@@ -211,7 +213,9 @@ add_projections <- function(p, x, quantiles = c(0.01, 0.05, 0.1, 0.5),
       out +
         ggplot2::geom_boxplot(
           data = df,
-          ggplot2::aes_string(x = "date", y = "incidence", group = "date"),
+          ggplot2::aes(x = .data[["date"]],
+                       y = .data[["incidence"]],
+                       group = .data[["date"]]),
           color = transp(boxplots_color, boxplots_alpha),
           fill = transp(boxplots_fill, boxplots_alpha),
           outlier.size = 0.5,
@@ -242,9 +246,11 @@ add_projections <- function(p, x, quantiles = c(0.01, 0.05, 0.1, 0.5),
       out +
         ggplot2::geom_line(
           data = df,
-          ggplot2::aes_string(x = "dates", y = "value", color = "quantile"),
+          ggplot2::aes(x = .data[["dates"]],
+                       y = .data[["value"]],
+                       color = .data[["quantile"]]),
           linetype = linetype,
-          size = linesize
+          linewidth = linesize
         ) +
         ggplot2::scale_color_manual(values = colors)
     )

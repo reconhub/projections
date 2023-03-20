@@ -47,7 +47,7 @@ compute_force_infection <- function(w, cases, R, t, instantaneous_R) {
   if(!instantaneous_R) {
     lambda <- ws %*% (cases * R)
   } else {
-    lambda <- (ws %*% cases) * R[nrow(R)]
+    lambda <- (ws %*% cases) * R[t,]
   }
   as.vector(lambda)
 }
