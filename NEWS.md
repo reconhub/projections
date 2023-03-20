@@ -1,3 +1,11 @@
+# projections 0.6.0
+
+## Fixes and improvements
+
+- fixed over-dispersion parameter in NegBin model
+- improved support for NegBin and Rt models
+
+
 # projections 0.5.4
 
 ## Fixes and improvements
