@@ -1,13 +1,25 @@
+---
+output: github_document
+---
+
+<!-- README.md is generated from README.Rmd. Please edit that file -->
+
+```{r readmesetup, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>",
+  fig.path = "man/figures/README-",
+  fig.width = 10,
+  fig.height = 6,
+  out.width = "80%"
+)
+```
+
 [![R-CMD-check](https://github.com/reconhub/projections/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/reconhub/projections/actions/workflows/R-CMD-check.yaml)
 [![codecov.io](https://codecov.io/github/reconhub/projections/coverage.svg?branch=master)](https://codecov.io/github/reconhub/projections?branch=master)
 [![CRAN_Status_Badge](http://www.r-pkg.org/badges/version/projections)](https://cran.r-project.org/package=projections)
 [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.3923626.svg)](https://doi.org/10.5281/zenodo.3923626)
 
-
-```{r options, echo = FALSE}
-library(knitr)
-opts_chunk$set(fig.width = 10, fig.height = 6, out.width = "80%")
-```
 
 
 # Welcome to the *projections* package!
