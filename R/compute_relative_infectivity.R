@@ -22,7 +22,7 @@
 #'   computed for `t+1` taking into account past cases and R from time point `1`
 #'   until `t`
 #'
-#' @seealso [compute_force_infection](compute_force_infection) does a similar
+#' @seealso `compute_force_infection` does a similar
 #'   thing, but also factors in the reproduction numbers of all individuals,
 #'   resulting in an estimate of average number of new cases at `t+1`.
 #'
@@ -46,6 +46,8 @@
 #' 
 #' where \eqn{y_s} is the number of new cases at time *s*. This latter
 #' formulation is the one used in the function.
+#'
+#' @noRd
 
 compute_relative_infectivity <- function(w, cases, t) {
   rev_w <- rev(w)
