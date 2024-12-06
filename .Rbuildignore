@@ -12,5 +12,5 @@
 ^figure*
 ^docs*
 .*tar.gz$
-
+^README.html$
 ^\.github$

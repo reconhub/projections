@@ -1,3 +1,12 @@
+# projections 0.6.1
+
+## Fixes and improvements
+
+- fixed tests of dates due failing due to changes in `as.Date()`
+- fixed example in the manpage of `summary.projection`
+
+
+
 # projections 0.6.0
 
 ## Fixes and improvements
