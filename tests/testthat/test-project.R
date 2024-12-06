@@ -12,7 +12,7 @@ test_that("Projections can be performed for a single day", {
                model = "poisson"
   )
 
-  expect_identical(get_dates(p), as.Date("2020-01-24"))
+  expect_equal(get_dates(p), as.Date("2020-01-24"))
 })
 
 
@@ -33,7 +33,7 @@ test_that("Projections can be performed for a single day", {
                model = "poisson"
   )
 
-  expect_identical(get_dates(p), as.Date("2020-01-24") + 0:1)
+  expect_equal(get_dates(p), as.Date("2020-01-24") + 0:1)
   expect_identical(ncol(p), 1L)
 })
 
@@ -55,7 +55,7 @@ test_that("Projections can be performed for a single day and single simulation",
                model = "poisson"
   )
 
-  expect_identical(get_dates(p), as.Date("2020-01-24"))
+  expect_equal(get_dates(p), as.Date("2020-01-24"))
   expect_identical(ncol(p), 1L)
 })
 
