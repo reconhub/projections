@@ -26,6 +26,7 @@
 #'
 #' @param ... only preesnt for compatibility with the generic
 #'
+#' @examples
 #' if (require(incidence)) {
 #'   i <- incidence::incidence(as.Date('2020-01-23'))
 #'   si <- c(0.2, 0.5, 0.2, 0.1)
